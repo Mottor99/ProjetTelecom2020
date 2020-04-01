@@ -1,6 +1,6 @@
 g = 7
 heud = "sozd"
-z = 5
+z = 4
 hoi = hahoi
-a = y + z
+pol = pol
 b = g + z
