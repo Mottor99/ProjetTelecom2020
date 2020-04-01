@@ -1,4 +1,4 @@
 g = 7
 heud = "sozd"
-z = 5
+h = 2
 hoi = hahoi
