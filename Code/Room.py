@@ -7,7 +7,8 @@ class Room:
         self.reciever
 
     def ray_tracing(self, transmittor, reciever):
-
+        for...
+            ray(sous_liste_mur)
         return liste_rays
 
     def calculate(self, transmittor, reciever):
@@ -15,3 +16,14 @@ class Room:
         return
 
     def affichage_graphique(self):
+
+    def image(self, point, mur):
+
+        return point
+
+    def verif_transmission(self, ray, liste mur):
+
+
+    def coef_reflexion(self, mur, theta):
+
+    def ray(self, sous_liste_mur):
