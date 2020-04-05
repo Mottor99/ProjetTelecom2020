@@ -25,7 +25,7 @@ class Room:
             liste_rays.append(ray1)
             for j in liste_walls :
                 if j == i :
-                    break
+                    continue
                 sous_liste_mur2 = []
                 sous_liste_mur2.append(i)
                 sous_liste_mur2.append(j)
@@ -33,7 +33,7 @@ class Room:
                 liste_rays.append(ray2)
                 for k in liste_walls :
                     if k == i or k == j :
-                        break
+                        continue
                     sous_liste_mur3 = []
                     sous_liste_mur3.append(i)
                     sous_liste_mur3.append(j)
@@ -63,6 +63,14 @@ class Room:
 
         return 0
 
-    def ray(sous_liste_mur):
+    def ray(sous_liste_mur, emetteur, recepteur):
+        point = emetteur.position
+        liste_images = []
+        for i in sous_liste_mur:
+            point = image(point, i)
+            liste_images.append(point)
+        for j in range len(liste_image)
+            ...
+
 
         return 0
