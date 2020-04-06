@@ -1,9 +1,8 @@
-from Wall import Wall
-from Transmitter import Transmitter
-from Receiver import Receiver
-from Ray import Ray
-from Line import Line
-
+from wall import Wall
+from transmitter import Transmitter
+from receiver import Receiver
+from ray import Ray
+from line import Line
 
 class Room:
 
@@ -11,9 +10,9 @@ class Room:
         self.liste_walls = []
         self.liste_rays = []
         self.transmitter = Transmitter((0,0), 1)
-        self.receiver = receiver((5,5), 1)
+        self.receiver = Receiver((5,5), 1)
 
-    def ray_tracing(self, transmittor, reciever, liste_walls):
+    def ray_tracing(self, transmitter, receiver, liste_walls):
         liste_rays = []
         sous_liste_mur0 = []
         ray0 = creation_ray(sous_liste_mur0)
@@ -42,7 +41,7 @@ class Room:
                     liste_rays.append(ray3)
         return liste_rays
 
-    def calculate(self, transmittor, reciever):
+    def calculate(self, transmitter, receiver):
 
         return 0
 
@@ -53,7 +52,7 @@ class Room:
 
         return point
 
-    def verif_transmission(self, rayy, liste_mur):
+    def verif_transmission(self, ray, liste_walls):
         return 0
 
 
