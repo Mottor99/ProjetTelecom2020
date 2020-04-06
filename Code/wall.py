@@ -1,4 +1,4 @@
-from Line import Line
+from line import Line
 
 class Wall:
 
