@@ -11,7 +11,7 @@ class Line:
         self.b = self.point1[2]-self.a*self.point1[1]
 
     def intersection(self, droite_intersectee):
-        if ((self.a-droite_intersectee.a)/self.a) < 0.1 :
+        if ((self.a-droite_intersectee.a)/self.a) < 0.01 :
             x = y = -1
         else :
             x = (droite_intersectee.b - self.b)/(self.a - droite_intersectee.a)
@@ -20,6 +20,7 @@ class Line:
 
 
     """def equation_cartesienne(self):
+    je m'appelle
         a = (self.point1[2]-self.point2[2])/(self.point1[1]-self.point2[1])
         b = self.point1[2]-a*self.point1[1]
         return a, b;"""
