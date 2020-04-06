@@ -1,5 +1,3 @@
-
-
 class Line:
 
     a = 0.0
