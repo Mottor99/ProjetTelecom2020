@@ -5,7 +5,7 @@ class Wall:
     conductivite = 0.0
     permittivite_rel = 0.0
     permittivite = 0.0
-    liste_de_droites = []
+    droite = 0.0
 
     def __init__(self, epaisseur, liste_de_points, materiau):
         if (materiau == "brique"):
@@ -19,9 +19,7 @@ class Wall:
             self.permittivite_rel = 2.25
         self.permittivite = self.permittivite_rel*8.854*10**(-12)
 
-        for i in range(len(liste_de_points)/2):
-            line = Line(liste_de_points[i], liste_de_points[i+1])
-            self.liste_de_droites.append(line)
+        droite = Line(liste_de_points[0], liste_de_points[1])
 
 
 
