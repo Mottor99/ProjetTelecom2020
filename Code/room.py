@@ -53,6 +53,11 @@ class Room:
         return point
 
     def verif_transmission(self, ray, liste_walls):
+        for i in range(len(ray.liste_points)-2):
+            portion_ray = Line(ray.liste_points[i],ray.liste_points[i+1])
+            for j in liste_walls:
+                intersection = portion_ray.intersection(j.droite)
+                for k in range(len(j.points))
         return 0
 
 
