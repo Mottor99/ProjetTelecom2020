@@ -20,7 +20,7 @@ class Line:
 
 
     """def equation_cartesienne(self):
-    je m'appelle
+    je m'appelle 
         a = (self.point1[2]-self.point2[2])/(self.point1[1]-self.point2[1])
         b = self.point1[2]-a*self.point1[1]
         return a, b;"""
