@@ -10,6 +10,7 @@ class Line:
         self.a = (self.point1[2]-self.point2[2])/(self.point1[1]-self.point2[1])
         self.b = self.point1[2]-self.a*self.point1[1]
 
+
     def intersection(self, droite_intersectee):
         if ((self.a-droite_intersectee.a)/self.a) < 0.01 :
             x = y = -1

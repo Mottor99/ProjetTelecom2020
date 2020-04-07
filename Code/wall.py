@@ -19,7 +19,7 @@ class Wall:
             self.permittivite_rel = 2.25
         self.permittivite = self.permittivite_rel*8.854*10**(-12)
 
-        droite = Line(liste_de_points[0], liste_de_points[1])
+        self.droite = Line(liste_de_points[0], liste_de_points[1])
 
 
 
