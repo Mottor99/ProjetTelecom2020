@@ -3,6 +3,7 @@ from transmitter import Transmitter
 from receiver import Receiver
 from ray import Ray
 from line import Line
+import copy
 
 class Room:
 
@@ -13,34 +14,41 @@ class Room:
         self.receiver = Receiver((5,5), 1)
 
 
-    def ray_tracing(self, transmitter, receiver, liste_walls):
-        liste_rays = []
-        sous_liste_mur0 = []
-        ray0 = self.creation_ray(sous_liste_mur0, transmitter, receiver)
-        liste_rays.append(ray0)
-        for i in liste_walls :
-            sous_liste_mur1 = []
-            sous_liste_mur1.append(i)
-            ray1 = self.creation_ray(self, sous_liste_mur1, transmitter, receiver)
-            liste_rays.append(ray1)
-            for j in liste_walls :
-                if j == i :
-                    continue
-                sous_liste_mur2 = []
-                sous_liste_mur2.append(i)
-                sous_liste_mur2.append(j)
-                ray2 = self.creation_ray(self, sous_liste_mur2, transmitter, receiver)
-                liste_rays.append(ray2)
-                for k in liste_walls :
-                    if k == i or k == j :
+    def ray_tracing(self, m, max_reflection, transmitter, receiver, liste_walls):
+        if max_reflection != 1:
+            max_reflection = max_reflection - 1
+            for j in range(len(liste_walls)):
+                repetition = False
+                for h in m:
+                    if h == j:
+                        repetition = True
                         continue
-                    sous_liste_mur3 = []
-                    sous_liste_mur3.append(i)
-                    sous_liste_mur3.append(j)
-                    sous_liste_mur3.append(k)
-                    ray3 = self.creation_ray(self, sous_liste_mur3, transmitter, receiver)
-                    liste_rays.append(ray3)
-        return liste_rays
+                if repetition:
+                    continue
+                sous_liste_de_murs = []
+                for k in m:
+                    sous_liste_de_murs.append(liste_walls[k])
+                self.liste_rays.append(creation_ray(sous_liste_de_murs))
+                l = copy.deepcopy(m)
+                l.append(j)
+                ray_tracing(n, l)
+        elif max_reflection == 1:
+            for j in range(len(liste_walls)):
+                repetition = False
+                for h in m:
+                    if h == j:
+                        repetition = True
+                        continue
+                if repetition:
+                    continue
+
+                l = copy.deepcopy(m)
+                l.append(j)
+                sous_liste_de_murs = []
+                for k in m:
+                    sous_liste_de_murs.append(liste_walls[k])
+                self.liste_rays.append(creation_ray(sous_liste_de_murs))
+
 
     def calculate(self, transmitter, receiver):
 
@@ -60,11 +68,14 @@ class Room:
 
 
     def verif_transmission(self, ray, liste_walls):
-        for i in range(len(ray.liste_points)-2):
+        for i in range(len(ray.liste_points)-1):
             portion_ray = Line(ray.liste_points[i],ray.liste_points[i+1])
             for j in liste_walls:
                 intersection = portion_ray.intersection(j.droite)
-                for k in range(len(j.points))
+                for k in range(len(j.points)/2):
+                    if intersection[0] < wall.points[k][0] and intersection[0] > wall.points[k+1][0]:
+                        reflection_coefficient(self, j.droite, ray, portion_ray)
+                        break
         return 0
 
 
@@ -73,6 +84,11 @@ class Room:
     def reflection_coefficient(self, wall_line, ray, ray_line):
         coeff = ray.reflection_coeff_calculation(wall_line, ray_line)
         ray.coefficient_de_reflexion.append(coeff)
+        return 0
+
+    def transmission_coefficient(self, wall_line, ray, ray_line):
+        coeff = ray.transmission_coeff_calculation(wall_line, ray_line)
+        ray.coefficient_de_transmission.append(coeff)
         return 0
 
     def creation_ray(self, sous_liste_mur, transmitter, receiver):
