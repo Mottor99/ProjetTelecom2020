@@ -5,6 +5,9 @@ from ray import Ray
 from line import Line
 import copy
 
+
+
+
 class Room:
 
     def __init__(self):
@@ -18,30 +21,19 @@ class Room:
         if max_reflection != 1:
             max_reflection = max_reflection - 1
             for j in range(len(liste_walls)):
-                repetition = False
-                for h in m:
-                    if h == j:
-                        repetition = True
-                        continue
-                if repetition:
+                if j == m[len(m) - 1]:
                     continue
-                sous_liste_de_murs = []
-                for k in m:
-                    sous_liste_de_murs.append(liste_walls[k])
-                self.liste_rays.append(creation_ray(sous_liste_de_murs))
                 l = copy.deepcopy(m)
                 l.append(j)
+                sous_liste_de_murs = []
+                for k in l:
+                    sous_liste_de_murs.append(liste_walls[k])
+                self.liste_rays.append(creation_ray(sous_liste_de_murs))
                 ray_tracing(n, l)
         elif max_reflection == 1:
             for j in range(len(liste_walls)):
-                repetition = False
-                for h in m:
-                    if h == j:
-                        repetition = True
-                        continue
-                if repetition:
+                if j == m[len(m) - 1]:
                     continue
-
                 l = copy.deepcopy(m)
                 l.append(j)
                 sous_liste_de_murs = []
@@ -58,11 +50,11 @@ class Room:
         return 0
 
     def image(self, point_origine, droite):
-        A = point_origine[1]
-        B = point_origine[2]
+        A = point_origine[0]
+        B = point_origine[1]
         point_intersection = droite.intersection(Line(point_origine, (0, (A / droite.a) + B)))
-        C = point_intersection[1]
-        D = point_intersection[2]
+        C = point_intersection[0]
+        D = point_intersection[1]
         point_image = (A + 2 * (C - A), B + 2 * (D - B))
         return point_image
 
