@@ -29,7 +29,7 @@ class Room:
                 for k in l:
                     sous_liste_de_murs.append(liste_walls[k])
                 self.liste_rays.append(creation_ray(sous_liste_de_murs))
-                ray_tracing(n, l)
+                ray_tracing(max_reflection, l)
         elif max_reflection == 1:
             for j in range(len(liste_walls)):
                 if j == m[len(m) - 1]:
