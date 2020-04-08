@@ -4,6 +4,7 @@ from receiver import Receiver
 from ray import Ray
 from line import Line
 import copy
+import math
 
 
 
@@ -43,8 +44,17 @@ class Room:
 
 
     def calculate(self, transmitter, receiver):
-
-        return 0
+        average_power = 0
+        for rayy in self.liste_rays:
+            attenuation = 1
+            for coef_ref in rayy.coefficient_de_reflexion:
+                attenuation = attenuation * coef_ref
+            for coef_trans in rayy.coefficient_de_transmission:
+                attenuation = attenuation * coef_trans
+            E = attenuation * math.sqrt(60 * transmitter.power) / rayy.distance
+            average_power = average_power + E**2
+            average_power = average_power/(8*reciever.resistance)
+        return average_power
 
     def affichage_graphique(self):
         return 0
@@ -57,6 +67,10 @@ class Room:
         D = point_intersection[1]
         point_image = (A + 2 * (C - A), B + 2 * (D - B))
         return point_image
+
+    def dist(self, point1, point2):
+        distance_euclidienne = sqrt((point1[0] - point2[0])**2 + (point1[1]-point2[1])**2)
+        return distance_euclidienne
 
 
     def verif_transmission(self, ray, liste_walls):
@@ -92,6 +106,7 @@ class Room:
             liste_images.append(point_image)
             point = point_image
         point_ray = receiver.position
+        ray.distance = dist(receiver.position, liste_images[len(liste_images - 1)])
         for j in range(len(liste_images)):
             droite_ray = Line(point_ray, liste_images[len(liste_images-1-j)])
             point_intersection = droite_ray.intersection(sous_liste_mur[len(liste_images-1-j)].droite)
