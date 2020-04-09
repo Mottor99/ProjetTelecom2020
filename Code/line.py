@@ -4,19 +4,12 @@ import math
 
 class Line:
 
-    a = 0.0
-    b = 0.0
 
     def __init__(self, point1, point2):
         self.point = point1
-        self.vecteur_directeur = (point1[0]-point2[0], point1[1] -point2[0])
-        """
-        if (self.point1[0]-self.point2[0]) == 0:
-            self.a = 100000
-            self.b = point1[0]
-        else:
-             self.a = (self.point1[1]-self.point2[1])/(self.point1[0]-self.point2[0])
-             self.b = self.point1[1]-self.a*self.point1[0]"""
+        self.vecteur_directeur = (point1[0]-point2[0], point1[1] -point2[1])
+
+
 
 
     def intersection(self, droite_intersectee):
