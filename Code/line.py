@@ -1,3 +1,4 @@
+import math
 
 class Line:
 
@@ -19,6 +20,20 @@ class Line:
             y = self.a*x + self.b
         return x, y;
 
+
+    def incident_angle_calculation(self, ray_line):
+        #calcul de l'angle entre la normale de la droite (self) et une autre droite
+        m1 = self.a
+        m2 = ray_line.a
+        tan_theta = math.abs((m2-m1)/(1+m1*m2)) #l'angle a toujours moins de 90 degrés
+        theta = math.atan(tan_theta)
+        theta_i = (math.pi)/2 - theta
+        return theta_i
+
+    def transmitted_angle_calculation(self, wall, theta_i):
+        sin_theta_t = math.sqrt(1/wall.permittivite_rel)*math.sin(theta_i)
+        theta_t = math.asin(sin_theta_t)
+        return theta_t
 
     """def equation_cartesienne(self):
     je m'appelle 
