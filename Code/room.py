@@ -85,12 +85,17 @@ class Room:
         A = point_origine[0]
         B = point_origine[1]
         C = droite.vecteur_directeur[0]
-        D = droite.vecteur_directeur[1]* (-1)
+        D = droite.vecteur_directeur[1]
         E = droite.point[0]
         F = droite.point[1]
-        H = E + F * C -A - C * B
-        point_image = point_origine + 2 * H* (B,C)
+        H = -E*D + F + A*D - C * B
+        H = H/(D**2 + C**2)
+        point_image = tuple(map(sum, zip(point_origine, (2*H*B,2*H*C))))
+
         return point_image
+
+
+
 
     def dist(self, point1, point2):
         distance_euclidienne = math.sqrt((point1[0] - point2[0])**2 + (point1[1]-point2[1])**2)
@@ -129,6 +134,7 @@ class Room:
             point_image = self.image(point, i.droite)
             liste_images.append(point_image)
             point = point_image
+            print("iii")
         point_ray = receiver.position
         ray.distance = self.dist(receiver.position, liste_images[len(liste_images) - 1])
         for j in range(len(liste_images)):
@@ -141,7 +147,7 @@ class Room:
             self.reflection_coefficient(sous_liste_mur[len(liste_images-1-j)], ray, droite_ray)"""
             ray.liste_de_points.append(point_ray)
             point_ray = point_intersection
-            print("iii")
+
         for i in ray.liste_de_points:
             print("wop")
             self.printt(i)

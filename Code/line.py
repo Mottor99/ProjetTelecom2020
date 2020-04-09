@@ -25,8 +25,11 @@ class Line:
         else:
             d = self.point[0]*self.vecteur_directeur[1]-self.point[1]*self.vecteur_directeur[0] - droite_intersectee.point[0] * self.vecteur_directeur[0] + droite_intersectee.point[1] * self.vecteur_directeur[0]
             d = d/ (self.vecteur_directeur[1]*droite_intersectee.vecteur_directeur[0] - self.vecteur_directeur[0]*droite_intersectee.vecteur_directeur[1])
-            x, y = droite_intersectee.point + d* droite_intersectee.vecteur_directeur
+            x, y = res = tuple(map(sum, zip(droite_intersectee.point, tuple(i*d for i in droite_intersectee.vecteur_directeur))))
         return x, y;
+
+
+
 
 
     def incident_angle_calculation(self, ray_line):
