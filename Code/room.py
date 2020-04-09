@@ -135,10 +135,11 @@ class Room:
             if (sous_liste_mur[len(liste_images-1-j)].point_not_in_wall(point_intersection)):
                 ray.liste_de_points = []
                 break
+            """
             self.reflection_coefficient(sous_liste_mur[len(liste_images-1-j)], ray, droite_ray)
             ray.liste_de_points.append(point_ray)
             point_ray = point_intersection
 
-        self.verif_transmission(ray, self.liste_walls)
+        self.verif_transmission(ray, self.liste_walls)"""
 
         return ray
