@@ -11,8 +11,6 @@ import math
 
 class Room:
 
-
-
     def __init__(self):
         self.liste_walls = []
         self.liste_rays = []
@@ -32,7 +30,7 @@ class Room:
                 l.append(j)
                 self.printt(l)
 
-                sous_liste_de_murs = []              
+                sous_liste_de_murs = []
                 for k in l:
                     sous_liste_de_murs.append(liste_walls[k])
                 rayy = self.creation_ray(sous_liste_de_murs)
@@ -48,7 +46,7 @@ class Room:
                 self.printt(l)
 
                 sous_liste_de_murs = []
-                
+
                 for k in m:
                     sous_liste_de_murs.append(liste_walls[k])
                 rayy = self.creation_ray(sous_liste_de_murs)
