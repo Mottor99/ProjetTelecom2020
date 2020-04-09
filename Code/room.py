@@ -33,8 +33,8 @@ class Room:
                 sous_liste_de_murs = []
                 for k in l:
                     sous_liste_de_murs.append(liste_walls[k])
-                rayy = self.creation_ray(sous_liste_de_murs)
-                if rayy.points:
+                rayy = self.creation_ray(sous_liste_de_murs, transmitter, receiver)
+                if rayy.liste_de_points:
                     self.liste_rays.append(rayy)
                 self.ray_tracing(l, max_reflection, transmitter, receiver, liste_walls)
         elif max_reflection == 1:
@@ -49,8 +49,8 @@ class Room:
 
                 for k in m:
                     sous_liste_de_murs.append(liste_walls[k])
-                rayy = self.creation_ray(sous_liste_de_murs)
-                if rayy.points:
+                rayy = self.creation_ray(sous_liste_de_murs, transmitter, receiver)
+                if rayy.liste_de_points:
                     self.liste_rays.append(rayy)
 
 
@@ -84,10 +84,12 @@ class Room:
     def image(self, point_origine, droite):
         A = point_origine[0]
         B = point_origine[1]
-        point_intersection = droite.intersection(Line(point_origine, (0, (A / droite.a) + B)))
-        C = point_intersection[0]
-        D = point_intersection[1]
-        point_image = (A + 2 * (C - A), B + 2 * (D - B))
+        C = droite.vecteur_directeur[0]
+        D = droite.vecteur_directeur[1]* (-1)
+        E = droite.point[0]
+        F = droite.point[1]
+        H = E + F * C -A - C * B
+        point_image = point_origine + 2 * H* (B,C)
         return point_image
 
     def dist(self, point1, point2):
@@ -128,18 +130,22 @@ class Room:
             liste_images.append(point_image)
             point = point_image
         point_ray = receiver.position
-        ray.distance = self.dist(receiver.position, liste_images[len(liste_images - 1)])
+        ray.distance = self.dist(receiver.position, liste_images[len(liste_images) - 1])
         for j in range(len(liste_images)):
-            droite_ray = Line(point_ray, liste_images[len(liste_images-1-j)])
-            point_intersection = droite_ray.intersection(sous_liste_mur[len(liste_images-1-j)].droite)
-            if (sous_liste_mur[len(liste_images-1-j)].point_not_in_wall(point_intersection)):
+            droite_ray = Line(point_ray, liste_images[len(liste_images)-1-j])
+            point_intersection = droite_ray.intersection(sous_liste_mur[len(liste_images)-1-j].droite)
+            """if (sous_liste_mur[len(liste_images-1-j)].point_not_in_wall(point_intersection)):
                 ray.liste_de_points = []
                 break
-            """
-            self.reflection_coefficient(sous_liste_mur[len(liste_images-1-j)], ray, droite_ray)
+            
+            self.reflection_coefficient(sous_liste_mur[len(liste_images-1-j)], ray, droite_ray)"""
             ray.liste_de_points.append(point_ray)
             point_ray = point_intersection
+            print("iii")
+        for i in ray.liste_de_points:
+            print("wop")
+            self.printt(i)
 
-        self.verif_transmission(ray, self.liste_walls)"""
+        """self.verif_transmission(ray, self.liste_walls)"""
 
         return ray

@@ -9,7 +9,7 @@ class Ray:
     mu0 = 4*math.pi*10**-7
 
     def __init__(self, liste_de_points):
-        self.points = liste_de_points
+        self.liste_de_points = liste_de_points
         self.distance = 0
         self.angle_emetteur = 0
         self.coefficient_de_reflexion = []

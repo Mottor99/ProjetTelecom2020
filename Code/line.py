@@ -8,32 +8,24 @@ class Line:
     b = 0.0
 
     def __init__(self, point1, point2):
-        self.point1 = point1
-        self.point2 = point2
+        self.point = point1
+        self.vecteur_directeur = (point1[0]-point2[0], point1[1] -point2[0])
+        """
         if (self.point1[0]-self.point2[0]) == 0:
             self.a = 100000
             self.b = point1[0]
         else:
              self.a = (self.point1[1]-self.point2[1])/(self.point1[0]-self.point2[0])
-             self.b = self.point1[1]-self.a*self.point1[0]
+             self.b = self.point1[1]-self.a*self.point1[0]"""
 
 
     def intersection(self, droite_intersectee):
-        if self.a == 100000:
-            if droite_intersectee.a == 100000:
-                x = y = -1
-            else:
-                x = self.b
-                y = droite_intersectee.a * x + droite_intersectee.b
-        elif droite_intersectee.a == 100000:
-            x = droite_intersectee.b
-            y = self.a * x + self.b
-
-        elif ((self.a-droite_intersectee.a)/self.a) < 0.01 :
-            x = y = -1
-        else :
-            x = (droite_intersectee.b - self.b)/(self.a - droite_intersectee.a)
-            y = self.a*x + self.b
+        if self.vecteur_directeur[1]*droite_intersectee.vecteur_directeur[0] == self.vecteur_directeur[0]*droite_intersectee.vecteur_directeur[1]:
+            x, y = -1,-1
+        else:
+            d = self.point[0]*self.vecteur_directeur[1]-self.point[1]*self.vecteur_directeur[0] - droite_intersectee.point[0] * self.vecteur_directeur[0] + droite_intersectee.point[1] * self.vecteur_directeur[0]
+            d = d/ (self.vecteur_directeur[1]*droite_intersectee.vecteur_directeur[0] - self.vecteur_directeur[0]*droite_intersectee.vecteur_directeur[1])
+            x, y = droite_intersectee.point + d* droite_intersectee.vecteur_directeur
         return x, y;
 
 

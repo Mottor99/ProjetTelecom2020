@@ -4,7 +4,7 @@ class Receiver:
     resistance = 0.0
 
     def __init__(self, position, type):
-        self.position = 0
+        self.position = position
         self.resistance = 1
 
     def h(self, x, y):
