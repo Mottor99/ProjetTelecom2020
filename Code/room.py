@@ -77,7 +77,7 @@ class Room:
                 attenuation = attenuation * coef_trans
             E = attenuation * math.sqrt(60 * transmitter.power) / rayy.distance
             average_power = average_power + E**2
-            average_power = average_power/(8*reciever.resistance)
+            average_power = average_power/(8*self.receiver.resistance)
         return average_power
 
     def affichage_graphique(self):
@@ -93,7 +93,7 @@ class Room:
         return point_image
 
     def dist(self, point1, point2):
-        distance_euclidienne = sqrt((point1[0] - point2[0])**2 + (point1[1]-point2[1])**2)
+        distance_euclidienne = math.sqrt((point1[0] - point2[0])**2 + (point1[1]-point2[1])**2)
         return distance_euclidienne
 
 
@@ -104,25 +104,24 @@ class Room:
                 intersection = portion_ray.intersection(j.droite)
                 for k in range(len(j.points)/2):
                     if intersection[0] < j.points[k][0] and intersection[0] > j.points[k+1][0]:
-                        reflection_coefficient(self, j.droite, ray, portion_ray)
+                        self.reflection_coefficient(self, j.droite, ray, portion_ray)
                         break
         return 0
 
 
 
 
-    def reflection_coefficient(self, wall_line, ray, ray_line):
-        coeff = ray.reflection_coeff_calculation(wall_line, ray_line)
+    def reflection_coefficient(self, wall, ray, ray_line):
+        coeff = ray.reflection_coeff_calculation(wall, ray_line)
         ray.coefficient_de_reflexion.append(coeff)
         return 0
 
-    def transmission_coefficient(self, wall_line, ray, ray_line):
-        coeff = ray.transmission_coeff_calculation(wall_line, ray_line)
+    def transmission_coefficient(self, wall, ray, ray_line):
+        coeff = ray.transmission_coeff_calculation(wall, ray_line)
         ray.coefficient_de_transmission.append(coeff)
         return 0
 
     def creation_ray(self, sous_liste_mur, transmitter, receiver):
-
         point = transmitter.position
         liste_images = []
         ray = Ray([])
@@ -131,14 +130,14 @@ class Room:
             liste_images.append(point_image)
             point = point_image
         point_ray = receiver.position
-        ray.distance = dist(receiver.position, liste_images[len(liste_images - 1)])
+        ray.distance = self.dist(receiver.position, liste_images[len(liste_images - 1)])
         for j in range(len(liste_images)):
             droite_ray = Line(point_ray, liste_images[len(liste_images-1-j)])
             point_intersection = droite_ray.intersection(sous_liste_mur[len(liste_images-1-j)].droite)
             if (sous_liste_mur[len(liste_images-1-j)].point_not_in_wall(point_intersection)):
                 ray.liste_de_points = []
                 break
-            self.reflection_coefficient(sous_liste_mur[len(liste_images-1-j)].droite, ray, droite_ray)
+            self.reflection_coefficient(sous_liste_mur[len(liste_images-1-j)], ray, droite_ray)
             ray.liste_de_points.append(point_ray)
             point_ray = point_intersection
 
