@@ -11,6 +11,8 @@ import math
 
 class Room:
 
+
+
     def __init__(self):
         self.liste_walls = []
         self.liste_rays = []
@@ -22,25 +24,47 @@ class Room:
         if max_reflection != 1:
             max_reflection = max_reflection - 1
             for j in range(len(liste_walls)):
-                if j == m[len(m) - 1]:
+                if not m:
+                    pass
+                elif j == m[len(m) - 1]:
                     continue
                 l = copy.deepcopy(m)
                 l.append(j)
-                sous_liste_de_murs = []
+                self.printt(l)
+
+                sous_liste_de_murs = []              
                 for k in l:
                     sous_liste_de_murs.append(liste_walls[k])
-                self.liste_rays.append(creation_ray(sous_liste_de_murs))
-                ray_tracing(max_reflection, l)
+                rayy = self.creation_ray(sous_liste_de_murs)
+                if rayy.points:
+                    self.liste_rays.append(rayy)
+                self.ray_tracing(l, max_reflection, transmitter, receiver, liste_walls)
         elif max_reflection == 1:
             for j in range(len(liste_walls)):
                 if j == m[len(m) - 1]:
                     continue
                 l = copy.deepcopy(m)
                 l.append(j)
+                self.printt(l)
+
                 sous_liste_de_murs = []
+                
                 for k in m:
                     sous_liste_de_murs.append(liste_walls[k])
-                self.liste_rays.append(creation_ray(sous_liste_de_murs))
+                rayy = self.creation_ray(sous_liste_de_murs)
+                if rayy.points:
+                    self.liste_rays.append(rayy)
+
+
+
+
+    def printt(self, m):
+        s = ""
+        for i in m:
+            s += str(i)
+        print(s)
+        return 0
+
 
 
     def calculate(self, transmitter, receiver):
@@ -79,7 +103,7 @@ class Room:
             for j in liste_walls:
                 intersection = portion_ray.intersection(j.droite)
                 for k in range(len(j.points)/2):
-                    if intersection[0] < wall.points[k][0] and intersection[0] > wall.points[k+1][0]:
+                    if intersection[0] < j.points[k][0] and intersection[0] > j.points[k+1][0]:
                         reflection_coefficient(self, j.droite, ray, portion_ray)
                         break
         return 0
@@ -98,6 +122,7 @@ class Room:
         return 0
 
     def creation_ray(self, sous_liste_mur, transmitter, receiver):
+
         point = transmitter.position
         liste_images = []
         ray = Ray([])
