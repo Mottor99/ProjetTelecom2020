@@ -15,7 +15,7 @@ class Room:
         self.liste_walls = []
         self.liste_rays = []
         self.transmitter = Transmitter((0,0), 1)
-        self.receiver = Receiver((5,5), 1)
+        self.receiver = Receiver((0,5), 1)
 
 
     def ray_tracing(self, m, max_reflection, transmitter, receiver, liste_walls):
@@ -120,12 +120,12 @@ class Room:
 
 
     def reflection_coefficient(self, wall, ray, ray_line):
-        coeff = ray.reflection_coeff_calculation(wall, ray_line)
+        coeff = ray.reflection_coefficient_calculation(wall, ray_line)
         ray.coefficient_de_reflexion.append(coeff)
         return 0
 
     def transmission_coefficient(self, wall, ray, ray_line):
-        coeff = ray.transmission_coeff_calculation(wall, ray_line)
+        coeff = ray.transmission_coefficient_calculation(wall, ray_line)
         ray.coefficient_de_transmission.append(coeff)
         return 0
 
@@ -135,7 +135,8 @@ class Room:
         ray = Ray([])
         for i in sous_liste_mur:
             point_image = self.image(point, i.droite)
-            """self.printt(point_image)"""
+            print("point image")
+            self.printt(point_image)
             liste_images.append(point_image)
             point = point_image
         ray.liste_de_points.append(transmitter.position)
@@ -144,15 +145,22 @@ class Room:
         for j in range(len(liste_images)):
             droite_ray = Line(point_ray, liste_images[len(liste_images)-1-j])
             point_intersection = droite_ray.intersection(sous_liste_mur[len(liste_images)-1-j].droite)
+            print("droite mur")
+            self.printt(sous_liste_mur[len(liste_images)-1-j].droite.point)
+            self.printt(sous_liste_mur[len(liste_images) - 1 - j].droite.vecteur_directeur)
+            print("intersection")
+            self.printt(point_intersection)
             if (sous_liste_mur[len(liste_images)-1-j].point_not_in_wall(point_intersection)):
                 ray.liste_de_points = []
+                print("rayon_non_admissible")
                 break
             
             self.reflection_coefficient(sous_liste_mur[len(liste_images)-1-j], ray, droite_ray)
             point_ray = point_intersection
             ray.liste_de_points.append(point_ray)
 
-        ray.liste_de_points.append(receiver.position)
+        if ray.liste_de_points:
+            ray.liste_de_points.append(transmitter.position)
 
         for i in ray.liste_de_points:
             print("wop")

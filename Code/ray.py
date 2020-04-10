@@ -16,12 +16,13 @@ class Ray:
         self.coefficient_de_transmission = []
 
     def reflection_coefficient_calculation(self, wall, ray_line):
-        theta_i = wall.line.incident_angle_calculation(ray_line)
-        theta_t = wall.line.transmitted_angle_calculation(wall, theta_i)
-        epsilon_tilde_1 = cmath.complex(self.epsilon0, 0)
+        theta_i = wall.droite.incident_angle_calculation(ray_line)
+        theta_t = wall.droite.transmitted_angle_calculation(wall, theta_i)
+        print("calcul de theta")
+        epsilon_tilde_1 = complex(self.epsilon0, 0)
         re_epsilon_tilde_2 = wall.permittivite
         im_epsilon_tilde_2 = -wall.conductivite/self.omega
-        epsilon_tilde_2 = cmath.complex(re_epsilon_tilde_2, im_epsilon_tilde_2)
+        epsilon_tilde_2 = complex(re_epsilon_tilde_2, im_epsilon_tilde_2)
         Z_1 = math.sqrt(self.mu0/epsilon_tilde_1)
         Z_2 = math.sqrt(self.mu0/epsilon_tilde_2)
         gamma_perp = (Z_2*cos(theta_i)-Z_1*cos(theta_t))/(Z_2*cos(theta_i)+Z_1*cos(theta_t))
@@ -33,12 +34,12 @@ class Ray:
         return gamma_wall
 
     def transmission_coefficient_calculation(self, wall, ray_line):
-        theta_i = wall.line.incident_angle_calculation(ray_line)
-        theta_t = wall.line.transmitted_angle_calculation(wall, theta_i)
-        epsilon_tilde_1 = cmath.complex(self.epsilon0, 0)
+        theta_i = wall.droite.incident_angle_calculation(ray_line)
+        theta_t = wall.droite.transmitted_angle_calculation(wall, theta_i)
+        epsilon_tilde_1 = complex(self.epsilon0, 0)
         re_epsilon_tilde_2 = wall.permittivite
         im_epsilon_tilde_2 = -wall.conductivite / self.omega
-        epsilon_tilde_2 = cmath.complex(re_epsilon_tilde_2, im_epsilon_tilde_2)
+        epsilon_tilde_2 = complex(re_epsilon_tilde_2, im_epsilon_tilde_2)
         Z_1 = math.sqrt(self.mu0 / epsilon_tilde_1)
         Z_2 = math.sqrt(self.mu0 / epsilon_tilde_2)
         gamma_perp = (Z_2 * cos(theta_i) - Z_1 * cos(theta_t)) / (Z_2 * cos(theta_i) + Z_1 * cos(theta_t))

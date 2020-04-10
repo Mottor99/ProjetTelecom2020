@@ -35,12 +35,12 @@ class Wall:
         point_not_in_wall = True
         if E == 0:
             for k in range(len(self.liste_de_points) // 2):
-                if B < self.liste_de_points[k][1] and B > self.liste_de_points[k + 1][1]:
+                if B > self.liste_de_points[k][1] and B < self.liste_de_points[k + 1][1]:
                     point_not_in_wall = False
                     break
         else:
             for k in range(len(self.liste_de_points) // 2):
-                if A < self.liste_de_points[k][0] and A > self.liste_de_points[k + 1][0]:
+                if A > self.liste_de_points[k][0] and A < self.liste_de_points[k + 1][0]:
                     point_not_in_wall = False
                     break
         return point_not_in_wall

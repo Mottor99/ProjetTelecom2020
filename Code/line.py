@@ -13,12 +13,20 @@ class Line:
 
 
     def intersection(self, droite_intersectee):
-        if self.vecteur_directeur[1]*droite_intersectee.vecteur_directeur[0] == self.vecteur_directeur[0]*droite_intersectee.vecteur_directeur[1]:
+        A = self.point[0]
+        B = self.point[1]
+        C = self.vecteur_directeur[0]
+        D = self.vecteur_directeur[1]
+        E = droite_intersectee.point[0]
+        F = droite_intersectee.point[1]
+        G = droite_intersectee.vecteur_directeur[0]
+        H = droite_intersectee.vecteur_directeur[1]
+        if D*G == C*H:
             x, y = -1,-1
         else:
-            d = self.point[0]*self.vecteur_directeur[1]-self.point[1]*self.vecteur_directeur[0] - droite_intersectee.point[0] * self.vecteur_directeur[0] + droite_intersectee.point[1] * self.vecteur_directeur[0]
-            d = d/ (self.vecteur_directeur[1]*droite_intersectee.vecteur_directeur[0] - self.vecteur_directeur[0]*droite_intersectee.vecteur_directeur[1])
-            x, y = res = tuple(map(sum, zip(droite_intersectee.point, tuple(i*d for i in droite_intersectee.vecteur_directeur))))
+            I = F*G - E*H - B*G + A*H
+            I = I/ (D*G - C*H)
+            x, y = res = tuple(map(sum, zip(self.point, tuple(i*I for i in self.vecteur_directeur))))
         return x, y;
 
 
@@ -27,17 +35,19 @@ class Line:
 
     def incident_angle_calculation(self, ray_line):
         #calcul de l'angle entre la normale de la droite (self) et une autre droite
+        """
         m1 = self.a
         m2 = ray_line.a
         tan_theta = math.abs((m2-m1)/(1+m1*m2)) #l'angle a toujours moins de 90 degrés
         theta = math.atan(tan_theta)
-        theta_i = (math.pi)/2 - theta
-        return theta_i
+        theta_i = (math.pi)/2 - theta"""
+        return 0,5
 
     def transmitted_angle_calculation(self, wall, theta_i):
+        """
         sin_theta_t = math.sqrt(1/wall.permittivite_rel)*math.sin(theta_i)
-        theta_t = math.asin(sin_theta_t)
-        return theta_t
+        theta_t = math.asin(sin_theta_t)"""
+        return 0,5
 
     """def equation_cartesienne(self):
     je m'appelle 
