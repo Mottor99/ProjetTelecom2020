@@ -14,8 +14,8 @@ class Room:
     def __init__(self):
         self.liste_walls = []
         self.liste_rays = []
-        self.transmitter = Transmitter((0,0), 1)
-        self.receiver = Receiver((0,5), 1)
+        self.transmitter = Transmitter((0.0,0.0), 1)
+        self.receiver = Receiver((0.0,5.0), 1)
 
 
     def ray_tracing(self, m, max_reflection, transmitter, receiver, liste_walls):
@@ -106,17 +106,16 @@ class Room:
 
 
     def verif_transmission(self, ray, liste_walls):
-        for i in range(len(ray.liste_points)-1):
-            portion_ray = Line(ray.liste_points[i],ray.liste_points[i+1])
+        for i in range(len(ray.liste_de_points)-1):
+            portion_ray = Line(ray.liste_de_points[i],ray.liste_de_points[i+1])
             for j in liste_walls:
+                print("verif transmission")
                 intersection = portion_ray.intersection(j.droite)
-                for k in range(len(j.points)/2):
-                    if intersection[0] < j.points[k][0] and intersection[0] > j.points[k+1][0]:
-                        self.reflection_coefficient(self, j.droite, ray, portion_ray)
-                        break
+                if not j.point_not_in_wall(intersection):
+                    """
+                    self.transmission_coefficient(j, ray, portion_ray)"""
+                    print("effectivement transmission")
         return 0
-
-
 
 
     def reflection_coefficient(self, wall, ray, ray_line):
@@ -135,27 +134,29 @@ class Room:
         ray = Ray([])
         for i in sous_liste_mur:
             point_image = self.image(point, i.droite)
+            """
             print("point image")
-            self.printt(point_image)
+            self.printt(point_image)"""
             liste_images.append(point_image)
             point = point_image
-        ray.liste_de_points.append(transmitter.position)
+        ray.liste_de_points.append(receiver.position)
         point_ray = receiver.position
         ray.distance = self.dist(receiver.position, liste_images[len(liste_images) - 1])
         for j in range(len(liste_images)):
             droite_ray = Line(point_ray, liste_images[len(liste_images)-1-j])
             point_intersection = droite_ray.intersection(sous_liste_mur[len(liste_images)-1-j].droite)
+            """
             print("droite mur")
             self.printt(sous_liste_mur[len(liste_images)-1-j].droite.point)
             self.printt(sous_liste_mur[len(liste_images) - 1 - j].droite.vecteur_directeur)
             print("intersection")
-            self.printt(point_intersection)
-            if (sous_liste_mur[len(liste_images)-1-j].point_not_in_wall(point_intersection)):
+            self.printt(point_intersection)"""
+            if sous_liste_mur[len(liste_images)-1-j].point_not_in_wall(point_intersection):
                 ray.liste_de_points = []
                 print("rayon_non_admissible")
                 break
-            
-            self.reflection_coefficient(sous_liste_mur[len(liste_images)-1-j], ray, droite_ray)
+            """
+            self.reflection_coefficient(sous_liste_mur[len(liste_images)-1-j], ray, droite_ray)"""
             point_ray = point_intersection
             ray.liste_de_points.append(point_ray)
 
@@ -166,6 +167,8 @@ class Room:
             print("wop")
             self.printt(i)
 
-        """self.verif_transmission(ray, self.liste_walls)"""
+        if ray.liste_de_points:
+            print("verification")
+            self.verif_transmission(ray, self.liste_walls)
 
         return ray
