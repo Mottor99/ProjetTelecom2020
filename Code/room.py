@@ -5,6 +5,8 @@ from ray import Ray
 from line import Line
 import copy
 import math
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 
@@ -64,6 +66,15 @@ class Room:
         print(s)
         return 0
 
+    def plott(self,liste_points):
+        X =[]
+        Y = []
+        for i in liste_points:
+            X.append(i[0])
+            Y.append(i[1])
+        plt.plot(X,Y)
+        return 0
+
 
 
     def calculate(self, transmitter, receiver):
@@ -80,7 +91,16 @@ class Room:
         return average_power
 
     def affichage_graphique(self):
+        for ray in self.liste_rays:
+            self.plott(ray.liste_de_points)
+        for wall in self.liste_walls:
+            for i in range(len(wall.liste_de_points)//2):
+                plt.plot([wall.liste_de_points[2*i][0],wall.liste_de_points[2*i+1][0]], [wall.liste_de_points[2*i][1], wall.liste_de_points[2*i+1][1]], "k")
+        plt.show()
         return 0
+
+
+
 
     def image(self, point_origine, droite):
         A = point_origine[0]
@@ -109,12 +129,10 @@ class Room:
         for i in range(len(ray.liste_de_points)-1):
             portion_ray = Line(ray.liste_de_points[i],ray.liste_de_points[i+1])
             for j in liste_walls:
-                print("verif transmission")
                 intersection = portion_ray.intersection(j.droite)
                 if not j.point_not_in_wall(intersection):
                     """
                     self.transmission_coefficient(j, ray, portion_ray)"""
-                    print("effectivement transmission")
         return 0
 
 
@@ -157,8 +175,12 @@ class Room:
                 break
             """
             self.reflection_coefficient(sous_liste_mur[len(liste_images)-1-j], ray, droite_ray)"""
-            point_ray = point_intersection
-            ray.liste_de_points.append(point_ray)
+            if self.entre(point_intersection,point_ray, liste_images[len(liste_images)-1-j]):
+                point_ray = point_intersection
+                ray.liste_de_points.append(point_ray)
+            else:
+                ray.liste_de_points = []
+                break
 
         if ray.liste_de_points:
             ray.liste_de_points.append(transmitter.position)
@@ -168,7 +190,14 @@ class Room:
             self.printt(i)
 
         if ray.liste_de_points:
-            print("verification")
             self.verif_transmission(ray, self.liste_walls)
 
         return ray
+
+    def entre(self, point1, point2, point3):
+        entre_12 = False
+        if (point1[0]>=point2[0] and point1[0]<=point3[0]) or (point1[0]<= point2[0] and point1[0] >= point3[0]):
+            if (point1[1]>=point2[1] and point1[1]<=point3[1]) or (point1[1]<= point2[1] and point1[1] >= point3[1]):
+                entre_12 = True
+                print("entre=true")
+        return entre_12
