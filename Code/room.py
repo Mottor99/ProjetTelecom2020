@@ -1,6 +1,4 @@
-from wall import Wall
-from transmitter import Transmitter
-from receiver import Receiver
+
 from ray import Ray
 from line import Line
 import copy
@@ -15,12 +13,22 @@ class Room:
 
     def __init__(self):
         self.liste_walls = []
-        self.liste_rays = []
-        self.transmitter = Transmitter((3.0,0.0), 1)
-        self.receiver = Receiver((3.0,5.0), 1)
+        self.list_transmitter = []
+        self.list_receiver = []
 
 
-    def ray_tracing(self, m, max_reflection, transmitter, receiver, liste_walls):
+    def power_distribution(self):
+        for receiver in self.list_receiver:
+            for transmitter in self.list_transmitter:
+                list_rays = []
+                self.ray_tracing([], 3, transmitter, receiver, self.liste_walls, list_rays)
+                receiver.power_captured += self.calculate(list_rays, transmitter, receiver)
+                if (receiver == self.list_receiver[0]) and (transmitter == self.list_transmitter[0]):
+                    self.affichage_graphique(list_rays)
+
+
+
+    def ray_tracing(self, m, max_reflection, transmitter, receiver, liste_walls, list_rays):
         if max_reflection != 1:
             max_reflection = max_reflection - 1
             for j in range(len(liste_walls)):
@@ -37,8 +45,8 @@ class Room:
                     sous_liste_de_murs.append(liste_walls[k])
                 rayy = self.creation_ray(sous_liste_de_murs, transmitter, receiver)
                 if rayy.liste_de_points:
-                    self.liste_rays.append(rayy)
-                self.ray_tracing(l, max_reflection, transmitter, receiver, liste_walls)
+                    list_rays.append(rayy)
+                self.ray_tracing(l, max_reflection, transmitter, receiver, liste_walls, list_rays)
         elif max_reflection == 1:
             for j in range(len(liste_walls)):
                 if not m:
@@ -55,7 +63,7 @@ class Room:
                     sous_liste_de_murs.append(liste_walls[k])
                 rayy = self.creation_ray(sous_liste_de_murs, transmitter, receiver)
                 if rayy.liste_de_points:
-                    self.liste_rays.append(rayy)
+                    list_rays.append(rayy)
 
 
 
@@ -79,22 +87,22 @@ class Room:
 
 
 
-    def calculate(self):
+    def calculate(self, list_rays, transmitter, receiver):
         average_power = 0
-        for rayy in self.liste_rays:
+        for rayy in list_rays:
             attenuation = 1
             for coef_ref in rayy.coefficient_de_reflexion:
                 attenuation = attenuation * coef_ref
             for coef_trans in rayy.coefficient_de_transmission:
                 attenuation = attenuation * coef_trans
-            E = attenuation * math.sqrt(60 * self.transmitter.power) / rayy.distance
+            E = attenuation * math.sqrt(60 * transmitter.power) / rayy.distance
             average_power = average_power + E**2
-            average_power = average_power/(8* self.receiver.resistance)
+            average_power = average_power/(8* receiver.resistance)
         return average_power
 
-    def affichage_graphique(self):
+    def affichage_graphique(self, list_rays):
         plt.axis([-2, 8, -2, 8])
-        for ray in self.liste_rays:
+        for ray in list_rays:
             self.plott(ray.liste_de_points)
         for wall in self.liste_walls:
             for i in range(len(wall.liste_de_points)//2):
