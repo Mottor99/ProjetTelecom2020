@@ -21,7 +21,7 @@ class Room:
         for receiver in self.list_receiver:
             for transmitter in self.list_transmitter:
                 list_rays = []
-                self.ray_tracing([], 3, transmitter, receiver, self.liste_walls, list_rays)
+                self.ray_tracing([], 1, transmitter, receiver, self.liste_walls, list_rays)
                 receiver.power_captured += self.calculate(list_rays, transmitter, receiver)
                 if (receiver == self.list_receiver[0]) and (transmitter == self.list_transmitter[0]):
                     self.affichage_graphique(list_rays)
@@ -125,8 +125,6 @@ class Room:
         H = -E*D + F*C + A*D - C * B
         H = H/(D**2 + C**2)
         point_image = tuple(map(sum, zip(point_origine, (2*H*(-1)*D,2*H*C))))
-        print("image")
-        self.printt(point_image)
 
         return point_image
 
@@ -146,9 +144,11 @@ class Room:
                 """
                 if (intersection =="""
                 if not j.point_not_in_wall(intersection):
-                    """
-                    self.transmission_coefficient(j, ray, portion_ray)"""
-                    print("transmission")
+                    if self.entre(intersection, ray.liste_de_points[i], ray.liste_de_points[i+1]):
+                        """
+                        self.transmission_coefficient(j, ray, portion_ray)"""
+                        print("transmission")
+                        self.printt(intersection)
         return 0
 
 
@@ -212,8 +212,11 @@ class Room:
 
     def entre(self, point1, point2, point3):
         entre_12 = False
-        if (point1[0]>=point2[0] and point1[0]<=point3[0]) or (point1[0]<= point2[0] and point1[0] >= point3[0]):
-            if (point1[1]>=point2[1] and point1[1]<=point3[1]) or (point1[1]<= point2[1] and point1[1] >= point3[1]):
+        if point2[0] == point3[0]:
+            if (point1[1] > point2[1] and point1[1] < point3[1]) or (point1[1] < point2[1] and point1[1] > point3[1]):
                 entre_12 = True
-                print("entre=true")
+        else:
+            if (point1[0] > point2[0] and point1[0] < point3[0]) or (point1[0] < point2[0] and point1[0] > point3[0]):
+                entre_12 = True
         return entre_12
+
