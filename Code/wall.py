@@ -1,5 +1,6 @@
 from line import Line
 import math
+import cmath
 
 class Wall:
 
@@ -24,8 +25,11 @@ class Wall:
         self.permittivite = self.permittivite_rel*8.854*10**(-12)
         self.epaisseur = epaisseur
         self.droite = Line(liste_de_points[0], liste_de_points[1])
+        self.alpha = self.omega*math.sqrt(self.mu0*self.permittivite/2)\
+                    *math.sqrt(math.sqrt(1+(self.conductivite/(self.omega*self.permittivite))**2)-1)
         self.beta = self.omega*math.sqrt(self.mu0*self.permittivite/2)\
                     *math.sqrt(math.sqrt(1+(self.conductivite/(self.omega*self.permittivite))**2)+1)
+        self.little_gamma = complex(self.alpha, self.beta)
         self.liste_de_points = liste_de_points
 
     def point_not_in_wall(self, point):

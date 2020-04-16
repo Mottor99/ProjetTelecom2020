@@ -10,7 +10,9 @@ class Line:
         self.vecteur_directeur = (point1[0]-point2[0], point1[1] -point2[1])
 
 
-
+    def dist(self, point1, point2):
+        distance_euclidienne = math.sqrt((point1[0] - point2[0])**2 + (point1[1]-point2[1])**2)
+        return distance_euclidienne
 
     def intersection(self, droite_intersectee):
         A = self.point[0]
@@ -35,19 +37,25 @@ class Line:
 
     def incident_angle_calculation(self, ray_line):
         #calcul de l'angle entre la normale de la droite (self) et une autre droite
-        """
-        m1 = self.a
-        m2 = ray_line.a
-        tan_theta = math.abs((m2-m1)/(1+m1*m2)) #l'angle a toujours moins de 90 degrés
-        theta = math.atan(tan_theta)
-        theta_i = (math.pi)/2 - theta"""
-        return 0,5
+        vx_1 = self.vecteur_directeur[0]
+        vy_1 = self.vecteur_directeur[1]
+        norm_v_1 = self.dist(vx_1, vy_1)
+        vx_2 = ray_line.vecteur_directeur[0]
+        vy_2 = ray_line.vecteur_directeur[1]
+        norm_v_2 = self.dist(vx_2, vy_2)
+        cos_theta_i = (vx_1*vx_2+vy_1*vy_2)/norm_v_1*norm_v_2
+        if cos_theta_i < 0:
+            theta_i = math.pi - math.acos(cos_theta_i)
+        else :
+            theta_i = math.acos(cos_theta_i)
+
+        return theta_i
 
     def transmitted_angle_calculation(self, wall, theta_i):
-        """
+
         sin_theta_t = math.sqrt(1/wall.permittivite_rel)*math.sin(theta_i)
-        theta_t = math.asin(sin_theta_t)"""
-        return 0,5
+        theta_t = math.asin(sin_theta_t)
+        return theta_t
 
     """def equation_cartesienne(self):
     je m'appelle 

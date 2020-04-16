@@ -28,9 +28,9 @@ class Ray:
         gamma_perp = (Z_2*cos(theta_i)-Z_1*cos(theta_t))/(Z_2*cos(theta_i)+Z_1*cos(theta_t))
         s = wall.epaisseur/cos(theta_t)
         beta_air = self.omega*math.sqrt(self.mu0*self.epsilon0)
-        beta_wall = wall.beta
-        gamma_wall = gamma_perp + (1-gamma_perp**2)*(gamma_perp*cmath.exp(-2*1j*beta_wall*s)*cmath.exp(1j*beta_air*2*s*sin(theta_i)*sin(theta_t)))\
-                     /(1-(gamma_perp**2)*cmath.exp(-2*1j*beta_wall*s)*cmath.exp(1j*beta_air*2*s*sin(theta_i)*sin(theta_t)))
+        little_gamma_wall = wall.little_gamma
+        gamma_wall = gamma_perp + (1-gamma_perp**2)*(gamma_perp*cmath.exp(-2*little_gamma_wall*s)*cmath.exp(1j*beta_air*2*s*sin(theta_i)*sin(theta_t)))\
+                     /(1-(gamma_perp**2)*cmath.exp(-2*little_gamma_wall*s)*cmath.exp(1j*beta_air*2*s*sin(theta_i)*sin(theta_t)))
         return gamma_wall
 
     def transmission_coefficient_calculation(self, wall, ray_line):
@@ -45,8 +45,8 @@ class Ray:
         gamma_perp = (Z_2 * cos(theta_i) - Z_1 * cos(theta_t)) / (Z_2 * cos(theta_i) + Z_1 * cos(theta_t))
         s = wall.epaisseur / cos(theta_t)
         beta_air = self.omega * math.sqrt(self.mu0 * self.epsilon0)
-        beta_wall = wall.beta
-        tau_wall = (1-gamma_perp**2)*cmath.exp(-1j*beta_wall*s)\
-                   /(1-(gamma_perp**2)*cmath.exp(-2*1j*beta_wall*s)*cmath.exp(1j*beta_air*2*s*sin(theta_i)*sin(theta_t)))
+        little_gamma_wall = wall.little_gamma
+        tau_wall = (1-gamma_perp**2)*cmath.exp(-little_gamma_wall*s)\
+                   /(1-(gamma_perp**2)*cmath.exp(-2*little_gamma_wall*s)*cmath.exp(1j*beta_air*2*s*sin(theta_i)*sin(theta_t)))
 
         return tau_wall
