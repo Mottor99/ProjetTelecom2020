@@ -14,16 +14,16 @@ import matplotlib.pyplot as plt
 class Room:
 
     def __init__(self):
-        self.liste_walls = []
+        self.list_of_walls = []
         self.liste_rays = []
         self.transmitter = Transmitter((3.0,0.0), 1)
         self.receiver = Receiver((3.0,5.0), 1)
 
 
-    def ray_tracing(self, m, max_reflection, transmitter, receiver, liste_walls):
+    def ray_tracing(self, m, max_reflection, transmitter, receiver, list_of_walls):
         if max_reflection != 1:
             max_reflection = max_reflection - 1
-            for j in range(len(liste_walls)):
+            for j in range(len(list_of_walls)):
                 if not m:
                     pass
                 elif j == m[len(m) - 1]:
@@ -34,13 +34,13 @@ class Room:
 
                 sous_liste_de_murs = []
                 for k in l:
-                    sous_liste_de_murs.append(liste_walls[k])
+                    sous_liste_de_murs.append(list_of_walls[k])
                 rayy = self.creation_ray(sous_liste_de_murs, transmitter, receiver)
                 if rayy.liste_de_points:
                     self.liste_rays.append(rayy)
-                self.ray_tracing(l, max_reflection, transmitter, receiver, liste_walls)
+                self.ray_tracing(l, max_reflection, transmitter, receiver, list_of_walls)
         elif max_reflection == 1:
-            for j in range(len(liste_walls)):
+            for j in range(len(list_of_walls)):
                 if not m:
                     pass
                 elif j == m[len(m) - 1]:
@@ -52,7 +52,7 @@ class Room:
                 sous_liste_de_murs = []
 
                 for k in l:
-                    sous_liste_de_murs.append(liste_walls[k])
+                    sous_liste_de_murs.append(list_of_walls[k])
                 rayy = self.creation_ray(sous_liste_de_murs, transmitter, receiver)
                 if rayy.liste_de_points:
                     self.liste_rays.append(rayy)
@@ -98,7 +98,8 @@ class Room:
             self.plott(ray.liste_de_points)
         for wall in self.liste_walls:
             for i in range(len(wall.liste_de_points)//2):
-                plt.plot([wall.liste_de_points[2*i][0],wall.liste_de_points[2*i+1][0]], [wall.liste_de_points[2*i][1], wall.liste_de_points[2*i+1][1]], "k")
+                plt.plot([wall.liste_de_points[2*i][0],wall.liste_de_points[2*i+1][0]],\
+                         [wall.liste_de_points[2*i][1], wall.liste_de_points[2*i+1][1]], "k")
         plt.show()
         return 0
 

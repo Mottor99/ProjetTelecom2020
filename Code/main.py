@@ -16,8 +16,8 @@ room1.liste_walls = j
 
 """print("stp")"""
 
-room1.ray_tracing(m, 2, room1.transmitter, room1.receiver, j)
-print(room1.calculate(room1.transmitter,room1.receiver))
+room1.ray_tracing(m, 1, room1.transmitter, room1.receiver, j)
+print(room1.calculate())
 print(len(room1.liste_rays))
 print("voila")
 room1.affichage_graphique()
