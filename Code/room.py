@@ -6,7 +6,6 @@ from line import Line
 import copy
 import math
 import matplotlib.pyplot as plt
-import numpy as np
 
 
 
@@ -16,8 +15,8 @@ class Room:
     def __init__(self):
         self.liste_walls = []
         self.liste_rays = []
-        self.transmitter = Transmitter((0.0,0.0), 1)
-        self.receiver = Receiver((0.0,5.0), 1)
+        self.transmitter = Transmitter((3.0,0.0), 1)
+        self.receiver = Receiver((3.0,5.0), 1)
 
 
     def ray_tracing(self, m, max_reflection, transmitter, receiver, liste_walls):
@@ -41,7 +40,9 @@ class Room:
                 self.ray_tracing(l, max_reflection, transmitter, receiver, liste_walls)
         elif max_reflection == 1:
             for j in range(len(liste_walls)):
-                if j == m[len(m) - 1]:
+                if not m:
+                    pass
+                elif j == m[len(m) - 1]:
                     continue
                 l = copy.deepcopy(m)
                 l.append(j)
@@ -77,7 +78,7 @@ class Room:
 
 
 
-    def calculate(self, transmitter, receiver):
+    def calculate(self):
         average_power = 0
         for rayy in self.liste_rays:
             attenuation = 1
@@ -85,12 +86,13 @@ class Room:
                 attenuation = attenuation * coef_ref
             for coef_trans in rayy.coefficient_de_transmission:
                 attenuation = attenuation * coef_trans
-            E = attenuation * math.sqrt(60 * transmitter.power) / rayy.distance
+            E = attenuation * math.sqrt(60 * self.transmitter.power) / rayy.distance
             average_power = average_power + E**2
-            average_power = average_power/(8*self.receiver.resistance)
+            average_power = average_power/(8* self.receiver.resistance)
         return average_power
 
     def affichage_graphique(self):
+        plt.axis([-2, 8, -2, 8])
         for ray in self.liste_rays:
             self.plott(ray.liste_de_points)
         for wall in self.liste_walls:
@@ -114,6 +116,8 @@ class Room:
         H = -E*D + F*C + A*D - C * B
         H = H/(D**2 + C**2)
         point_image = tuple(map(sum, zip(point_origine, (2*H*(-1)*D,2*H*C))))
+        print("image")
+        self.printt(point_image)
 
         return point_image
 
@@ -130,9 +134,12 @@ class Room:
             portion_ray = Line(ray.liste_de_points[i],ray.liste_de_points[i+1])
             for j in liste_walls:
                 intersection = portion_ray.intersection(j.droite)
+                """
+                if (intersection =="""
                 if not j.point_not_in_wall(intersection):
                     """
                     self.transmission_coefficient(j, ray, portion_ray)"""
+                    print("transmission")
         return 0
 
 
