@@ -1,50 +1,57 @@
 from line import Line
 import math
+from math import sqrt
 import cmath
 
 class Wall:
 
     omega = 2 * math.pi * 5 * 10 ** 9
     mu0 = 4*math.pi*10**-7
-    conductivite = 0.0
-    permittivite_rel = 0.0
-    permittivite = 0.0
-    droite = 0.0
-    epaisseur = 0.0
+    conductivity = 0.0
+    epsilon_rel = 0.0
+    epsilon = 0.0
+    line = 0.0
+    thickness = 0.0
+    intrinsic_impedance = 0.0
 
-    def __init__(self, epaisseur, liste_de_points, materiau):
-        if (materiau == "brique"):
-            self.conductivite = 0.02
-            self.permittivite_rel = 4.6
-        elif (materiau == "béton"):
-            self.conductivite = 0.014
-            self.permittivite_rel = 5.0
-        elif (materiau == "cloison"):
-            self.conductivite = 0.04
-            self.permittivite_rel = 2.25
-        self.permittivite = self.permittivite_rel*8.854*10**(-12)
-        self.epaisseur = epaisseur
-        self.droite = Line(liste_de_points[0], liste_de_points[1])
-        self.alpha = self.omega*math.sqrt(self.mu0*self.permittivite/2)\
-                    *math.sqrt(math.sqrt(1+(self.conductivite/(self.omega*self.permittivite))**2)-1)
-        self.beta = self.omega*math.sqrt(self.mu0*self.permittivite/2)\
-                    *math.sqrt(math.sqrt(1+(self.conductivite/(self.omega*self.permittivite))**2)+1)
+    def __init__(self, thickness, list_of_points, material):
+        if (material == "brique"):
+            self.conductivity = 0.02
+            self.epsilon_rel = 4.6
+        elif (material == "béton"):
+            self.conductivity = 0.014
+            self.epsilon_rel = 5.0
+        elif (material == "cloison"):
+            self.conductivity = 0.04
+            self.epsilon_rel = 2.25
+        self.epsilon = self.epsilon_rel * 8.854 * 10 ** (-12)
+        self.thickness = thickness
+        self.line = Line(list_of_points[0], list_of_points[1])
+        self.alpha = self.omega*sqrt(self.mu0 * self.epsilon / 2)\
+                    *sqrt(sqrt(1 + (self.conductivity / (self.omega * self.epsilon)) ** 2) - 1)
+        self.beta = self.omega*sqrt(self.mu0 * self.epsilon / 2)\
+                    *sqrt(sqrt(1 + (self.conductivity / (self.omega * self.epsilon)) ** 2) + 1)
         self.little_gamma = complex(self.alpha, self.beta)
-        self.liste_de_points = liste_de_points
+        self.a = (sqrt(self.mu0)/(2*sqrt(2)*(self.epsilon**2+self.conductivity**2/self.omega**2)**0.25))\
+                    *sqrt(4-(3*self.epsilon)/(sqrt(self.epsilon**2+self.conductivity**2/self.omega**2)))
+        self.b = (sqrt(self.mu0)/(sqrt(2)*(self.epsilon**2+self.conductivity**2/self.omega**2)**0.25))\
+                    *sqrt(1-self.epsilon/(sqrt(self.epsilon**2+self.conductivity**2/self.omega**2)))
+        self.intrinsic_impedance = complex(self.a, self.b)
+        self.list_of_points = list_of_points
 
     def point_not_in_wall(self, point):
         A = point[0]
         B = point[1]
-        E = self.droite.vecteur_directeur[0]
+        v_D_x = self.line.direction_vector[0]
         point_not_in_wall = True
-        if E == 0:
-            for k in range(len(self.liste_de_points) // 2):
-                if B > self.liste_de_points[2*k][1] and B < self.liste_de_points[2*k + 1][1]:
+        if v_D_x == 0:
+            for k in range(len(self.list_of_points) // 2):
+                if B > self.list_of_points[2 * k][1] and B < self.list_of_points[2 * k + 1][1]:
                     point_not_in_wall = False
                     break
         else:
-            for k in range(len(self.liste_de_points) // 2):
-                if A > self.liste_de_points[2*k][0] and A < self.liste_de_points[2*k + 1][0]:
+            for k in range(len(self.list_of_points) // 2):
+                if A > self.list_of_points[2 * k][0] and A < self.list_of_points[2 * k + 1][0]:
                     point_not_in_wall = False
                     break
         return point_not_in_wall

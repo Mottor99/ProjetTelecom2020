@@ -6,7 +6,7 @@ class Line:
 
     def __init__(self, point1, point2):
         self.point = point1
-        self.vecteur_directeur = (point1[0]-point2[0], point1[1] -point2[1])
+        self.direction_vector = (point1[0] - point2[0], point1[1] - point2[1])
 
 
     def dist(self, point1, point2):
@@ -16,18 +16,18 @@ class Line:
     def intersection(self, droite_intersectee):
         A = self.point[0]
         B = self.point[1]
-        C = self.vecteur_directeur[0]
-        D = self.vecteur_directeur[1]
+        C = self.direction_vector[0]
+        D = self.direction_vector[1]
         E = droite_intersectee.point[0]
         F = droite_intersectee.point[1]
-        G = droite_intersectee.vecteur_directeur[0]
-        H = droite_intersectee.vecteur_directeur[1]
+        G = droite_intersectee.direction_vector[0]
+        H = droite_intersectee.direction_vector[1]
         if D*G == C*H:
             x, y = -1,-1
         else:
             I = F*G - E*H - B*G + A*H
             I = I/ (D*G - C*H)
-            x, y = res = tuple(map(sum, zip(self.point, tuple(i*I for i in self.vecteur_directeur))))
+            x, y = res = tuple(map(sum, zip(self.point, tuple(i*I for i in self.direction_vector))))
         return x, y;
 
 
@@ -36,8 +36,8 @@ class Line:
 
     def incident_angle_calculation(self, ray_line):
         #calcul de l'angle entre la normale de la droite (self) et une autre droite
-        vx_1 = self.vecteur_directeur[0]
-        vy_1 = self.vecteur_directeur[1]
+        vx_1 = self.direction_vector[0]
+        vy_1 = self.direction_vector[1]
         norm_v_1 = self.dist(vx_1, vy_1)
         vx_2 = ray_line.vecteur_directeur[0]
         vy_2 = ray_line.vecteur_directeur[1]

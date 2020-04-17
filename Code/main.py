@@ -1,6 +1,7 @@
 from room import Room
 from wall import Wall
-from line import Line
+from transmitter import Transmitter
+from receiver import Receiver
 
 room1 = Room()
 m = []
@@ -12,15 +13,16 @@ mur5 = Wall(0.5, [(-1,6), (3,6)], "brique")
 mur6 = Wall(0.5, [(7,-1), (7,6)], "brique")
 mur7 = Wall(0.5, [(0,7), (7,5)], "brique")
 j = [mur1,mur3,mur4,mur5,mur6,mur7]
-room1.liste_walls = j
+room1.list_of_walls = j
+room1.list_of_transmitters.append(Transmitter((0.5, 0), 1))
+room1.list_of_receivers.append(Receiver((1, 5), 1))
+
+
 
 """print("stp")"""
 
-room1.ray_tracing(m, 1, room1.transmitter, room1.receiver, j)
-print(room1.calculate())
-print(len(room1.liste_rays))
-print("voila")
-room1.affichage_graphique()
+room1.power_distribution()
+
 
 """
 line1 = Line((0,0),(0,1))
