@@ -56,6 +56,17 @@ class Wall:
                     break
         return point_not_in_wall
 
+    def entre(self, point1, point2, point3):
+        entre2 = False
+        if point2[0] == point3[0]:
+            if (point1[1] > point2[1]) and (point1[1] < point3[1]):
+                entre2 = True
+        else:
+            if (point1[0] > point2[0]) and (point1[0] < point3[0]):
+                entre2 = True
+
+        return entre2
+
 
 
 

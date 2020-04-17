@@ -1,6 +1,4 @@
-from wall import Wall
-from transmitter import Transmitter
-from receiver import Receiver
+
 from ray import Ray
 from line import Line
 import copy
@@ -130,6 +128,7 @@ class Room:
         print("image")
         self.printt(image_point)
 
+
         return image_point
 
 
@@ -148,9 +147,11 @@ class Room:
                 """
                 if (intersection =="""
                 if not j.point_not_in_wall(intersection):
-                    """
-                    self.transmission_coefficient(j, ray, portion_ray)"""
-                    print("transmission")
+                    if self.entre(intersection, ray.liste_de_points[i], ray.liste_de_points[i+1]):
+                        """
+                        self.transmission_coefficient(j, ray, portion_ray)"""
+                        print("transmission")
+                        self.printt(intersection)
         return 0
 
 
@@ -216,8 +217,11 @@ class Room:
 
     def entre(self, point1, point2, point3):
         entre_12 = False
-        if (point1[0]>=point2[0] and point1[0]<=point3[0]) or (point1[0]<= point2[0] and point1[0] >= point3[0]):
-            if (point1[1]>=point2[1] and point1[1]<=point3[1]) or (point1[1]<= point2[1] and point1[1] >= point3[1]):
+        if point2[0] == point3[0]:
+            if (point1[1] > point2[1] and point1[1] < point3[1]) or (point1[1] < point2[1] and point1[1] > point3[1]):
+                entre_12 = True
+        else:
+            if (point1[0] > point2[0] and point1[0] < point3[0]) or (point1[0] < point2[0] and point1[0] > point3[0]):
                 entre_12 = True
                 print("entre=true")
         return entre_12
