@@ -1,11 +1,12 @@
 from line import Line
 import math
 from math import sqrt
+from transmitter import Transmitter
 import cmath
 
 class Wall:
 
-    omega = 2 * math.pi * 5 * 10 ** 9
+    omega = 2 * math.pi * Transmitter.frequency
     mu0 = 4*math.pi*10**-7
     conductivity = 0.0
     epsilon_rel = 0.0

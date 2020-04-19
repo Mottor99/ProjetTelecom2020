@@ -1,10 +1,11 @@
 import cmath
 import math
 from math import cos, sin
+from transmitter import Transmitter
 
 class Ray:
 
-    omega = 2*math.pi*5*10**9
+    omega = 2 * math.pi * Transmitter.frequency
     epsilon0 = 8.854*10**-12
     mu0 = 4*math.pi*10**-7
 
@@ -31,7 +32,7 @@ class Ray:
         little_gamma_wall = wall.little_gamma
         gamma_wall = gamma_perp + (1-gamma_perp**2)*(gamma_perp*cmath.exp(-2*little_gamma_wall*s)*cmath.exp(1j*beta_air*2*s*sin(theta_i)*sin(theta_t)))\
                      /(1-(gamma_perp**2)*cmath.exp(-2*little_gamma_wall*s)*cmath.exp(1j*beta_air*2*s*sin(theta_i)*sin(theta_t)))
-        return gamma_wall
+        return abs(gamma_wall) #la phase n'importe pas car on élevera au carré dans le calcul de la puissance
 
     def transmission_coefficient_calculation(self, wall, ray_line):
         theta_i = wall.line.incident_angle_calculation(ray_line)
@@ -49,4 +50,4 @@ class Ray:
         tau_wall = (1-gamma_perp**2)*cmath.exp(-little_gamma_wall*s)\
                    /(1-(gamma_perp**2)*cmath.exp(-2*little_gamma_wall*s)*cmath.exp(1j*beta_air*2*s*sin(theta_i)*sin(theta_t)))
 
-        return tau_wall
+        return abs(tau_wall)
