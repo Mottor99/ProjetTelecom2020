@@ -46,6 +46,9 @@ class Room:
                 self.ray_tracing(l, max_number_reflection, transmitter, receiver, list_of_walls, list_of_rays)
 
         elif max_number_reflection == 1:
+            sub_list_of_walls = []
+            ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)
+            list_of_rays.append(ray)
             for j in range(len(list_of_walls)):
                 if not m:
                     pass
@@ -180,7 +183,10 @@ class Room:
             point = image_point
         ray.list_of_points.append(receiver.position)
         ray_point = receiver.position #point de départ du tracé du rayon
-        ray.distance = self.dist(receiver.position, list_of_images[len(list_of_images) - 1]) #utile dans calcul des coeff de reflex/transm
+        if sub_list_of_walls:
+            ray.distance = self.dist(receiver.position, list_of_images[len(list_of_images) - 1]) #utile dans calcul des coeff de reflex/transm
+        else:
+            ray.distance = self.dist(receiver.position, transmitter.position)
         for j in range(len(list_of_images)):
             ray_line = Line(ray_point, list_of_images[len(list_of_images)-1-j])
             intersection_point = ray_line.intersection(sub_list_of_walls[len(list_of_images) - 1 - j].line) #point d'intersection mur/rayon
