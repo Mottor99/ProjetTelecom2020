@@ -20,7 +20,7 @@ class Room:
         for receiver in self.list_of_receivers:
             for transmitter in self.list_of_transmitters:
                 list_of_rays = []
-                self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
+                self.ray_tracing([], 1, transmitter, receiver, self.list_of_walls, list_of_rays)
                 receiver.captured_power += self.calculate(list_of_rays, transmitter, receiver)
                 if (receiver == self.list_of_receivers[0]) and (transmitter == self.list_of_transmitters[0]):
                     self.graphical_display(list_of_rays)
@@ -71,7 +71,7 @@ class Room:
         for i in m:
             s += str(i)
             s += " "
-        print(s)
+        #print(s)
         return 0
 
     def graphical_display(self, list_of_rays):

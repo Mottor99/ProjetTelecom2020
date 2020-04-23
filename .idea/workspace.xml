@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4e23ce8e-b02a-4837-8ebd-a12d8aeed35c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/line.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/line.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/ray.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/ray.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/room.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/room.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/transmitter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/transmitter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/wall.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/wall.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +18,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Code/wall.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="12" lean-forward="true" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+            <state relative-caret-position="221">
+              <caret line="31" column="95" lean-forward="true" selection-start-line="31" selection-start-column="95" selection-end-line="31" selection-end-column="95" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -29,10 +27,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Code/line.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="510">
               <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
             </state>
           </provider>
@@ -41,8 +39,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Code/room.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="162" column="16" lean-forward="true" selection-start-line="162" selection-start-column="16" selection-end-line="162" selection-end-column="16" />
+            <state relative-caret-position="3536">
+              <caret line="212" column="13" selection-start-line="212" selection-start-column="13" selection-end-line="212" selection-end-column="13" />
               <folding>
                 <element signature="e#1#20#0" expanded="true" />
               </folding>
@@ -50,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Code/ray.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="52" column="28" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
+            <state relative-caret-position="272">
+              <caret line="34" column="129" selection-start-line="34" selection-start-column="129" selection-end-line="34" selection-end-column="129" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -65,8 +63,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Code/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="30" lean-forward="true" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+            <state relative-caret-position="272">
+              <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -110,12 +108,12 @@
       <list>
         <option value="$PROJECT_DIR$/Code/receiver.py" />
         <option value="$PROJECT_DIR$/Code/test.py" />
-        <option value="$PROJECT_DIR$/Code/main.py" />
         <option value="$PROJECT_DIR$/Code/wall.py" />
         <option value="$PROJECT_DIR$/Code/transmitter.py" />
-        <option value="$PROJECT_DIR$/Code/room.py" />
-        <option value="$PROJECT_DIR$/Code/ray.py" />
         <option value="$PROJECT_DIR$/Code/line.py" />
+        <option value="$PROJECT_DIR$/Code/room.py" />
+        <option value="$PROJECT_DIR$/Code/main.py" />
+        <option value="$PROJECT_DIR$/Code/ray.py" />
       </list>
     </option>
   </component>
@@ -422,12 +420,18 @@
       <option name="project" value="LOCAL" />
       <updated>1587124383107</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="corrections mineures">
+      <created>1587310623017</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1587310623017</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992928" visible="true" weight="0.24966975" />
       <window_info id="Structure" order="1" sideWeight="0.5007072" side_tool="true" weight="0.24966975" />
@@ -525,7 +529,8 @@
     <MESSAGE value="modif gamma + vecteurs directeurs" />
     <MESSAGE value="traduction mdr + impedance du milieu" />
     <MESSAGE value="Merge branch 'master' of https://github.com/Mottor99/ProjetTelecom2020&#10;&#10;# Conflicts:&#10;#&#9;Code/room.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/Mottor99/ProjetTelecom2020&#10;&#10;# Conflicts:&#10;#&#9;Code/room.py" />
+    <MESSAGE value="corrections mineures" />
+    <option name="LAST_COMMIT_MESSAGE" value="corrections mineures" />
   </component>
   <component name="WindowStateProjectService">
     <state x="114" y="25" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585736306573">
@@ -588,27 +593,38 @@
     <state x="384" y="243" key="git4idea.merge.GitPullDialog/0.23.1280.723@0.23.1280.723" timestamp="1586203563754" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Code/test.py">
+    <entry file="file://$PROJECT_DIR$/Code/test.py" />
+    <entry file="file://$PROJECT_DIR$/Code/line.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="510">
+          <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Code/receiver.py">
+    <entry file="file://$PROJECT_DIR$/Code/room.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        <state relative-caret-position="3536">
+          <caret line="212" column="13" selection-start-line="212" selection-start-column="13" selection-end-line="212" selection-end-column="13" />
+          <folding>
+            <element signature="e#1#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Code/wall.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="12" lean-forward="true" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+        <state relative-caret-position="221">
+          <caret line="31" column="95" lean-forward="true" selection-start-line="31" selection-start-column="95" selection-end-line="31" selection-end-column="95" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Code/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
@@ -622,40 +638,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Code/receiver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Code/ray.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="52" column="28" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
+        <state relative-caret-position="272">
+          <caret line="34" column="129" selection-start-line="34" selection-start-column="129" selection-end-line="34" selection-end-column="129" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="30" lean-forward="true" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/room.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="162" column="16" lean-forward="true" selection-start-line="162" selection-start-column="16" selection-end-line="162" selection-end-column="16" />
-          <folding>
-            <element signature="e#1#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/line.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
         </state>
       </provider>
     </entry>
