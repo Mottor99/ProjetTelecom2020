@@ -17,8 +17,8 @@ class Ray:
         self.transmission_coefficient = []
 
     def reflection_coefficient_calculation(self, wall, ray_line):
-        theta_i = wall.line.incident_angle_calculation(ray_line)
-        theta_t = wall.line.transmitted_angle_calculation(wall, theta_i)
+        theta_i = wall.plane.incident_angle_calculation(ray_line)
+        theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         print("calcul de theta")
         epsilon_tilde_1 = self.epsilon0
         """re_epsilon_tilde_2 = wall.permittivite
@@ -35,8 +35,8 @@ class Ray:
         return abs(gamma_wall) #la phase n'importe pas car on élevera au carré dans le calcul de la puissance
 
     def transmission_coefficient_calculation(self, wall, ray_line):
-        theta_i = wall.line.incident_angle_calculation(ray_line)
-        theta_t = wall.line.transmitted_angle_calculation(wall, theta_i)
+        theta_i = wall.plane.incident_angle_calculation(ray_line)
+        theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         epsilon_tilde_1 = self.epsilon0
         """re_epsilon_tilde_2 = wall.permittivite
         im_epsilon_tilde_2 = -wall.conductivite / self.omega
