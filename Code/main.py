@@ -1,9 +1,9 @@
-from room3D import Room
-from wall3D import Wall
-from transmitter3D import Transmitter
-from receiver3D import Receiver
+from room import Room
+from wall import Wall
+from transmitter import Transmitter
+from receiver import Receiver
 from plane3D import Plane
-from line3D import Line
+from line import Line
 
 """
 plane1 = Plane((0,0,0),(1,0,0),(0,1,0))
