@@ -1,7 +1,7 @@
-from plane import Plane
+from plane3D import Plane
 import math
 from math import sqrt
-from transmitter import Transmitter
+from transmitter3D import Transmitter
 import numpy as np
 
 class Wall:

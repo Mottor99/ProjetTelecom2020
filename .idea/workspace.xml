@@ -1,98 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="4e23ce8e-b02a-4837-8ebd-a12d8aeed35c" name="Default Changelist" comment="">
+    <list default="true" id="4e23ce8e-b02a-4837-8ebd-a12d8aeed35c" name="Default Changelist" comment="generalisation 3D: toute la geometrie. je travaille mtn sur la representation graphique">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/line.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/line.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/ray.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/ray.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/room.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/room.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/transmitter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/transmitter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/wall.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/wall.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Code/wall.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="12" lean-forward="true" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Code/line.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Code/room.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="162" column="16" lean-forward="true" selection-start-line="162" selection-start-column="16" selection-end-line="162" selection-end-column="16" />
-              <folding>
-                <element signature="e#1#20#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Code/ray.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="52" column="28" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Code/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="30" lean-forward="true" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Code/transmitter.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="50" lean-forward="true" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Code/receiver.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -105,61 +40,9 @@
     <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/Code/receiver.py" />
-        <option value="$PROJECT_DIR$/Code/test.py" />
-        <option value="$PROJECT_DIR$/Code/main.py" />
-        <option value="$PROJECT_DIR$/Code/wall.py" />
-        <option value="$PROJECT_DIR$/Code/transmitter.py" />
-        <option value="$PROJECT_DIR$/Code/room.py" />
-        <option value="$PROJECT_DIR$/Code/ray.py" />
-        <option value="$PROJECT_DIR$/Code/line.py" />
-      </list>
-    </option>
-  </component>
-  <component name="IgnoredFileRootStore">
-    <option name="generatedRoots">
-      <set>
-        <option value="$PROJECT_DIR$/.idea" />
-      </set>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="950" />
-    <option name="y" value="-10" />
-    <option name="width" value="980" />
-    <option name="height" value="1050" />
-  </component>
   <component name="ProjectId" id="1Zw0YvxW2HJubbeiSae4dXCDE9V" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="ProjetTelecom2020" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProjetTelecom2020" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ProjetTelecom2020" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProjetTelecom2020" type="462c0819:PsiDirectoryNode" />
-              <item name="Code" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -167,18 +50,6 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -193,7 +64,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Code/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Code/main3D.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -422,53 +293,22 @@
       <option name="project" value="LOCAL" />
       <updated>1587124383107</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="rayon direct">
+      <created>1587655045342</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1587655045342</updated>
+    </task>
+    <task id="LOCAL-00026" summary="generalisation 3D: toute la geometrie. je travaille mtn sur la representation graphique">
+      <created>1587923097739</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1587923097739</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992928" visible="true" weight="0.24966975" />
-      <window_info id="Structure" order="1" sideWeight="0.5007072" side_tool="true" weight="0.24966975" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32956153" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32956153" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39886847" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4966975" weight="0.32956153" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32956153" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5006605" side_tool="true" weight="0.32956153" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32956153" />
-      <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.4993395" visible="true" weight="0.32956153" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992928" visible="true" weight="0.24966975" />
-      <window_info id="Structure" order="1" sideWeight="0.5007072" side_tool="true" weight="0.24966975" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.497358" visible="true" weight="0.32956153" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50264204" side_tool="true" weight="0.32956153" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32956153" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -488,15 +328,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -515,6 +347,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="voila voila" />
@@ -525,7 +358,9 @@
     <MESSAGE value="modif gamma + vecteurs directeurs" />
     <MESSAGE value="traduction mdr + impedance du milieu" />
     <MESSAGE value="Merge branch 'master' of https://github.com/Mottor99/ProjetTelecom2020&#10;&#10;# Conflicts:&#10;#&#9;Code/room.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/Mottor99/ProjetTelecom2020&#10;&#10;# Conflicts:&#10;#&#9;Code/room.py" />
+    <MESSAGE value="rayon direct" />
+    <MESSAGE value="generalisation 3D: toute la geometrie. je travaille mtn sur la representation graphique" />
+    <option name="LAST_COMMIT_MESSAGE" value="generalisation 3D: toute la geometrie. je travaille mtn sur la representation graphique" />
   </component>
   <component name="WindowStateProjectService">
     <state x="114" y="25" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585736306573">
@@ -538,6 +373,30 @@
     <state x="210" y="0" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1585991062304" />
     <state x="210" y="23" key="CommitChangelistDialog2/0.23.1280.716@0.23.1280.716" timestamp="1586201162204" />
     <state x="210" y="23" key="CommitChangelistDialog2/0.23.1280.721@0.23.1280.721" timestamp="1586203319581" />
+    <state width="1239" height="160" key="GridCell.Tab.0.bottom" timestamp="1587927694970">
+      <screen x="0" y="23" width="1280" height="721" />
+    </state>
+    <state width="1239" height="160" key="GridCell.Tab.0.bottom/0.23.1280.716@0.23.1280.716" timestamp="1587924053003" />
+    <state width="1239" height="160" key="GridCell.Tab.0.bottom/0.23.1280.721@0.23.1280.721" timestamp="1587927694970" />
+    <state width="1239" height="160" key="GridCell.Tab.0.bottom/0.23.1280.723@0.23.1280.723" timestamp="1587655064318" />
+    <state width="1239" height="160" key="GridCell.Tab.0.center" timestamp="1587927694969">
+      <screen x="0" y="23" width="1280" height="721" />
+    </state>
+    <state width="1239" height="160" key="GridCell.Tab.0.center/0.23.1280.716@0.23.1280.716" timestamp="1587924053003" />
+    <state width="1239" height="160" key="GridCell.Tab.0.center/0.23.1280.721@0.23.1280.721" timestamp="1587927694969" />
+    <state width="1239" height="160" key="GridCell.Tab.0.center/0.23.1280.723@0.23.1280.723" timestamp="1587655064318" />
+    <state width="1239" height="160" key="GridCell.Tab.0.left" timestamp="1587927694969">
+      <screen x="0" y="23" width="1280" height="721" />
+    </state>
+    <state width="1239" height="160" key="GridCell.Tab.0.left/0.23.1280.716@0.23.1280.716" timestamp="1587924053003" />
+    <state width="1239" height="160" key="GridCell.Tab.0.left/0.23.1280.721@0.23.1280.721" timestamp="1587927694969" />
+    <state width="1239" height="160" key="GridCell.Tab.0.left/0.23.1280.723@0.23.1280.723" timestamp="1587655064317" />
+    <state width="1239" height="160" key="GridCell.Tab.0.right" timestamp="1587927694970">
+      <screen x="0" y="23" width="1280" height="721" />
+    </state>
+    <state width="1239" height="160" key="GridCell.Tab.0.right/0.23.1280.716@0.23.1280.716" timestamp="1587924053003" />
+    <state width="1239" height="160" key="GridCell.Tab.0.right/0.23.1280.721@0.23.1280.721" timestamp="1587927694970" />
+    <state width="1239" height="160" key="GridCell.Tab.0.right/0.23.1280.723@0.23.1280.723" timestamp="1587655064318" />
     <state x="202" y="67" key="MergeDialog" timestamp="1586203579018">
       <screen x="0" y="23" width="1280" height="723" />
     </state>
@@ -564,11 +423,12 @@
       <screen x="0" y="23" width="1280" height="721" />
     </state>
     <state x="405" y="103" key="VCS.ChangeListViewerDialog/0.23.1280.721@0.23.1280.721" timestamp="1585736088737" />
-    <state x="305" y="219" key="Vcs.Push.Dialog.v2" timestamp="1586165751584">
-      <screen x="0" y="23" width="1280" height="716" />
+    <state x="305" y="221" key="Vcs.Push.Dialog.v2" timestamp="1587655056100">
+      <screen x="0" y="23" width="1280" height="723" />
     </state>
     <state x="305" y="219" key="Vcs.Push.Dialog.v2/0.23.1280.716@0.23.1280.716" timestamp="1586165751584" />
     <state x="305" y="224" key="Vcs.Push.Dialog.v2/0.23.1280.721@0.23.1280.721" timestamp="1586108912169" />
+    <state x="305" y="221" key="Vcs.Push.Dialog.v2/0.23.1280.723@0.23.1280.723" timestamp="1587655056100" />
     <state x="329" y="194" key="com.intellij.ide.util.TipDialog" timestamp="1586245187242">
       <screen x="0" y="23" width="1280" height="716" />
     </state>
@@ -586,78 +446,5 @@
     <state x="384" y="241" key="git4idea.merge.GitPullDialog/0.23.1280.716@0.23.1280.716" timestamp="1586202582053" />
     <state x="384" y="243" key="git4idea.merge.GitPullDialog/0.23.1280.721@0.23.1280.721" timestamp="1586203451795" />
     <state x="384" y="243" key="git4idea.merge.GitPullDialog/0.23.1280.723@0.23.1280.723" timestamp="1586203563754" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Code/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/receiver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/wall.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="12" lean-forward="true" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/transmitter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="50" lean-forward="true" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/ray.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="52" column="28" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="30" lean-forward="true" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/room.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="162" column="16" lean-forward="true" selection-start-line="162" selection-start-column="16" selection-end-line="162" selection-end-column="16" />
-          <folding>
-            <element signature="e#1#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Code/line.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>

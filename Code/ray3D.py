@@ -1,7 +1,7 @@
 import cmath
 import math
 from math import cos, sin
-from transmitter import Transmitter
+from transmitter3D import Transmitter
 
 class Ray:
 

@@ -1,10 +1,13 @@
 
-from ray import Ray
-from line import Line
+from ray3D import Ray
+from line3D import Line
 import copy
 import math
-import matplotlib.pyplot as plt
+import matplotlib as mpl
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 
 
@@ -81,9 +84,10 @@ class Room:
         return 0
 
     def graphical_display(self, list_of_rays):
-        #plt.axis([-2, 8, -2, 8,-2,8])
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
         for ray in list_of_rays:
-            self.plott(ray.list_of_points)
+            self.plott(ray.list_of_points,ax)
             """
         for wall in self.list_of_walls:
             for i in range(len(wall.list_of_points)//2):
@@ -94,7 +98,7 @@ class Room:
         return 0
 
 
-    def plott(self,list_of_points):
+    def plott(self,list_of_points,ax):
         X = []
         Y = []
         Z = []
@@ -102,7 +106,7 @@ class Room:
             X.append(i[0])
             Y.append(i[1])
             Z.append(i[2])
-        plt.plot(X,Y,Z)
+        ax.plot(X,Y,Z)
         return 0
 
 
