@@ -18,4 +18,3 @@ class Transmitter:
 
     def g(self, x, y):
         return 1
-
