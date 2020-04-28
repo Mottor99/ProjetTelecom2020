@@ -1,6 +1,6 @@
 
-from ray import Ray
-from line import Line
+from ray3D import Ray
+from line3D import Line
 import copy
 import math
 import matplotlib as mpl
@@ -86,14 +86,13 @@ class Room:
     def graphical_display(self, list_of_rays):
         fig = plt.figure()
         ax = fig.gca(projection='3d')
+        """
         for ray in list_of_rays:
             self.plott(ray.list_of_points,ax)
             """
+
         for wall in self.list_of_walls:
-            for i in range(len(wall.list_of_points)//2):
-                plt.plot([wall.list_of_points[2*i][0], wall.list_of_points[2*i+1][0]],\
-                         [wall.list_of_points[2*i][1], wall.list_of_points[2*i+1][1]], "k")
-                         """
+            self.draw_wall(wall,ax)
         plt.show()
         return 0
 
@@ -108,6 +107,29 @@ class Room:
             Z.append(i[2])
         ax.plot(X,Y,Z)
         return 0
+
+    def draw_wall(self,wall,ax):
+        dist12 = self.dist(wall.point1,wall.point2)
+        dist13 = self.dist(wall.point1, wall.point3)
+        x1 = wall.point1[0]
+        y1 = wall.point1[1]
+        z1 = wall.point1[2]
+        x2 = wall.point2[0]
+        y2 = wall.point2[1]
+        z2 = wall.point2[2]
+        x3 = wall.point3[0]
+        y3 = wall.point3[1]
+        z3 = wall.point3[2]
+        x21 = np.linspace(0,x2-x1,dist12)
+        x31 = np.linspace(0,x3-x1,dist13)
+        y21 = np.linspace(0,y2-y1,dist12)
+        y31 = np.linspace(0,y3-y1,dist13)
+        z21 = np.linspace(0,z2-z1,dist12)
+        z31 = np.linspace(0,z3-z1,dist13)
+        x = x1 + np.add.outer(x21,x31)
+        y = y1 + np.add.outer(y21,y31)
+        z = z1 + np.add.outer(z21,z31)
+        ax.plot_wireframe(x, y, z, color='b')
 
 
 
