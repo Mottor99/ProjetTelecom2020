@@ -67,8 +67,3 @@ class Wall:
                 entre2 = True
 
         return entre2
-
-
-
-
-
