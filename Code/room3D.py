@@ -120,16 +120,16 @@ class Room:
         x3 = wall.point3[0]
         y3 = wall.point3[1]
         z3 = wall.point3[2]
-        x21 = np.linspace(0,x2-x1,dist12)
-        x31 = np.linspace(0,x3-x1,dist13)
-        y21 = np.linspace(0,y2-y1,dist12)
-        y31 = np.linspace(0,y3-y1,dist13)
-        z21 = np.linspace(0,z2-z1,dist12)
-        z31 = np.linspace(0,z3-z1,dist13)
+        x21 = np.linspace(0,x2-x1,2*dist12)
+        x31 = np.linspace(0,x3-x1,2*dist13)
+        y21 = np.linspace(0,y2-y1,2*dist12)
+        y31 = np.linspace(0,y3-y1,2*dist13)
+        z21 = np.linspace(0,z2-z1,2*dist12)
+        z31 = np.linspace(0,z3-z1,2*dist13)
         x = x1 + np.add.outer(x21,x31)
         y = y1 + np.add.outer(y21,y31)
         z = z1 + np.add.outer(z21,z31)
-        ax.plot_wireframe(x, y, z, color='b')
+        ax.scatter(x, y, z, c='b', marker='o')
 
 
 

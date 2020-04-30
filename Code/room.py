@@ -20,10 +20,11 @@ class Room:
         for receiver in self.list_of_receivers:
             for transmitter in self.list_of_transmitters:
                 list_of_rays = []
-                self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
+                self.ray_tracing([], 3, transmitter, receiver, self.list_of_walls, list_of_rays)
                 receiver.captured_power += self.calculate(list_of_rays, transmitter, receiver)
                 if (receiver == self.list_of_receivers[0]) and (transmitter == self.list_of_transmitters[0]):
                     self.graphical_display(list_of_rays)
+            print(receiver.captured_power)
 
     def ray_tracing(self, m, max_number_reflection, transmitter, receiver, list_of_walls, list_of_rays):
         if max_number_reflection != 1:
@@ -78,7 +79,7 @@ class Room:
         return 0
 
     def graphical_display(self, list_of_rays):
-        plt.axis([-2, 8, -2, 8])
+        #plt.axis([-2, 8, -2, 8])
         for ray in list_of_rays:
             self.plott(ray.list_of_points)
         for wall in self.list_of_walls:
