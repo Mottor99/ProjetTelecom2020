@@ -5,6 +5,8 @@ import copy
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+import cmath
+
 from scipy.stats import kde
 import matplotlib.colors as colors
 
@@ -21,21 +23,29 @@ class Room:
         self.direct_wave_calculated = False
 
 
-    def power_distribution(self):
+    def power_distribution(self, receiver_position, graphic_display_choice):
         f = open("debitbinaire.txt", "w")
         for receiver in self.list_of_receivers:
             for transmitter in self.list_of_transmitters:
                 self.direct_wave_calculated = False
                 list_of_rays = []
-                self.ray_tracing([], 1, transmitter, receiver, self.list_of_walls, list_of_rays)
-                receiver.captured_power += self.calculate(list_of_rays, transmitter)
-                """if (receiver.position == (2.5, 3.5)) and (transmitter == self.list_of_transmitters[0]):
-                    self.graphical_display(receiver, transmitter, list_of_rays)"""
-            print("puissance = " + str(receiver.captured_power))
-            self.power_to_bit_rate(receiver)
-            f.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(receiver.captured_bit_rate)+ "\n")
+                
+                self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
+                if "m" in graphic_display_choice : 
+                    receiver.captured_mean_power += self.calculate_mean(list_of_rays, transmitter)
+                if "l" in graphic_display_choice:
+                    receiver.captured_local_power += self.calculate_local(list_of_rays, transmitter)
+                if ("r" in graphic_display_choice) and (receiver.position == receiver_position) and (transmitter == self.list_of_transmitters[0]):
+                    self.ray_graphical_display(receiver, transmitter, list_of_rays)
+            #print("puissance = " + str(receiver.captured_power))
+            if "l" in graphic_display_choice:
+                self.end_calculate_local(receiver)
+            if "l" in graphic_display_choice or "m" in graphic_display_choice:
+                self.power_to_bit_rate(receiver, receiver.captured_local_power)
+                f.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(receiver.captured_bit_rate)+ "\n")
         f.close()
-        self.power_graphic_display()
+        if "l" in graphic_display_choice or "m" in graphic_display_choice:
+            self.power_graphic_display()
 
 
 
@@ -120,7 +130,7 @@ class Room:
         #print(s)
         return 0
 
-    def graphical_display(self, receiver, transmitter, list_of_rays):
+    def ray_graphical_display(self, receiver, transmitter, list_of_rays):
         plt.axis([-2, 12, -2, 12])
 
         for ray in list_of_rays:
@@ -145,10 +155,8 @@ class Room:
         plt.plot(X,Y)
         return 0
 
-
-
-    def calculate(self, list_of_rays, transmitter):
-        average_power = 0
+    def calculate_local(self, list_of_rays, transmitter):
+        power = 0
         for ray in list_of_rays:
             attenuation = 1
             for coeff_ref in ray.reflection_coefficient:
@@ -157,15 +165,35 @@ class Room:
                 attenuation = attenuation * coeff_trans
             if ray.distance == 0:
                 continue
+            E = attenuation * math.sqrt(60 * transmitter.gain * transmitter.power) * cmath.exp(-1j*ray.beta_air*ray.distance) / ray.distance
+            hE = transmitter.he * E
+            power += hE
+        power /= 2*math.sqrt(2)*math.sqrt(transmitter.resistance)
+        return power
+
+    def end_calculate_local(self, receiver):
+        receiver.captured_local_power = abs(receiver.captured_local_power)**2
+        return 0
+
+    def calculate_mean(self, list_of_rays, transmitter):
+        mean_power = 0
+        for ray in list_of_rays:
+            attenuation = 1
+            for coeff_ref in ray.reflection_coefficient:
+               attenuation = attenuation * coeff_ref
+            for coeff_trans in ray.transmission_coefficient:
+                attenuation = attenuation * coeff_trans
+            if ray.distance == 0:
+                continue
             E = attenuation * math.sqrt(60 * transmitter.gain * transmitter.power) / ray.distance
             hE = transmitter.he * E
-            average_power = average_power + hE**2
-        average_power = average_power / (8*transmitter.resistance)
-        return average_power
+            mean_power = mean_power + hE**2
+        mean_power = mean_power / (8*transmitter.resistance)
+        return mean_power
 
 
-    def power_to_bit_rate(self, receiver):
-        sensibility = 10 * math.log(receiver.captured_power/10**-3)
+    def power_to_bit_rate(self, receiver, power):
+        sensibility = 10 * math.log10(power/10**-3)
         if sensibility < -82:
             receiver.captured_bit_rate = 0
         elif sensibility > -51:
@@ -188,7 +216,7 @@ class Room:
         H = -E*D + F*C + A*D - C * B
         H = H/(D**2 + C**2)
         image_point = tuple(map(sum, zip(origin_point, (2 * H * (-1) * D, 2 * H * C))))
-        print("image")
+        #print("image")
         self.printt(image_point)
 
 
@@ -212,7 +240,7 @@ class Room:
                 if not j.point_not_in_wall(intersection):
                     if self.between(intersection, ray.list_of_points[i], ray.list_of_points[i + 1]):
                         self.transmission_coefficient(j, ray, portion_ray)
-                        print("transmission")
+                        #print("transmission")
                         self.printt(intersection)
         return 0
 
@@ -256,7 +284,7 @@ class Room:
             if sub_list_of_walls[len(list_of_images) - 1 - j].point_not_in_wall(intersection_point):
                 #s'il y a une porte par exemple
                 ray.list_of_points = []
-                print("rayon_non_admissible")
+                #print("rayon_non_admissible")
                 break
 
 
