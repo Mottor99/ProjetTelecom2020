@@ -11,6 +11,7 @@ class Line:
             self.direction_vector = (0, 0)
         else:
             self.direction_vector = ((point1[0] - point2[0])/self.norm_vector, (point1[1] - point2[1])/self.norm_vector)
+        self.normal_vector = (self.direction_vector[1], -1*self.direction_vector[0])
 
 
     def dist(self, point1, point2):

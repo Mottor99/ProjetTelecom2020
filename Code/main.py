@@ -41,15 +41,15 @@ room1 = Room()
 m = []
 mur1 = Wall(0.1, [(-1,-1),(-1,11)], "brique")
 mur2 = Wall(0.1, [(3,-1),(3,11)], "brique")
-mur3 = Wall(0.1, [(-1,4), (11,4)], "brique")
+mur3 = Wall(0.1, [(-2,4), (11,4)], "brique")
 mur4 = Wall(0.1, [(-1,-1), (11,-1)], "brique")
 mur5 = Wall(0.1, [(-1,6), (11,6)], "brique")
 mur6 = Wall(0.1, [(11,-1), (11,11)], "brique")
 mur7 = Wall(0.1, [(0,7), (7,11)], "brique")
 
-list = [mur1, mur3, mur4, mur5, mur6, mur7, mur2]
+list = [mur1, mur3, mur4,mur5, mur6, mur7,mur2]
 room1.list_of_walls = list
-room1.list_of_transmitters.append(Transmitter((1, 8), 1))
+room1.list_of_transmitters.append(Transmitter((2, 5), 1))
 """room1.list_of_transmitters.append(Transmitter((4, 2), 1))
 room1.list_of_transmitters.append(Transmitter((4, 8), 1))
 room1.list_of_transmitters.append(Transmitter((1, 1), 1))"""

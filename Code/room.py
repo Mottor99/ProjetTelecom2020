@@ -5,7 +5,7 @@ import copy
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import kde
+#from scipy.stats import kde
 import matplotlib.colors as colors
 
 
@@ -27,11 +27,13 @@ class Room:
             for transmitter in self.list_of_transmitters:
                 self.direct_wave_calculated = False
                 list_of_rays = []
-                self.ray_tracing([], 1, transmitter, receiver, self.list_of_walls, list_of_rays)
+                self.ray_tracing([], 3, transmitter, receiver, self.list_of_walls, list_of_rays)
                 receiver.captured_power += self.calculate(list_of_rays, transmitter)
                 """if (receiver.position == (2.5, 3.5)) and (transmitter == self.list_of_transmitters[0]):
                     self.graphical_display(receiver, transmitter, list_of_rays)"""
-            print("puissance = " + str(receiver.captured_power))
+            #print("puissance = " + str(receiver.captured_power))
+            if receiver.captured_power<10**-11:
+                print("WAAAAAAAAAAAAAAGUHZIXONOIXCJ3PJAE?XPZEPZJEPX2NOECNO3NX")
             self.power_to_bit_rate(receiver)
             f.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(receiver.captured_bit_rate)+ "\n")
         f.close()
@@ -117,7 +119,6 @@ class Room:
         for i in m:
             s += str(i)
             s += " "
-        #print(s)
         return 0
 
     def graphical_display(self, receiver, transmitter, list_of_rays):
@@ -165,9 +166,11 @@ class Room:
 
 
     def power_to_bit_rate(self, receiver):
-        sensibility = 10 * math.log(receiver.captured_power/10**-3)
+        sensibility = 10 * math.log10(receiver.captured_power*10**3)
         if sensibility < -82:
             receiver.captured_bit_rate = 0
+            print(receiver.captured_power)
+            print(sensibility)
         elif sensibility > -51:
             receiver.captured_bit_rate = 433
         else:
@@ -180,15 +183,12 @@ class Room:
         A = origin_point[0]
         B = origin_point[1]
         C = line.direction_vector[0]
-        """print(str(C) +":C")"""
         D = line.direction_vector[1]
-        """print(str(D) + ":D")"""
         E = line.point[0]
         F = line.point[1]
         H = -E*D + F*C + A*D - C * B
         H = H/(D**2 + C**2)
         image_point = tuple(map(sum, zip(origin_point, (2 * H * (-1) * D, 2 * H * C))))
-        print("image")
         self.printt(image_point)
 
 
@@ -207,13 +207,16 @@ class Room:
             portion_ray = Line(ray.list_of_points[i], ray.list_of_points[i+1])
             for j in list_of_walls:
                 intersection = portion_ray.intersection(j.line)
-                """
-                if (intersection =="""
                 if not j.point_not_in_wall(intersection):
                     if self.between(intersection, ray.list_of_points[i], ray.list_of_points[i + 1]):
-                        self.transmission_coefficient(j, ray, portion_ray)
-                        print("transmission")
-                        self.printt(intersection)
+                        A = ray.list_of_points[i]
+                        B = ray.list_of_points[i+1]
+                        C = j.line.normal_vector
+                        c = np.dot(j.line.point,C)
+                        a = np.dot(A,C)
+                        b = np.dot(B,C)
+                        if (a<c and b>c) or (a>c and b<c):
+                            self.transmission_coefficient(j, ray, portion_ray)
         return 0
 
 
@@ -233,9 +236,6 @@ class Room:
         ray = Ray([])
         for wall in sub_list_of_walls:
             image_point = self.image(point, wall.line)
-            """
-            print("point image")
-            self.printt(point_image)"""
             list_of_images.append(image_point)
             point = image_point
         ray.list_of_points.append(receiver.position)
@@ -247,16 +247,9 @@ class Room:
         for j in range(len(list_of_images)):
             ray_line = Line(ray_point, list_of_images[len(list_of_images)-1-j])
             intersection_point = ray_line.intersection(sub_list_of_walls[len(list_of_images) - 1 - j].line) #point d'intersection mur/rayon
-            """
-            print("droite mur")
-            self.printt(sous_liste_mur[len(list_of_images)-1-j].droite.point)
-            self.printt(sous_liste_mur[len(list_of_images) - 1 - j].droite.vecteur_directeur)
-            print("intersection")
-            self.printt(intersection_point)"""
             if sub_list_of_walls[len(list_of_images) - 1 - j].point_not_in_wall(intersection_point):
                 #s'il y a une porte par exemple
                 ray.list_of_points = []
-                print("rayon_non_admissible")
                 break
 
 
@@ -273,9 +266,6 @@ class Room:
         if len(ray.list_of_points) != 0:
             ray.list_of_points.append(transmitter.position)
 
-        for i in ray.list_of_points:
-            """print("wop")"""
-            self.printt(i)
 
         if len(ray.list_of_points) != 0:
             self.verif_transmission(ray, self.list_of_walls)
@@ -285,10 +275,9 @@ class Room:
     def between(self, point1, point2, point3):
         between_12 = False
         if point2[0] == point3[0]:
-            if (point1[1] > point2[1] and point1[1] < point3[1]) or (point1[1] < point2[1] and point1[1] > point3[1]):
+            if (point1[1] >= point2[1] and point1[1] <= point3[1]) or (point1[1] <= point2[1] and point1[1] >= point3[1]):
                 between_12 = True
         else:
-            if (point1[0] > point2[0] and point1[0] < point3[0]) or (point1[0] < point2[0] and point1[0] > point3[0]):
+            if (point1[0] >= point2[0] and point1[0] <= point3[0]) or (point1[0] <= point2[0] and point1[0] >= point3[0]):
                 between_12 = True
-                """print("entre=true")"""
         return between_12
