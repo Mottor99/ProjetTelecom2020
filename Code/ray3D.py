@@ -14,14 +14,14 @@ class Ray:
         self.list_of_points = list_of_points
         self.distance = 0
         self.polarisation = (0,0,-1)
-        self.theta = 0
-        self.phi = 0
+        self.theta_emission = 0
+        self.phi_emission = 0
+        self.theta_reception = 0
+        self.phi_reception = 0
         self.beta_air = self.omega * math.sqrt(self.mu0 * self.epsilon0)
 
     def reflection_normal_coefficient_calculation(self, wall, ray_line):
         theta_i = wall.plane.incident_angle_calculation(ray_line)
-        print("theta_i")
-        print(theta_i)
         theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         epsilon_tilde_1 = self.epsilon0
         Z_1 = math.sqrt(self.mu0 / epsilon_tilde_1)

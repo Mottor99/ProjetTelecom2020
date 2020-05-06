@@ -15,6 +15,6 @@ class Transmitter:
             self.power = 1
             self.he = 1
 
-
     def G(self, x, y):
-        return 1
+        a = 0.13 * 4 * math.pi * (math.sin(x)) ** 3
+        return abs(a)

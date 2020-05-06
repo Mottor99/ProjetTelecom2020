@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cmath
 
-from scipy.stats import kde
 import matplotlib.colors as colors
 
 
