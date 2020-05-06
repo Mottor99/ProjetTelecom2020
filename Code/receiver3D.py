@@ -6,7 +6,7 @@ class Receiver:
 
     def __init__(self, position, type):
         self.position = position
-        self.resistance = 1
+        self.resistance = 73
         self.captured_power = 0
 
     def h(self, x, y, f):
