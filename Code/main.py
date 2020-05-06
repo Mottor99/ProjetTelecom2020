@@ -55,10 +55,10 @@ room1.list_of_transmitters.append(Transmitter((4, 8), 1))
 room1.list_of_transmitters.append(Transmitter((1, 1), 1))"""
 
 
-list_of_receivers_creation(4, 4)
+list_of_receivers_creation(3, 3)
 
 
-room1.power_distribution()
+room1.power_distribution((2,2), "rl")
 
 
 
