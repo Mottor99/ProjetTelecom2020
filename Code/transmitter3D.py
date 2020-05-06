@@ -16,5 +16,5 @@ class Transmitter:
             self.he = 1
 
 
-    def g(self, x, y):
+    def G(self, x, y):
         return 1

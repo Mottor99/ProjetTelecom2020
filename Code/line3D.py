@@ -1,4 +1,3 @@
-
 import math
 
 class Line:
@@ -13,23 +12,6 @@ class Line:
     def dist(self, point1, point2):
         euclidian_distance = math.sqrt((point1[0] - point2[0])**2 + (point1[1]-point2[1])**2 + (point1[2]-point2[2])**2)
         return euclidian_distance
-
-    def intersection(self, intersected_line):
-        A = self.point[0]
-        B = self.point[1]
-        C = self.direction_vector[0]
-        D = self.direction_vector[1]
-        E = intersected_line.point[0]
-        F = intersected_line.point[1]
-        G = intersected_line.direction_vector[0]
-        H = intersected_line.direction_vector[1]
-        if D*G == C*H:
-            x, y = -1,-1
-        else:
-            I = F*G - E*H - B*G + A*H
-            I = I/ (D*G - C*H)
-            x, y = tuple(map(sum, zip(self.point, tuple(i*I for i in self.direction_vector))))
-        return x, y;
 
 
 
