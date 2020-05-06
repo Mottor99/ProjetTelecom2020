@@ -39,6 +39,7 @@ def list_of_receivers_creation(len_x, len_y):
 
 room1 = Room()
 
+
 murext1 = Wall(0.5, [(-1,-1),(-1,2),(-1,3.4),(-1,4)], "cloison")
 murext2 = Wall(0.5, [(-1,4),(1,4)], "cloison")
 murext3 = Wall(0.5, [(1,4), (1,7)], "cloison")
