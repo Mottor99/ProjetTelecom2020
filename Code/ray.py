@@ -36,7 +36,7 @@ class Ray:
         gamma_wall = gamma_perp + (1-gamma_perp**2)*(gamma_perp*cmath.exp(-2*little_gamma_wall*s)*cmath.exp(1j*self.beta_air*2*s*sin(theta_i)*sin(theta_t)))\
                      /(1-(gamma_perp**2)*cmath.exp(-2*little_gamma_wall*s)*cmath.exp(1j*self.beta_air*2*s*sin(theta_i)*sin(theta_t)))
         #print("module_gamma_wall = " + str(abs(gamma_wall)))
-        return gamma_wall #la phase n'importe pas car on élevera au carré dans le calcul de la puissance
+        return gamma_wall
 
     def transmission_coefficient_calculation(self, wall, ray_line):
         theta_i = wall.line.incident_angle_calculation(ray_line)
