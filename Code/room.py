@@ -24,28 +24,39 @@ class Room:
 
 
     def power_distribution(self, receiver_position, graphic_display_choice):
-        f = open("debitbinaire.txt", "w")
+        f1 = open("debitbinaire_local.txt", "w")
+        f2 = open("debitbinaire_moyen.txt", "w")
         for receiver in self.list_of_receivers:
             for transmitter in self.list_of_transmitters:
                 self.direct_wave_calculated = False
                 list_of_rays = []
                 
-                self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
+                self.ray_tracing([], 1, transmitter, receiver, self.list_of_walls, list_of_rays)
                 if "m" in graphic_display_choice : 
                     receiver.captured_mean_power += self.calculate_mean(list_of_rays, transmitter)
                 if "l" in graphic_display_choice:
                     receiver.captured_local_power += self.calculate_local(list_of_rays, transmitter)
                 if ("r" in graphic_display_choice) and (receiver.position == receiver_position) and (transmitter == self.list_of_transmitters[0]):
                     self.ray_graphical_display(receiver, transmitter, list_of_rays)
-            #print("puissance = " + str(receiver.captured_power))
+
             if "l" in graphic_display_choice:
                 self.end_calculate_local(receiver)
-            if "l" in graphic_display_choice or "m" in graphic_display_choice:
                 self.power_to_bit_rate(receiver, receiver.captured_local_power)
-                f.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(receiver.captured_bit_rate)+ "\n")
-        f.close()
-        if "l" in graphic_display_choice or "m" in graphic_display_choice:
-            self.power_graphic_display()
+                f1.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
+                    receiver.captured_bit_rate) + "\n")
+            if "m" in graphic_display_choice:
+                self.power_to_bit_rate(receiver, receiver.captured_mean_power)
+                f2.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
+                    receiver.captured_bit_rate) + "\n")
+            if (receiver.position == receiver_position):
+                print("puissance = " + str(receiver.captured_mean_power))
+
+        f1.close()
+        f2.close()
+        if "l" in graphic_display_choice:
+            self.power_graphic_display("debitbinaire_local.txt")
+        if "m" in graphic_display_choice:
+            self.power_graphic_display("debitbinaire_moyen.txt")
 
 
 
@@ -103,10 +114,10 @@ class Room:
 
 
 
-    def power_graphic_display(self):
+    def power_graphic_display(self, str):
 
 
-        x, y, temp = np.loadtxt('debitbinaire.txt').T  # Transposed for easier unpacking
+        x, y, temp = np.loadtxt(str).T  # Transposed for easier unpacking
         plt.scatter(x=x, y=y, c=temp, s = 10)
         plt.colorbar()
 
@@ -114,7 +125,7 @@ class Room:
         for wall in self.list_of_walls:
             for i in range(len(wall.list_of_points)//2):
                 plt.plot([wall.list_of_points[2*i][0], wall.list_of_points[2*i+1][0]],\
-                         [wall.list_of_points[2*i][1], wall.list_of_points[2*i+1][1]], "k", linewidth = 4)
+                         [wall.list_of_points[2*i][1], wall.list_of_points[2*i+1][1]], "k", linewidth = 8*wall.thickness)
         for transmitter in self.list_of_transmitters:
             plt.scatter(transmitter.position[0], transmitter.position[1], s=30, c="blue")
         plt.show()
@@ -172,7 +183,7 @@ class Room:
         return power
 
     def end_calculate_local(self, receiver):
-        receiver.captured_local_power = abs(receiver.captured_local_power)**2
+        receiver.captured_local_power = (abs(receiver.captured_local_power))**2
         return 0
 
     def calculate_mean(self, list_of_rays, transmitter):
@@ -180,9 +191,9 @@ class Room:
         for ray in list_of_rays:
             attenuation = 1
             for coeff_ref in ray.reflection_coefficient:
-               attenuation = attenuation * coeff_ref
+               attenuation = attenuation * abs(coeff_ref)
             for coeff_trans in ray.transmission_coefficient:
-                attenuation = attenuation * coeff_trans
+                attenuation = attenuation * abs(coeff_trans)
             if ray.distance == 0:
                 continue
             E = attenuation * math.sqrt(60 * transmitter.gain * transmitter.power) / ray.distance
@@ -193,13 +204,16 @@ class Room:
 
 
     def power_to_bit_rate(self, receiver, power):
-        sensibility = 10 * math.log10(power/10**-3)
-        if sensibility < -82:
+        if (power == 0):
             receiver.captured_bit_rate = 0
-        elif sensibility > -51:
-            receiver.captured_bit_rate = 433
         else:
-            receiver.captured_bit_rate = 12.23*sensibility + 1056
+            sensibility = 10 * math.log10(power/10**-3)
+            if sensibility < -82:
+                receiver.captured_bit_rate = 0
+            elif sensibility > -51:
+                receiver.captured_bit_rate = 433
+            else:
+                receiver.captured_bit_rate = 12.23*sensibility + 1056
         return 0
 
 
