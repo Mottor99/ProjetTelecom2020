@@ -20,7 +20,7 @@ mur9 = Wall(0.5, (-1,-1,4),(7,-1,4),(-1,6,4), "brique")
 mur10 = Wall(0.5, (-1,-1,0),(-1,6,0),(-1,-1,4), "brique")
 mur11 = Wall(0.5, (-1,4,0), (7,4,0), (-1,4,4), "brique")
 
-j = [mur1,mur2,mur3,mur4,mur5,mur6]
+j = [mur1,mur2,mur3,mur4,mur5,mur6, mur8, mur9]
 room1.list_of_walls = j
 room1.list_of_transmitters.append(Transmitter((2,0,1), 1))
 room1.list_of_receivers.append(Receiver((0,5,1), 1))

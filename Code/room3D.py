@@ -97,8 +97,10 @@ class Room:
         return 0
 
     def draw_wall(self, wall, ax):
-        dist12 = self.dist(wall.point1, wall.point2)
-        dist13 = self.dist(wall.point1, wall.point3)
+        #dist12 = self.dist(wall.point1, wall.point2)
+        #dist13 = self.dist(wall.point1, wall.point3)
+        dist12 = 2
+        dist13 = 2
         x1 = wall.point1[0]
         y1 = wall.point1[1]
         z1 = wall.point1[2]
