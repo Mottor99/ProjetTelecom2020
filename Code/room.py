@@ -245,13 +245,23 @@ class Room:
         return euclidian_distance
 
 
-    def verif_transmission(self, ray, list_of_walls):
+    def verif_transmission(self, ray, list_of_walls, sub_list_of_walls):
+        T = len(sub_list_of_walls)
         for i in range(len(ray.list_of_points)-1):
             portion_ray = Line(ray.list_of_points[i], ray.list_of_points[i+1])
+            reflection_walls = []
+            if i == 0:
+                if sub_list_of_walls:
+                    reflection_walls.append(sub_list_of_walls[T-1])
+            elif i == len(ray.list_of_points)-2:
+                reflection_walls.append(sub_list_of_walls[0])
+            else:
+                reflection_walls.append(sub_list_of_walls[T - i])
+                reflection_walls.append(sub_list_of_walls[T - i - 1])
             for j in list_of_walls:
+                if j in reflection_walls:
+                    continue
                 intersection = portion_ray.intersection(j.line)
-                """
-                if (intersection =="""
                 if not j.point_not_in_wall(intersection):
                     if self.between(intersection, ray.list_of_points[i], ray.list_of_points[i + 1]):
                         self.transmission_coefficient(j, ray, portion_ray)
@@ -321,17 +331,17 @@ class Room:
             self.printt(i)
 
         if len(ray.list_of_points) != 0:
-            self.verif_transmission(ray, self.list_of_walls)
+            self.verif_transmission(ray, self.list_of_walls, sub_list_of_walls)
 
         return ray
 
     def between(self, point1, point2, point3):
         between_12 = False
         if point2[0] == point3[0]:
-            if (point1[1] > point2[1] and point1[1] < point3[1]) or (point1[1] < point2[1] and point1[1] > point3[1]):
+            if (point1[1] >= point2[1] and point1[1] <= point3[1]) or (point1[1] <= point2[1] and point1[1] >= point3[1]):
                 between_12 = True
         else:
-            if (point1[0] > point2[0] and point1[0] < point3[0]) or (point1[0] < point2[0] and point1[0] > point3[0]):
+            if (point1[0] >= point2[0] and point1[0] <= point3[0]) or (point1[0] <= point2[0] and point1[0] >= point3[0]):
                 between_12 = True
                 """print("entre=true")"""
         return between_12

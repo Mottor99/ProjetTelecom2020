@@ -24,8 +24,8 @@ class Room:
             f.append(open(doc, "w"))
             for j in range(int(length*2.5)):
                 for k in range(int(width*2.5)):
-                    """
-                    self.list_of_receivers.append(Receiver((k*0.4,j*0.4,1+i*2),1,i))"""
+
+                    self.list_of_receivers.append(Receiver((k*0.4,j*0.4,1+i*2),1,i))
 
         for receiver in self.list_of_receivers:
             for transmitter in self.list_of_transmitters:
@@ -53,24 +53,24 @@ class Room:
                     continue
                 l = copy.deepcopy(m)
                 l.append(j)
-                """
+
                 sub_list_of_walls = []
                 
                 for k in l:
                     sub_list_of_walls.append(list_of_walls[k])
                 ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)
                 if ray.list_of_points:
-                    list_of_rays.append(ray)"""
+                    list_of_rays.append(ray)
                 self.ray_tracing(l, max_number_reflection, transmitter, receiver, list_of_walls, list_of_rays)
 
         elif max_number_reflection == 1:
             sub_list_of_walls = []
-            """
+
             if self.direct_wave_calculated == False:
                 ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)  # ajout du rayon direct
                 if ray.list_of_points:
                     list_of_rays.append(ray)
-                self.direct_wave_calculated = True"""
+                self.direct_wave_calculated = True
             for j in range(len(list_of_walls)):
                 if not m:
                     pass

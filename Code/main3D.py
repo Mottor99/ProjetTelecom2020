@@ -19,16 +19,10 @@ mur9 = Wall(0.5, (-1,10,0), (11,10,0), (-1,10,2), "brique",0)
 mur10 = Wall(0.5, (-1,9,0), (11,9,0), (-1,9,2), "brique",0)
 
 
-j = [mur4,mur6,mur10]
+j = [mur1,mur2,mur3,mur4,mur7,mur8]
 room1.list_of_walls = j
-room1.list_of_transmitters.append(Transmitter((0,0,1), 1))
-
-room1.list_of_receivers.append(Receiver((8,10,1),1,0))
-room1.list_of_receivers.append(Receiver((8,10,1),1,0))
-
-a = Ray([])
-
-print(a.reflection_parallel_coefficient_calculation(mur6, Line((4,6,2),(0,0,1))))
+room1.list_of_transmitters.append(Transmitter((5,0,1), 1))
 
 
-room1.power_distribution(1,10,10)
+
+room1.power_distribution(1,11.3,11.3)
