@@ -9,7 +9,7 @@ class Transmitter:
     def __init__(self, position, type):
         self.position = position
         if type == 1:
-            self.power = (16/(3*math.pi))
+            self.power = 0.1
             self.he = self.wavelength/math.pi #le signe n'importe pas car on en prendra le carré
         else:
             self.power = 1

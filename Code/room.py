@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cmath
 
-from scipy.stats import kde
 import matplotlib.colors as colors
 
 
@@ -48,8 +47,9 @@ class Room:
                 self.power_to_bit_rate(receiver, receiver.captured_mean_power)
                 f2.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
                     receiver.captured_bit_rate) + "\n")
-            if (receiver.position == receiver_position):
+            if receiver.position[0] == 6.2 and receiver.position[1] == 8.8:
                 print("puissance = " + str(receiver.captured_mean_power))
+
 
         f1.close()
         f2.close()
@@ -199,6 +199,7 @@ class Room:
             E = attenuation * math.sqrt(60 * transmitter.gain * transmitter.power) / ray.distance
             hE = transmitter.he * E
             mean_power = mean_power + hE**2
+
         mean_power = mean_power / (8*transmitter.resistance)
         return mean_power
 

@@ -15,7 +15,8 @@ class Wall:
     thickness = 0.0
     intrinsic_impedance = 0.0
 
-    def __init__(self, thickness, point1, point2, point3, material):
+    def __init__(self, thickness, point1, point2, point3, material,etage):
+        self.etage = etage
         if (material == "brique"):
             self.conductivity = 0.02
             self.epsilon_rel = 4.6

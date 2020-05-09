@@ -59,13 +59,18 @@ murint4 = Wall(0.2, [(5,7), (5,4)], "brique")
 murint6 = Wall(0.2, [(8,2), (3,2)], "brique")
 murint7 = Wall(0.2, [(3,1), (3,-1)], "brique")
 
-list = [murext1, murext2, murext3,
-        murext4, murext5, murext6,
-        murext7, murext8, murext9, murext10, murext11,
-        murint1, murint2, murint3, murint4,
-        murint5, murint6, murint7]
+mur1 = Wall(0.5, [(-1,-1), (11,-1)], "brique")
+mur2 = Wall(0.5, [(-1,11), (11,11)], "brique")
+mur3 = Wall(0.5, [(-1,-1), (-1,11)], "brique")
+mur4 = Wall(0.5, [(4,-1), (4,11)], "brique")
+mur5 = Wall(0.5, [(6,-1), (6,11)], "brique")
+mur6 = Wall(0.5, [(11,-1), (11,11)], "brique")
+
+
+list = [mur1,mur2,mur3,mur4,mur5,mur6]
 room1.list_of_walls = list
-room1.list_of_transmitters.append(Transmitter((7, 1), 1))
+room1.list_of_transmitters.append(Transmitter((5, 0), 1))
+room1.list_of_receivers.append(Receiver((6.2, 8.8), 1))
 """room1.list_of_transmitters.append(Transmitter((4, 2), 1))
 room1.list_of_transmitters.append(Transmitter((4, 8), 1))
 room1.list_of_transmitters.append(Transmitter((1, 1), 1))"""
