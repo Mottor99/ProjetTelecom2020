@@ -20,10 +20,11 @@ class Room:
         for receiver in self.list_of_receivers:
             for transmitter in self.list_of_transmitters:
                 list_of_rays = []
-                self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
+                self.ray_tracing([], 3, transmitter, receiver, self.list_of_walls, list_of_rays)
                 receiver.captured_power += self.calculate(list_of_rays, transmitter, receiver)
                 if (receiver == self.list_of_receivers[0]) and (transmitter == self.list_of_transmitters[0]):
                     self.graphical_display(list_of_rays)
+            print(receiver.captured_power)
 
     def ray_tracing(self, m, max_number_reflection, transmitter, receiver, list_of_walls, list_of_rays):
         if max_number_reflection != 1:
@@ -48,7 +49,8 @@ class Room:
             sub_list_of_walls = []
             if self.direct_wave_calculated == False:
                 ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)  # ajout du rayon direct
-                list_of_rays.append(ray)
+                if ray.list_of_points:
+                    list_of_rays.append(ray)
                 self.direct_wave_calculated = True
             for j in range(len(list_of_walls)):
                 if not m:
@@ -119,15 +121,19 @@ class Room:
         x = x1 + np.add.outer(x21, x31)
         y = y1 + np.add.outer(y21, y31)
         z = z1 + np.add.outer(z21, z31)
-        ax.plot_wireframe(x, y, z, color='b')
+        #ax.plot_wireframe(x, y, z, color='b')
 
     def calculate(self, list_of_rays, transmitter, receiver):
         average_power = 0
+        compteur = 0
         for rayy in list_of_rays:
-            E = math.sqrt(60 * transmitter.power * transmitter.G(rayy.phi, rayy.theta)) / rayy.distance
-            hE = transmitter.he * E
+            compteur += 1
+            E = math.sqrt(60 * transmitter.power * transmitter.G(rayy.phi_emission, rayy.theta_emission)) / rayy.distance
+            hE = E * abs(np.dot(receiver.h(rayy.theta_reception,rayy.phi_reception,transmitter.frequency),rayy.polarisation))
             average_power = average_power + hE ** 2
-            average_power = average_power / (8 * receiver.resistance)
+            print(str(average_power)+"  "+str(rayy.distance))
+        average_power = average_power / (8 * receiver.resistance)
+        print(compteur)
         return average_power
 
     def image(self, origin_point, plane):
@@ -140,12 +146,15 @@ class Room:
             (point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2 + (point1[2] - point2[2]) ** 2)
         return euclidian_distance
 
-    def verif_transmission(self, point1, point2, ray):
+    def verif_transmission(self, point1, point2, ray, reflection_walls):
         inter_walls = []
         ordre = []
         n_walls = 0
         portion_ray = Line(point1, point2)
+
         for j in self.list_of_walls:
+            if j in reflection_walls:
+                continue
             intersection = j.plane.intersection(portion_ray)
             if not j.point_not_in_wall(intersection):
                 if self.entre(intersection, point1, point2):
@@ -195,42 +204,72 @@ class Room:
         if len(ray.list_of_points) != 0:
             ray.list_of_points.append(transmitter.position)
 
-            vector = ray.list_of_points[len(ray.list_of_points) - 2] - np.dot(1, transmitter.position)
-            rho = np.linalg.norm(vector)
-            ray.theta = math.acos(vector[2] / rho)
-            if vector[0] != 0:
-                ray.phi = math.atan(vector[1] / vector[0])
+            vector_emission = ray.list_of_points[len(ray.list_of_points) - 2] - np.dot(1, transmitter.position)
+            rho = np.linalg.norm(vector_emission)
+            ray.theta_emission = math.acos(vector_emission[2] / rho)
+            if vector_emission[0] != 0:
+                ray.phi_emission = math.atan(vector_emission[1] / vector_emission[0])
             else:
-                ray.phi = math.pi / 2
+                ray.phi_emission = math.pi / 2
+
+            vector_reception = ray.list_of_points[1] - np.dot(1, ray.list_of_points[0])
+            rho = np.linalg.norm(vector_reception)
+            ray.theta_reception = math.acos(vector_reception[2] / rho)
+            if vector_reception[0] != 0:
+                ray.phi_reception = math.atan(vector_reception[1] / vector_reception[0])
+            else:
+                ray.phi_reception = math.pi / 2
+
+
+
+            pol0 = math.cos(ray.theta_emission)*math.cos(ray.phi_emission)
+            pol1 = math.cos(ray.theta_emission) * math.sin(ray.phi_emission)
+            pol2 = math.sin(ray.theta_emission) * -1
+            ray.polarisation = (pol0,pol1,pol2)
+
+
+            if ray.theta_emission==math.pi/2:
+                ray.list_of_points = []
+
 
         if len(ray.list_of_points) != 0:
             self.coef_order(ray, sub_list_of_walls)
-            print(ray.polarisation)
 
         return ray
+
 
     def entre(self, point1, point2, point3):
         entre_12 = False
         if point2[0] == point3[0]:
             if point2[1] == point3[1]:
-                if (point1[2] > point2[2] and point1[2] < point3[2]) or (
-                        point1[2] < point2[2] and point1[2] > point3[2]):
+                if (point1[2] >= point2[2] and point1[2] <= point3[2]) or (
+                        point1[2] <= point2[2] and point1[2] >= point3[2]):
                     entre_12 = True
             else:
-                if (point1[1] > point2[1] and point1[1] < point3[1]) or (
-                        point1[1] < point2[1] and point1[1] > point3[1]):
+                if (point1[1] >= point2[1] and point1[1] <= point3[1]) or (
+                        point1[1] <= point2[1] and point1[1] >= point3[1]):
                     entre_12 = True
         else:
-            if (point1[0] > point2[0] and point1[0] < point3[0]) or (point1[0] < point2[0] and point1[0] > point3[0]):
+            if (point1[0] >= point2[0] and point1[0] <= point3[0]) or (point1[0] <= point2[0] and point1[0] >= point3[0]):
                 entre_12 = True
         return entre_12
 
+
     def coef_order(self, ray, sub_list_of_walls):
         for i in range(len(ray.list_of_points) - 1):
-            self.verif_transmission(ray.list_of_points[i], ray.list_of_points[i + 1], ray)
+            reflection_walls = []
+            if i == 0:
+                if sub_list_of_walls:
+                    reflection_walls.append(sub_list_of_walls[0])
+            elif i == len(ray.list_of_points)-2:
+                reflection_walls.append(sub_list_of_walls[len(sub_list_of_walls)-1])
+            else:
+                reflection_walls.append(sub_list_of_walls[i])
+                reflection_walls.append(sub_list_of_walls[i-1])
+            self.verif_transmission(ray.list_of_points[len(ray.list_of_points)-1-i],
+                                    ray.list_of_points[len(ray.list_of_points)-2-i], ray,reflection_walls)
             if i < len(ray.list_of_points) - 2:
                 ray.reflection_total_coefficient_calculation(sub_list_of_walls[i],
-                                                             Line(ray.list_of_points[i], ray.list_of_points[i + 1]))
-                print("line")
-                a = Line(ray.list_of_points[i], ray.list_of_points[i + 1])
-                print(a.direction_vector)
+                                                             Line(ray.list_of_points[len(ray.list_of_points)-1-i],
+                                                                  ray.list_of_points[len(ray.list_of_points)-2-i]))
+

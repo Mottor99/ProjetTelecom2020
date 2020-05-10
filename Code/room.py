@@ -31,7 +31,7 @@ class Room:
                 self.direct_wave_calculated = False
                 list_of_rays = []
                 
-                self.ray_tracing([], 1, transmitter, receiver, self.list_of_walls, list_of_rays)
+                self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
                 if "m" in graphic_display_choice : 
                     receiver.captured_mean_power += self.calculate_mean(list_of_rays, transmitter)
                 if "l" in graphic_display_choice:
@@ -218,21 +218,33 @@ class Room:
 
 
 
-    def image(self, origin_point, line):
-        A = origin_point[0]
-        B = origin_point[1]
+    def image(self, original_point, line):
+    #renvoie l'image de original_point par symétrie orthogonale par rapport à la droite line
+
+        x0 = np.array(line.point)
+        x = np.array(original_point)
+        v = np.array(line.direction_vector)
+        w = x - x0
+        projection_of_w_on_v = (np.dot(v, w)/(np.linalg.norm(v))**2)*v
+        image_point = x0 - w + 2*projection_of_w_on_v
+        """if line.direction_vector[0] == 0:
+            image_point = (original_point[0]-2*(original_point[0]-line.point[0]),original_point[1])
+        else:
+            b = line.point[1]-(line.direction_vector[1]/line.direction_vector[0])*line.point[0]
+            image_point = (original_point[1]-b,original_point[0])"""
+        """A = original_point[0]
+        B = original_point[1]
         C = line.direction_vector[0]
-        """print(str(C) +":C")"""
+        print(str(C) +":C")
         D = line.direction_vector[1]
-        """print(str(D) + ":D")"""
+        print(str(D) + ":D")
         E = line.point[0]
         F = line.point[1]
         H = -E*D + F*C + A*D - C * B
         H = H/(D**2 + C**2)
-        image_point = tuple(map(sum, zip(origin_point, (2 * H * (-1) * D, 2 * H * C))))
+        image_point = tuple(map(sum, zip(original_point, (2 * H * (-1) * D, 2 * H * C))))
         #print("image")
-        self.printt(image_point)
-
+        self.printt(image_point)"""
 
         return image_point
 
