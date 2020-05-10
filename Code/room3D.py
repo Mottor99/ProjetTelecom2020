@@ -6,6 +6,7 @@ import matplotlib as mpl
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import matplotlib.pyplot as plt
+from receiver3D import Receiver
 
 
 class Room:
@@ -16,15 +17,31 @@ class Room:
         self.list_of_receivers = []
         self.direct_wave_calculated = False
 
-    def power_distribution(self):
+    def power_distribution(self, etages, length, width):
+        f = []
+        for i in range(etages):
+            doc = "debitbinaire"+str(i)+".txt"
+            f.append(open(doc, "w"))
+            for j in range(int(length*2.5)):
+                for k in range(int(width*2.5)):
+
+                    self.list_of_receivers.append(Receiver((k*0.4,j*0.4,1+i*2),1,i))
+
         for receiver in self.list_of_receivers:
             for transmitter in self.list_of_transmitters:
                 list_of_rays = []
-                self.ray_tracing([], 3, transmitter, receiver, self.list_of_walls, list_of_rays)
+                self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
                 receiver.captured_power += self.calculate(list_of_rays, transmitter, receiver)
+                self.direct_wave_calculated = False
                 if (receiver == self.list_of_receivers[0]) and (transmitter == self.list_of_transmitters[0]):
                     self.graphical_display(list_of_rays)
-            print(receiver.captured_power)
+            self.power_to_bit_rate(receiver, receiver.captured_power)
+            f[receiver.etage].write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
+                receiver.captured_bit_rate) + "\n")
+        for i in range(etages):
+            f[i].close()
+            self.power_graphic_display("debitbinaire"+str(i)+".txt", i)
+
 
     def ray_tracing(self, m, max_number_reflection, transmitter, receiver, list_of_walls, list_of_rays):
         if max_number_reflection != 1:
@@ -38,6 +55,7 @@ class Room:
                 l.append(j)
 
                 sub_list_of_walls = []
+                
                 for k in l:
                     sub_list_of_walls.append(list_of_walls[k])
                 ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)
@@ -47,6 +65,7 @@ class Room:
 
         elif max_number_reflection == 1:
             sub_list_of_walls = []
+
             if self.direct_wave_calculated == False:
                 ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)  # ajout du rayon direct
                 if ray.list_of_points:
@@ -59,6 +78,8 @@ class Room:
                     continue
                 l = copy.deepcopy(m)
                 l.append(j)
+                if l[0] != 1 or l[1] != 0:
+                    continue
 
                 sub_list_of_walls = []
 
@@ -78,6 +99,9 @@ class Room:
     def graphical_display(self, list_of_rays):
         fig = plt.figure()
         ax = fig.gca(projection='3d')
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z');
 
         for ray in list_of_rays:
             self.plott(ray.list_of_points, ax)
@@ -92,10 +116,11 @@ class Room:
         Y = []
         Z = []
         for i in list_of_points:
+            print(i)
             X.append(i[0])
             Y.append(i[1])
             Z.append(i[2])
-        ax.plot(X, Y, Z)
+        ax.plot(X, Y, Z,color='orange')
         return 0
 
     def draw_wall(self, wall, ax):
@@ -121,19 +146,20 @@ class Room:
         x = x1 + np.add.outer(x21, x31)
         y = y1 + np.add.outer(y21, y31)
         z = z1 + np.add.outer(z21, z31)
-        #ax.plot_wireframe(x, y, z, color='b')
+        ax.plot_surface(x, y, z, color='b')
 
     def calculate(self, list_of_rays, transmitter, receiver):
         average_power = 0
         compteur = 0
         for rayy in list_of_rays:
             compteur += 1
-            E = math.sqrt(60 * transmitter.power * transmitter.G(rayy.phi_emission, rayy.theta_emission)) / rayy.distance
+            if rayy.distance == 0:
+                rayy.distance = 0.1
+            E = math.sqrt(transmitter.power*60 * transmitter.G(rayy.theta_emission, rayy.phi_emission)) / rayy.distance
             hE = E * abs(np.dot(receiver.h(rayy.theta_reception,rayy.phi_reception,transmitter.frequency),rayy.polarisation))
             average_power = average_power + hE ** 2
-            print(str(average_power)+"  "+str(rayy.distance))
         average_power = average_power / (8 * receiver.resistance)
-        print(compteur)
+
         return average_power
 
     def image(self, origin_point, plane):
@@ -164,6 +190,7 @@ class Room:
         while n_walls != 0:
             i = np.argmax(ordre)
             ray.transmission_total_coefficient_calculation(inter_walls[i], portion_ray)
+            print(ray.polarisation)
             ordre[i] = 0
             n_walls -= 1
 
@@ -206,6 +233,8 @@ class Room:
 
             vector_emission = ray.list_of_points[len(ray.list_of_points) - 2] - np.dot(1, transmitter.position)
             rho = np.linalg.norm(vector_emission)
+            if rho == 0:
+                rho = 1
             ray.theta_emission = math.acos(vector_emission[2] / rho)
             if vector_emission[0] != 0:
                 ray.phi_emission = math.atan(vector_emission[1] / vector_emission[0])
@@ -214,6 +243,8 @@ class Room:
 
             vector_reception = ray.list_of_points[1] - np.dot(1, ray.list_of_points[0])
             rho = np.linalg.norm(vector_reception)
+            if rho ==0:
+                rho = 1
             ray.theta_reception = math.acos(vector_reception[2] / rho)
             if vector_reception[0] != 0:
                 ray.phi_reception = math.atan(vector_reception[1] / vector_reception[0])
@@ -222,14 +253,15 @@ class Room:
 
 
 
-            pol0 = math.cos(ray.theta_emission)*math.cos(ray.phi_emission)
+            pol0 = math.cos(ray.theta_emission) * math.cos(ray.phi_emission)
             pol1 = math.cos(ray.theta_emission) * math.sin(ray.phi_emission)
             pol2 = math.sin(ray.theta_emission) * -1
-            ray.polarisation = (pol0,pol1,pol2)
+            ray.polarisation = [pol0,pol1,pol2]
+            #print(ray.polarisation)
 
-
+            """
             if ray.theta_emission==math.pi/2:
-                ray.list_of_points = []
+                ray.list_of_points = []"""
 
 
         if len(ray.list_of_points) != 0:
@@ -272,4 +304,34 @@ class Room:
                 ray.reflection_total_coefficient_calculation(sub_list_of_walls[i],
                                                              Line(ray.list_of_points[len(ray.list_of_points)-1-i],
                                                                   ray.list_of_points[len(ray.list_of_points)-2-i]))
+                print(ray.polarisation)
 
+    def power_to_bit_rate(self, receiver, power):
+        if (power == 0):
+            receiver.captured_bit_rate = 0
+        else:
+            sensibility = 10 * math.log10(power / 10 ** -3)
+            if sensibility < -82:
+                receiver.captured_bit_rate = 0
+            elif sensibility > -51:
+                receiver.captured_bit_rate = 433
+            else:
+                receiver.captured_bit_rate = 12.23 * sensibility + 1056
+        return 0
+
+    def power_graphic_display(self, str, etage):
+
+        x, y, temp = np.loadtxt(str).T  # Transposed for easier unpacking
+        plt.scatter(x=x, y=y, c=temp, s=10)
+        plt.colorbar()
+
+        for wall in self.list_of_walls:
+            if wall.etage == etage:
+                plt.plot([wall.point1[0], wall.point2[0]], \
+                         [wall.point1[1], wall.point2[1]], "k",
+                         linewidth=8 * wall.thickness)
+
+        for transmitter in self.list_of_transmitters:
+            plt.scatter(transmitter.position[0], transmitter.position[1], s=30, c="blue")
+        plt.show()
+        return 0

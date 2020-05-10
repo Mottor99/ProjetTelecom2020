@@ -22,6 +22,7 @@ class Ray:
 
     def reflection_normal_coefficient_calculation(self, wall, ray_line):
         theta_i = wall.plane.incident_angle_calculation(ray_line)
+        #print("theta_i"+str(theta_i))
         theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         epsilon_tilde_1 = self.epsilon0
         Z_1 = math.sqrt(self.mu0 / epsilon_tilde_1)
@@ -128,7 +129,7 @@ class Ray:
         c = np.cross(ray_line.direction_vector, b)
         j = np.linalg.norm(c)
         if j == 0:
-            c = (1, 0, 0)
+            c = (0, 0, -1)
             j = 1
         c = np.dot(1 / j, c)
 

@@ -75,7 +75,7 @@ room1.list_of_transmitters.append(Transmitter((1, 1), 1))
 list_of_receivers_creation(3, 3)
 
 
-room1.power_distribution((2,2), "r")
+room1.power_distribution((2,2), "ml")
 
 
 
