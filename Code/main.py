@@ -59,18 +59,20 @@ murint4 = Wall(0.2, [(5,7), (5,4)], "brique")
 murint6 = Wall(0.2, [(8,2), (3,2)], "brique")
 murint7 = Wall(0.2, [(3,1), (3,-1)], "brique")
 
-mur1 = Wall(0.5, [(-1,-1), (11,-1)], "brique")
-mur2 = Wall(0.5, [(-1,11), (11,11)], "brique")
-mur3 = Wall(0.5, [(-1,-1), (-1,11)], "brique")
-mur4 = Wall(0.5, [(4,-1), (4,11)], "brique")
-mur5 = Wall(0.5, [(6,-1), (6,11)], "brique")
-mur6 = Wall(0.5, [(11,-1), (11,11)], "brique")
+mur1 = Wall(0.5, [(0,0), (12,0)], "brique")
+mur2 = Wall(0.5, [(0,12), (12,12)], "brique")
+mur3 = Wall(0.5, [(0,0), (0,12)], "brique")
+mur4 = Wall(0.5, [(4,0), (4,12)], "brique")
+mur5 = Wall(0.5, [(8,0), (8,12)], "brique")
+mur6 = Wall(0.5, [(12,0), (12,12)], "brique")
+mur7 = Wall(0.5, [(0,8), (12,8)], "brique")
+mur8 = Wall(0.5, [(0,4), (4,4)], "brique")
+mur9 = Wall(0.5, [(8,4), (12,4)], "brique")
 
-
-list = [mur1,mur2,mur3,mur4,mur5,mur6]
+list = [mur1,mur2,mur3,mur4,mur5,mur6,mur7,mur8,mur9]
 room1.list_of_walls = list
-room1.list_of_transmitters.append(Transmitter((5, 0), 1))
-room1.list_of_receivers.append(Receiver((6.2, 8.8), 1))
+room1.list_of_transmitters.append(Transmitter((6, 4), 1))
+
 """room1.list_of_transmitters.append(Transmitter((4, 2), 1))
 room1.list_of_transmitters.append(Transmitter((4, 8), 1))
 room1.list_of_transmitters.append(Transmitter((1, 1), 1))"""

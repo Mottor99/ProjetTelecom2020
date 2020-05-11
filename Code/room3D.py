@@ -22,18 +22,18 @@ class Room:
         for i in range(etages):
             doc = "debitbinaire"+str(i)+".txt"
             f.append(open(doc, "w"))
-            for j in range(int(length*2.5)):
-                for k in range(int(width*2.5)):
-
-                    self.list_of_receivers.append(Receiver((k*0.4,j*0.4,1+i*2),1,i))
+            for j in range(int(length*2.5*4/3)):
+                for k in range(int(width*2.5*4/3)):
+                    self.list_of_receivers.append(Receiver((k*0.3,j*0.3,1+i*2),1,i))
 
         for receiver in self.list_of_receivers:
+            #print("postion:"+str(receiver.position))
             for transmitter in self.list_of_transmitters:
                 list_of_rays = []
-                self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
+                self.ray_tracing([], 1, transmitter, receiver, self.list_of_walls, list_of_rays)
                 receiver.captured_power += self.calculate(list_of_rays, transmitter, receiver)
                 self.direct_wave_calculated = False
-                if (receiver == self.list_of_receivers[0]) and (transmitter == self.list_of_transmitters[0]):
+                if (receiver.position == (9.6,9.6,1)) and (transmitter == self.list_of_transmitters[0]):
                     self.graphical_display(list_of_rays)
             self.power_to_bit_rate(receiver, receiver.captured_power)
             f[receiver.etage].write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
@@ -78,8 +78,6 @@ class Room:
                     continue
                 l = copy.deepcopy(m)
                 l.append(j)
-                if l[0] != 1 or l[1] != 0:
-                    continue
 
                 sub_list_of_walls = []
 
@@ -89,12 +87,6 @@ class Room:
                 if ray.list_of_points:
                     list_of_rays.append(ray)
 
-    def printt(self, m):
-        s = ""
-        for i in m:
-            s += str(i)
-            s += " "
-        return 0
 
     def graphical_display(self, list_of_rays):
         fig = plt.figure()
@@ -116,7 +108,6 @@ class Room:
         Y = []
         Z = []
         for i in list_of_points:
-            print(i)
             X.append(i[0])
             Y.append(i[1])
             Z.append(i[2])
@@ -144,7 +135,7 @@ class Room:
         x = x1 + np.add.outer(x21, x31)
         y = y1 + np.add.outer(y21, y31)
         z = z1 + np.add.outer(z21, z31)
-        ax.plot_surface(x, y, z, color='b')
+        #ax.plot_surface(x, y, z, color='b')
 
     def calculate(self, list_of_rays, transmitter, receiver):
         average_power = 0
@@ -154,8 +145,15 @@ class Room:
             if rayy.distance == 0:
                 rayy.distance = 0.1
             E = math.sqrt(transmitter.power*60 * transmitter.G(rayy.theta_emission, rayy.phi_emission)) / rayy.distance
+            #print("E:"+str(E))
             hE = E * abs(np.dot(receiver.h(rayy.theta_reception,rayy.phi_reception,transmitter.frequency),rayy.polarisation))
+            #print("polarisation:"+ str(rayy.polarisation))
+            #print("h:"+str(receiver.h(rayy.theta_reception,rayy.phi_reception,transmitter.frequency)))
             average_power = average_power + hE ** 2
+            #print("hE:"+str(hE**2))
+            if receiver.position == (6,6,3):
+                #print(average_power)
+                a = 1
         average_power = average_power / (8 * receiver.resistance)
 
         return average_power
@@ -180,6 +178,8 @@ class Room:
             if j in reflection_walls:
                 continue
             intersection = j.plane.intersection(portion_ray)
+            if intersection[0] == point2[0] and intersection[1] == point2[1] and intersection[2] == point2[2]:
+                continue
             if not j.point_not_in_wall(intersection):
                 if self.entre(intersection, point1, point2):
                     inter_walls.append(j)
@@ -188,7 +188,7 @@ class Room:
         while n_walls != 0:
             i = np.argmax(ordre)
             ray.transmission_total_coefficient_calculation(inter_walls[i], portion_ray)
-            print(ray.polarisation)
+            #print(ray.polarisation)
             ordre[i] = 0
             n_walls -= 1
 
@@ -258,7 +258,7 @@ class Room:
             #print(ray.polarisation)
 
             """
-            if ray.theta_emission==math.pi/2:
+            if ray.phi_emission!=math.pi and ray.phi_emission!=0:
                 ray.list_of_points = []"""
 
 
@@ -302,7 +302,7 @@ class Room:
                 ray.reflection_total_coefficient_calculation(sub_list_of_walls[i],
                                                              Line(ray.list_of_points[len(ray.list_of_points)-1-i],
                                                                   ray.list_of_points[len(ray.list_of_points)-2-i]))
-                print(ray.polarisation)
+                #print(ray.polarisation)
 
     def power_to_bit_rate(self, receiver, power):
         if (power == 0):
@@ -324,7 +324,7 @@ class Room:
         plt.colorbar()
 
         for wall in self.list_of_walls:
-            if wall.etage == etage:
+            if etage in wall.etages:
                 plt.plot([wall.point1[0], wall.point2[0]], \
                          [wall.point1[1], wall.point2[1]], "k",
                          linewidth=8 * wall.thickness)

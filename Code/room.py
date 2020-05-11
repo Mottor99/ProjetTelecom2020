@@ -262,6 +262,8 @@ class Room:
                 if j in reflection_walls:
                     continue
                 intersection = portion_ray.intersection(j.line)
+                if intersection == ray.list_of_points[i+1]:
+                    continue
                 if not j.point_not_in_wall(intersection):
                     if self.between(intersection, ray.list_of_points[i], ray.list_of_points[i + 1]):
                         self.transmission_coefficient(j, ray, portion_ray)
