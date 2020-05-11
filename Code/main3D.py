@@ -41,7 +41,7 @@ mur91test = Wall(0.5, (-1,10,0), (11,10,0), (-1,10,2), "brique",[0])
 mur101test = Wall(0.5, (-1,9,0), (11,9,0), (-1,9,2), "brique",[0])
 
 
-j = [mur11,mur21,mur31,mur41,mur51,mur61,mur71,mur81,mur91]
+j = [mur11,mur21,mur31,mur41,mur51,mur61,mur71,mur81,mur91,mur12,mur22,mur32,mur42,mur13,mur23,mur33,mur5,mur6,mur7,mur8]
 room1.list_of_walls = j
 room1.list_of_transmitters.append(Transmitter((6,4,1), 1))
 
