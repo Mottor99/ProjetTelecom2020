@@ -38,9 +38,12 @@ class Room:
             self.power_to_bit_rate(receiver, receiver.captured_power)
             f[receiver.etage].write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
                 receiver.captured_bit_rate) + "\n")
+        plt.figure(figsize=(8, 6))
         for i in range(etages):
             f[i].close()
+            plt.subplot(int(math.sqrt(etages))+1,int(math.sqrt(etages))+1,i+1)
             self.power_graphic_display("debitbinaire"+str(i)+".txt", i)
+        plt.show()
 
 
     def ray_tracing(self, m, max_number_reflection, transmitter, receiver, list_of_walls, list_of_rays):
@@ -320,7 +323,7 @@ class Room:
     def power_graphic_display(self, str, etage):
 
         x, y, temp = np.loadtxt(str).T  # Transposed for easier unpacking
-        plt.scatter(x=x, y=y, c=temp, s=10)
+        plt.scatter(x=x, y=y, c=temp, s=10, vmin=0,vmax=433)
         plt.colorbar()
 
         for wall in self.list_of_walls:
@@ -331,5 +334,5 @@ class Room:
 
         for transmitter in self.list_of_transmitters:
             plt.scatter(transmitter.position[0], transmitter.position[1], s=30, c="blue")
-        plt.show()
+        #plt.show()
         return 0
