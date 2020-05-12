@@ -22,7 +22,7 @@ class Room:
         self.direct_wave_calculated = False
 
 
-    def power_distribution(self, receiver_position, graphic_display_choice):
+    def ray_and_power_distribution(self, receiver_position, str_graphical_display):
         f1 = open("debitbinaire_local.txt", "w")
         f2 = open("debitbinaire_moyen.txt", "w")
         for receiver in self.list_of_receivers:
@@ -31,19 +31,19 @@ class Room:
                 list_of_rays = []
                 
                 self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
-                if "m" in graphic_display_choice : 
+                if "m" in str_graphical_display :
                     receiver.captured_mean_power += self.calculate_mean(list_of_rays, transmitter)
-                if "l" in graphic_display_choice:
+                if "l" in str_graphical_display:
                     receiver.captured_local_power += self.calculate_local(list_of_rays, transmitter)
-                if ("r" in graphic_display_choice) and (receiver.position == receiver_position) and (transmitter == self.list_of_transmitters[0]):
+                if ("r" in str_graphical_display) and (receiver.position == receiver_position) and (transmitter == self.list_of_transmitters[0]):
                     self.ray_graphical_display(receiver, transmitter, list_of_rays)
 
-            if "l" in graphic_display_choice:
+            if "l" in str_graphical_display:
                 self.end_calculate_local(receiver)
                 self.power_to_bit_rate(receiver, receiver.captured_local_power)
                 f1.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
                     receiver.captured_bit_rate) + "\n")
-            if "m" in graphic_display_choice:
+            if "m" in str_graphical_display:
                 self.power_to_bit_rate(receiver, receiver.captured_mean_power)
                 f2.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
                     receiver.captured_bit_rate) + "\n")
@@ -53,10 +53,10 @@ class Room:
 
         f1.close()
         f2.close()
-        if "l" in graphic_display_choice:
-            self.power_graphic_display("debitbinaire_local.txt")
-        if "m" in graphic_display_choice:
-            self.power_graphic_display("debitbinaire_moyen.txt")
+        if "l" in str_graphical_display:
+            self.power_graphical_display("debitbinaire_local.txt")
+        if "m" in str_graphical_display:
+            self.power_graphical_display("debitbinaire_moyen.txt")
 
 
 
@@ -113,33 +113,134 @@ class Room:
 
 
 
+    def ray_creation(self, sub_list_of_walls, transmitter, receiver):
+        point = transmitter.position
+        list_of_images = []
+        ray = Ray([])
+        for wall in sub_list_of_walls:
+            image_point = self.image(point, wall.line)
+            """
+            print("point image")
+            self.printt(point_image)"""
+            list_of_images.append(image_point)
+            point = image_point
+        ray.list_of_points.append(receiver.position)
+        ray_point = receiver.position #point de départ du tracé du rayon
+        if len(sub_list_of_walls) != 0:
+            ray.distance = self.dist(receiver.position, list_of_images[len(list_of_images) - 1]) #utile dans calcul des coeff de reflex/transm
+        else:
+            ray.distance = self.dist(receiver.position, transmitter.position)
+        for j in range(len(list_of_images)):
+            ray_line = Line(ray_point, list_of_images[len(list_of_images)-1-j])
+            intersection_point = ray_line.intersection(sub_list_of_walls[len(list_of_images) - 1 - j].line) #point d'intersection mur/rayon
+            """
+            print("droite mur")
+            self.printt(sous_liste_mur[len(list_of_images)-1-j].droite.point)
+            self.printt(sous_liste_mur[len(list_of_images) - 1 - j].droite.vecteur_directeur)
+            print("intersection")
+            self.printt(intersection_point)"""
+            if sub_list_of_walls[len(list_of_images) - 1 - j].point_not_in_wall(intersection_point):
+                #s'il y a une porte par exemple
+                ray.list_of_points = []
+                #print("rayon_non_admissible")
+                break
 
-    def power_graphic_display(self, str):
 
+            if self.between(intersection_point, ray_point, list_of_images[len(list_of_images) - 1 - j]):
+                #si le point d'intersection du mur n'appartient pas au segment [image, récepteur]
+                ray_point = intersection_point
+                ray.list_of_points.append(ray_point)
 
-        x, y, temp = np.loadtxt(str).T  # Transposed for easier unpacking
-        plt.scatter(x=x, y=y, c=temp, s = 10)
-        plt.colorbar()
+            else:
+                ray.list_of_points = []
+                break
+            self.reflection_coefficient_calc(sub_list_of_walls[len(list_of_images) - 1 - j], ray, ray_line)
 
+        if len(ray.list_of_points) != 0:
+            ray.list_of_points.append(transmitter.position)
 
-        for wall in self.list_of_walls:
-            for i in range(len(wall.list_of_points)//2):
-                plt.plot([wall.list_of_points[2*i][0], wall.list_of_points[2*i+1][0]],\
-                         [wall.list_of_points[2*i][1], wall.list_of_points[2*i+1][1]], "k", linewidth = 8*wall.thickness)
-        for transmitter in self.list_of_transmitters:
-            plt.scatter(transmitter.position[0], transmitter.position[1], s=30, c="blue")
-        plt.show()
+        for i in ray.list_of_points:
+            """print("wop")"""
+            self.printt(i)
+
+        if len(ray.list_of_points) != 0:
+            self.verif_transmission(ray, self.list_of_walls, sub_list_of_walls)
+
+        return ray
+
+    def image(self, original_point, line):
+    #renvoie l'image de original_point par symétrie orthogonale par rapport à la droite line
+
+        """x0 = np.array(line.point)
+        x = np.array(original_point)
+        v = np.array(line.direction_vector)
+        w = x - x0
+        projection_of_w_on_v = (np.dot(v, w)/(np.linalg.norm(v))**2)*v
+        image_point = x0 - w + 2*projection_of_w_on_v"""
+
+        x1 = original_point[0]
+        y1 = original_point[1]
+        x2 = line.point[0]
+        y2 = line.point[1]
+        v_x = line.direction_vector[0]
+        v_y = line.direction_vector[1]
+        d = (y2-y1)*v_x - (x2-x1)*v_y
+        v_perp = (-v_y*d, v_x*d)
+        image_point = tuple(map(sum, zip(original_point, v_perp, v_perp)))
+        #print("image")
+        #self.printt(image_point)
+
+        return image_point
+
+    def dist(self, point1, point2):
+        euclidian_distance = math.sqrt((point1[0] - point2[0])**2 + (point1[1]-point2[1])**2)
+        return euclidian_distance
+
+    def reflection_coefficient_calc(self, wall, ray, ray_line):
+        coeff = ray.reflection_coefficient_calculation(wall, ray_line)
+        ray.reflection_coefficient.append(coeff)
+        return 0
+
+    def transmission_coefficient_calc(self, wall, ray, ray_line):
+        coeff = ray.transmission_coefficient_calculation(wall, ray_line)
+        ray.transmission_coefficient.append(coeff)
+        return 0
+
+    def verif_transmission(self, ray, list_of_walls, sub_list_of_walls):
+        T = len(sub_list_of_walls)
+        for i in range(len(ray.list_of_points)-1):
+            portion_ray = Line(ray.list_of_points[i], ray.list_of_points[i+1])
+            reflection_walls = []
+            if i == 0:
+                if sub_list_of_walls:
+                    reflection_walls.append(sub_list_of_walls[T-1])
+            elif i == len(ray.list_of_points)-2:
+                reflection_walls.append(sub_list_of_walls[0])
+            else:
+                reflection_walls.append(sub_list_of_walls[T - i])
+                reflection_walls.append(sub_list_of_walls[T - i - 1])
+            for j in list_of_walls:
+                if j in reflection_walls:
+                    continue
+                intersection = portion_ray.intersection(j.line)
+                if not j.point_not_in_wall(intersection):
+                    if self.between(intersection, ray.list_of_points[i], ray.list_of_points[i + 1]):
+                        self.transmission_coefficient_calc(j, ray, portion_ray)
+                        #print("transmission")
+                        #print(intersection)
         return 0
 
 
-
-    def printt(self, m):
-        s = ""
-        for i in m:
-            s += str(i)
-            s += " "
-        #print(s)
-        return 0
+    def between(self, point1, point2, point3):
+        point3_is_between_point1_and_point2 = False
+        if point2[0] == point3[0]:
+            if (point1[1] >= point2[1] and point1[1] <= point3[1]) or (point1[1] <= point2[1] and point1[1] >= point3[1]):
+                point3_is_between_point1_and_point2 = True
+        else:
+            if (point1[0] >= point2[0] and point1[0] <= point3[0]) or (point1[0] <= point2[0] and point1[0] >= point3[0]):
+                point3_is_between_point1_and_point2 = True
+                """print("entre=true")"""
+        return point3_is_between_point1_and_point2
 
     def ray_graphical_display(self, receiver, transmitter, list_of_rays):
         plt.axis([-2, 12, -2, 12])
@@ -166,13 +267,14 @@ class Room:
         plt.plot(X,Y)
         return 0
 
+
     def calculate_local(self, list_of_rays, transmitter):
         power = 0
         for ray in list_of_rays:
             attenuation = 1
-            for coeff_ref in ray.reflection_coefficient:
+            for coeff_ref in ray.reflection_coefficient_calc:
                 attenuation = attenuation * coeff_ref
-            for coeff_trans in ray.transmission_coefficient:
+            for coeff_trans in ray.transmission_coefficient_calc:
                 attenuation = attenuation * coeff_trans
             if ray.distance == 0:
                 continue
@@ -217,143 +319,44 @@ class Room:
                 receiver.captured_bit_rate = 12.23*sensibility + 1056
         return 0
 
+    def power_graphical_display(self, str):
 
 
-    def image(self, original_point, line):
-    #renvoie l'image de original_point par symétrie orthogonale par rapport à la droite line
-
-        x0 = np.array(line.point)
-        x = np.array(original_point)
-        v = np.array(line.direction_vector)
-        w = x - x0
-        projection_of_w_on_v = (np.dot(v, w)/(np.linalg.norm(v))**2)*v
-        image_point = x0 - w + 2*projection_of_w_on_v
-        """if line.direction_vector[0] == 0:
-            image_point = (original_point[0]-2*(original_point[0]-line.point[0]),original_point[1])
-        else:
-            b = line.point[1]-(line.direction_vector[1]/line.direction_vector[0])*line.point[0]
-            image_point = (original_point[1]-b,original_point[0])"""
-        """A = original_point[0]
-        B = original_point[1]
-        C = line.direction_vector[0]
-        print(str(C) +":C")
-        D = line.direction_vector[1]
-        print(str(D) + ":D")
-        E = line.point[0]
-        F = line.point[1]
-        H = -E*D + F*C + A*D - C * B
-        H = H/(D**2 + C**2)
-        image_point = tuple(map(sum, zip(original_point, (2 * H * (-1) * D, 2 * H * C))))
-        #print("image")
-        self.printt(image_point)"""
-
-        return image_point
+        x, y, temp = np.loadtxt(str).T  # Transposed for easier unpacking
+        plt.scatter(x=x, y=y, c=temp, s = 10)
+        plt.colorbar()
 
 
-
-
-    def dist(self, point1, point2):
-        euclidian_distance = math.sqrt((point1[0] - point2[0])**2 + (point1[1]-point2[1])**2)
-        return euclidian_distance
-
-
-    def verif_transmission(self, ray, list_of_walls, sub_list_of_walls):
-        T = len(sub_list_of_walls)
-        for i in range(len(ray.list_of_points)-1):
-            portion_ray = Line(ray.list_of_points[i], ray.list_of_points[i+1])
-            reflection_walls = []
-            if i == 0:
-                if sub_list_of_walls:
-                    reflection_walls.append(sub_list_of_walls[T-1])
-            elif i == len(ray.list_of_points)-2:
-                reflection_walls.append(sub_list_of_walls[0])
-            else:
-                reflection_walls.append(sub_list_of_walls[T - i])
-                reflection_walls.append(sub_list_of_walls[T - i - 1])
-            for j in list_of_walls:
-                if j in reflection_walls:
-                    continue
-                intersection = portion_ray.intersection(j.line)
-                if not j.point_not_in_wall(intersection):
-                    if self.between(intersection, ray.list_of_points[i], ray.list_of_points[i + 1]):
-                        self.transmission_coefficient(j, ray, portion_ray)
-                        #print("transmission")
-                        self.printt(intersection)
+        for wall in self.list_of_walls:
+            for i in range(len(wall.list_of_points)//2):
+                plt.plot([wall.list_of_points[2*i][0], wall.list_of_points[2*i+1][0]],\
+                         [wall.list_of_points[2*i][1], wall.list_of_points[2*i+1][1]], "k", linewidth = 8*wall.thickness)
+        for transmitter in self.list_of_transmitters:
+            plt.scatter(transmitter.position[0], transmitter.position[1], s=30, c="blue")
+        plt.show()
         return 0
 
 
-    def reflection_coefficient(self, wall, ray, ray_line):
-        coeff = ray.reflection_coefficient_calculation(wall, ray_line)
-        ray.reflection_coefficient.append(coeff)
+
+
+
+    def printt(self, m):
+        s = ""
+        for i in m:
+            s += str(i)
+            s += " "
+        # print(s)
         return 0
 
-    def transmission_coefficient(self, wall, ray, ray_line):
-        coeff = ray.transmission_coefficient_calculation(wall, ray_line)
-        ray.transmission_coefficient.append(coeff)
-        return 0
-
-    def ray_creation(self, sub_list_of_walls, transmitter, receiver):
-        point = transmitter.position
-        list_of_images = []
-        ray = Ray([])
-        for wall in sub_list_of_walls:
-            image_point = self.image(point, wall.line)
-            """
-            print("point image")
-            self.printt(point_image)"""
-            list_of_images.append(image_point)
-            point = image_point
-        ray.list_of_points.append(receiver.position)
-        ray_point = receiver.position #point de départ du tracé du rayon
-        if len(sub_list_of_walls) != 0:
-            ray.distance = self.dist(receiver.position, list_of_images[len(list_of_images) - 1]) #utile dans calcul des coeff de reflex/transm
-        else:
-            ray.distance = self.dist(receiver.position, transmitter.position)
-        for j in range(len(list_of_images)):
-            ray_line = Line(ray_point, list_of_images[len(list_of_images)-1-j])
-            intersection_point = ray_line.intersection(sub_list_of_walls[len(list_of_images) - 1 - j].line) #point d'intersection mur/rayon
-            """
-            print("droite mur")
-            self.printt(sous_liste_mur[len(list_of_images)-1-j].droite.point)
-            self.printt(sous_liste_mur[len(list_of_images) - 1 - j].droite.vecteur_directeur)
-            print("intersection")
-            self.printt(intersection_point)"""
-            if sub_list_of_walls[len(list_of_images) - 1 - j].point_not_in_wall(intersection_point):
-                #s'il y a une porte par exemple
-                ray.list_of_points = []
-                #print("rayon_non_admissible")
-                break
 
 
-            if self.between(intersection_point, ray_point, list_of_images[len(list_of_images) - 1 - j]):
-                #si le point d'intersection du mur n'appartient pas au segment [image, récepteur]
-                ray_point = intersection_point
-                ray.list_of_points.append(ray_point)
 
-            else:
-                ray.list_of_points = []
-                break
-            self.reflection_coefficient(sub_list_of_walls[len(list_of_images) - 1 - j], ray, ray_line)
 
-        if len(ray.list_of_points) != 0:
-            ray.list_of_points.append(transmitter.position)
 
-        for i in ray.list_of_points:
-            """print("wop")"""
-            self.printt(i)
 
-        if len(ray.list_of_points) != 0:
-            self.verif_transmission(ray, self.list_of_walls, sub_list_of_walls)
 
-        return ray
 
-    def between(self, point1, point2, point3):
-        between_12 = False
-        if point2[0] == point3[0]:
-            if (point1[1] >= point2[1] and point1[1] <= point3[1]) or (point1[1] <= point2[1] and point1[1] >= point3[1]):
-                between_12 = True
-        else:
-            if (point1[0] >= point2[0] and point1[0] <= point3[0]) or (point1[0] <= point2[0] and point1[0] >= point3[0]):
-                between_12 = True
-                """print("entre=true")"""
-        return between_12
+
+
+
+

@@ -8,14 +8,13 @@ class Ray:
     omega = 2 * math.pi * Transmitter.frequency
     epsilon0 = 8.854*10**-12
     mu0 = 4*math.pi*10**-7
+    beta_air = omega * math.sqrt(mu0 * epsilon0)
 
     def __init__(self, list_of_points):
         self.list_of_points = list_of_points
         self.distance = 0
-        self.angle_with_transmitter = 0
         self.reflection_coefficient = []
         self.transmission_coefficient = []
-        self.beta_air = self.omega * math.sqrt(self.mu0 * self.epsilon0)
 
     def reflection_coefficient_calculation(self, wall, ray_line):
         theta_i = wall.line.incident_angle_calculation(ray_line)

@@ -17,9 +17,9 @@ class Room:
         self.list_of_receivers = []
         self.direct_wave_calculated = False
 
-    def power_distribution(self, etages, length, width):
+    def power_distribution(self, levels, length, width):
         f = []
-        for i in range(etages):
+        for i in range(levels):
             doc = "debitbinaire"+str(i)+".txt"
             f.append(open(doc, "w"))
             for j in range(int(length*2.5)):
@@ -38,7 +38,7 @@ class Room:
             self.power_to_bit_rate(receiver, receiver.captured_power)
             f[receiver.etage].write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
                 receiver.captured_bit_rate) + "\n")
-        for i in range(etages):
+        for i in range(levels):
             f[i].close()
             self.power_graphic_display("debitbinaire"+str(i)+".txt", i)
 
@@ -124,10 +124,10 @@ class Room:
         return 0
 
     def draw_wall(self, wall, ax):
-        #dist12 = self.dist(wall.point1, wall.point2)
-        #dist13 = self.dist(wall.point1, wall.point3)
-        dist12 = 2
-        dist13 = 2
+        dist12 = self.dist(wall.point1, wall.point2)
+        dist13 = self.dist(wall.point1, wall.point3)
+        dist12 = int(dist12)
+        dist13 = int(dist13)
         x1 = wall.point1[0]
         y1 = wall.point1[1]
         z1 = wall.point1[2]
@@ -150,13 +150,13 @@ class Room:
 
     def calculate(self, list_of_rays, transmitter, receiver):
         average_power = 0
-        compteur = 0
-        for rayy in list_of_rays:
-            compteur += 1
-            if rayy.distance == 0:
-                rayy.distance = 0.1
-            E = math.sqrt(transmitter.power*60 * transmitter.G(rayy.theta_emission, rayy.phi_emission)) / rayy.distance
-            hE = E * abs(np.dot(receiver.h(rayy.theta_reception,rayy.phi_reception,transmitter.frequency),rayy.polarisation))
+        counter = 0
+        for ray in list_of_rays:
+            counter += 1
+            if ray.distance == 0:
+                ray.distance = 0.1
+            E = math.sqrt(transmitter.power*60 * transmitter.G(ray.theta_emission, ray.phi_emission)) / ray.distance
+            hE = E * abs(np.dot(receiver.h(ray.theta_reception, ray.phi_reception, transmitter.frequency), ray.polarisation))
             average_power = average_power + hE ** 2
         average_power = average_power / (8 * receiver.resistance)
 
@@ -174,7 +174,7 @@ class Room:
 
     def verif_transmission(self, point1, point2, ray, reflection_walls):
         inter_walls = []
-        ordre = []
+        order = []
         n_walls = 0
         portion_ray = Line(point1, point2)
 
@@ -183,15 +183,15 @@ class Room:
                 continue
             intersection = j.plane.intersection(portion_ray)
             if not j.point_not_in_wall(intersection):
-                if self.entre(intersection, point1, point2):
+                if self.between(intersection, point1, point2):
                     inter_walls.append(j)
-                    ordre.append(self.dist(intersection, point2))
+                    order.append(self.dist(intersection, point2))
                     n_walls += 1
         while n_walls != 0:
-            i = np.argmax(ordre)
+            i = np.argmax(order)
             ray.transmission_total_coefficient_calculation(inter_walls[i], portion_ray)
             print(ray.polarisation)
-            ordre[i] = 0
+            order[i] = 0
             n_walls -= 1
 
         return 0
@@ -220,7 +220,7 @@ class Room:
                 ray.list_of_points = []
                 break
 
-            if self.entre(intersection_point, ray_point, list_of_images[len(list_of_images) - 1 - j]):
+            if self.between(intersection_point, ray_point, list_of_images[len(list_of_images) - 1 - j]):
                 # si le point d'intersection du mur n'appartient pas au segment [image, récepteur]
                 ray_point = intersection_point
                 ray.list_of_points.append(ray_point)
@@ -270,21 +270,21 @@ class Room:
         return ray
 
 
-    def entre(self, point1, point2, point3):
-        entre_12 = False
+    def between(self, point1, point2, point3):
+        point3_is_between_point1_and_point3 = False
         if point2[0] == point3[0]:
             if point2[1] == point3[1]:
                 if (point1[2] >= point2[2] and point1[2] <= point3[2]) or (
                         point1[2] <= point2[2] and point1[2] >= point3[2]):
-                    entre_12 = True
+                    point3_is_between_point1_and_point3 = True
             else:
                 if (point1[1] >= point2[1] and point1[1] <= point3[1]) or (
                         point1[1] <= point2[1] and point1[1] >= point3[1]):
-                    entre_12 = True
+                    point3_is_between_point1_and_point3 = True
         else:
             if (point1[0] >= point2[0] and point1[0] <= point3[0]) or (point1[0] <= point2[0] and point1[0] >= point3[0]):
-                entre_12 = True
-        return entre_12
+                point3_is_between_point1_and_point3 = True
+        return point3_is_between_point1_and_point3
 
 
     def coef_order(self, ray, sub_list_of_walls):
@@ -319,14 +319,14 @@ class Room:
                 receiver.captured_bit_rate = 12.23 * sensibility + 1056
         return 0
 
-    def power_graphic_display(self, str, etage):
+    def power_graphic_display(self, str, level):
 
-        x, y, temp = np.loadtxt(str).T  # Transposed for easier unpacking
+        x, y, temp = np.loadtxt(str).T
         plt.scatter(x=x, y=y, c=temp, s=10)
         plt.colorbar()
 
         for wall in self.list_of_walls:
-            if wall.etage == etage:
+            if wall.etage == level:
                 plt.plot([wall.point1[0], wall.point2[0]], \
                          [wall.point1[1], wall.point2[1]], "k",
                          linewidth=8 * wall.thickness)

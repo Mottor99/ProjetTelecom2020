@@ -15,8 +15,8 @@ class Wall:
     thickness = 0.0
     intrinsic_impedance = 0.0
 
-    def __init__(self, thickness, point1, point2, point3, material,etage):
-        self.etage = etage
+    def __init__(self, thickness, point1, point2, point3, material, level):
+        self.level = level
         if (material == "brique"):
             self.conductivity = 0.02
             self.epsilon_rel = 4.6
@@ -42,16 +42,16 @@ class Wall:
         self.point1 = point1
         self.point2 = point2
         self.point3 = point3
-        self.extremite33 = np.dot(point3, self.plane.direction_vector2)
-        self.extremite31 = np.dot(point1, self.plane.direction_vector2)
-        self.extremite21 = np.dot(point1, self.plane.direction_vector1)
-        self.extremite22 = np.dot(point2, self.plane.direction_vector1)
+        self.extremity33 = np.dot(point3, self.plane.direction_vector2)
+        self.extremity31 = np.dot(point1, self.plane.direction_vector2)
+        self.extremity21 = np.dot(point1, self.plane.direction_vector1)
+        self.extremity22 = np.dot(point2, self.plane.direction_vector1)
 
     def point_not_in_wall(self, point):
         point_not_in_wall = True
         a = np.dot(point, self.plane.direction_vector1)
-        if (a>self.extremite21 and a<self.extremite22) or (a<self.extremite21 and a>self.extremite22):
+        if (a > self.extremity21 and a < self.extremity22) or (a < self.extremity21 and a > self.extremity22):
             b = np.dot(point, self.plane.direction_vector2)
-            if (b > self.extremite31 and b < self.extremite33) or (b < self.extremite31 and b > self.extremite33):
+            if (b > self.extremity31 and b < self.extremity33) or (b < self.extremity31 and b > self.extremity33):
                 point_not_in_wall = False
         return point_not_in_wall

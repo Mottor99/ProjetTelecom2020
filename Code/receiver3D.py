@@ -4,11 +4,11 @@ class Receiver:
     position = 0.0
     resistance = 0.0
 
-    def __init__(self, position, type, etage):
+    def __init__(self, position, type, level):
         self.position = position
         self.resistance = 73
         self.captured_power = 0
-        self.etage = etage
+        self.level = level
 
     def h(self, theta, phi, f):
         c = 3 * 10 ** 8

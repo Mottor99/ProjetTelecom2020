@@ -41,29 +41,31 @@ class Wall:
         self.list_of_points = list_of_points
 
     def point_not_in_wall(self, point):
-        A = point[0]
-        B = point[1]
-        v_D_x = self.line.direction_vector[0]
+        x1 = point[0]
+        y1 = point[1]
+        v_x = self.line.direction_vector[0]
         point_not_in_wall = True
-        if v_D_x == 0:
+        if v_x == 0:
             for k in range(len(self.list_of_points) // 2):
-                if B > self.list_of_points[2 * k][1] and B < self.list_of_points[2 * k + 1][1]:
+                if y1 >= self.list_of_points[2 * k][1] and y1 <= self.list_of_points[2 * k + 1][1]:
                     point_not_in_wall = False
                     break
         else:
             for k in range(len(self.list_of_points) // 2):
-                if A > self.list_of_points[2 * k][0] and A < self.list_of_points[2 * k + 1][0]:
+                if x1 >= self.list_of_points[2 * k][0] and x1 <= self.list_of_points[2 * k + 1][0]:
                     point_not_in_wall = False
                     break
         return point_not_in_wall
 
-    def entre(self, point1, point2, point3):
-        entre2 = False
+    """def between(self, point1, point2, point3):
+        point3_is_between_point1_and_point2 = False
         if point2[0] == point3[0]:
-            if (point1[1] >= point2[1]) and (point1[1] <= point3[1]):
-                entre2 = True
+            if (point1[1] >= point2[1] and point1[1] <= point3[1]) or (
+                    point1[1] <= point2[1] and point1[1] >= point3[1]):
+                point3_is_between_point1_and_point2 = True
         else:
-            if (point1[0] >= point2[0]) and (point1[0] <= point3[0]):
-                entre2 = True
-
-        return entre2
+            if (point1[0] >= point2[0] and point1[0] <= point3[0]) or (
+                    point1[0] <= point2[0] and point1[0] >= point3[0]):
+                point3_is_between_point1_and_point2 = True
+                
+        return point3_is_between_point1_and_point2"""
