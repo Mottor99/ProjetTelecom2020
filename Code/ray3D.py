@@ -148,6 +148,9 @@ class Ray:
         #print(abs(d/np.linalg.norm(self.polarisation)))
         pola_perp = d*c
         pola_parallel = self.polarisation-np.dot(1, pola_perp)
+        pola_parallel_normal = np.dot(np.dot(pola_parallel, wall.plane.normal_vector), wall.plane.normal_vector)
+        pola_parallel = pola_parallel-np.dot(2,pola_parallel_normal)
         self.polarisation = np.dot(gamma_wall_perp, pola_perp) + np.dot(gamma_wall_para,pola_parallel)
-
+        print("verif_ultime:" + str(np.dot(self.polarisation,b)))
+        #print("verif_2:"+ str(np.linalg.norm(wall.plane.normal_vector)))
         return 0

@@ -37,14 +37,14 @@ mur7 = Wall(0.5, (0,0,4), (12,0,4), (0,12,4), "brique",[-1])
 mur8 = Wall(0.5, (0,0,6), (12,0,6), (0,12,6), "brique",[-1])
 
 
-mur91test = Wall(0.5, (-1,10,0), (11,10,0), (-1,10,2), "brique",[0])
-mur101test = Wall(0.5, (-1,9,0), (11,9,0), (-1,9,2), "brique",[0])
+mur91test = Wall(0.5, (0,12,0), (12,12,0), (0,12,2), "brique",[0])
+mur101test = Wall(0.5, (0,10,0), (12,10,0), (0,10,2), "brique",[0])
+mur81test = Wall(0.5, (0,0,2), (12,0,2), (0,12,2), "brique",[0])
 
-
-j = [mur11,mur21,mur31,mur41,mur51,mur61,mur71,mur81,mur91,mur12,mur22,mur32,mur42,mur13,mur23,mur33,mur5,mur6,mur7,mur8]
+j = [mur91test,mur101test,mur81test]
 room1.list_of_walls = j
-room1.list_of_transmitters.append(Transmitter((6,4,1), 1))
+room1.list_of_transmitters.append(Transmitter((0,5,1), 1))
+room1.list_of_receivers.append(Receiver((8,11,1), 1, 0))
 
 
-
-room1.ray_and_power_distribution(3, 12.3, 12.3)
+room1.ray_and_power_distribution(1, 12.3, 12.3)

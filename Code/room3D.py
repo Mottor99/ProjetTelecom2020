@@ -30,11 +30,17 @@ class Room:
             #print("postion:"+str(receiver.position))
             for transmitter in self.list_of_transmitters:
                 list_of_rays = []
-                self.ray_tracing([], 1, transmitter, receiver, self.list_of_walls, list_of_rays)
+                self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
                 receiver.captured_power += self.calculate(list_of_rays, transmitter, receiver)
                 self.direct_wave_calculated = False
-                if (receiver.position == (9.6,9.6,1)) and (transmitter == self.list_of_transmitters[0]):
+                if (receiver.position == (8,11,1)) and (transmitter == self.list_of_transmitters[0]):
                     self.graphical_display(list_of_rays)
+                    for i in list_of_rays:
+                        print(i.polarisation)
+                        print("theta_emission"+str(i.theta_emission))
+                        print("theta_reception" + str(i.theta_reception))
+                        for j in i.list_of_points:
+                            print(j)
             self.power_to_bit_rate(receiver, receiver.captured_power)
             f[receiver.level].write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
                 receiver.captured_bit_rate) + "\n")
@@ -63,7 +69,8 @@ class Room:
                     sub_list_of_walls.append(list_of_walls[k])
                 ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)
                 if ray.list_of_points:
-                    list_of_rays.append(ray)
+                    #list_of_rays.append(ray)
+                    a = 1
                 self.ray_tracing(l, max_number_reflection, transmitter, receiver, list_of_walls, list_of_rays)
 
         elif max_number_reflection == 1:
@@ -72,12 +79,13 @@ class Room:
             if self.direct_wave_calculated == False:
                 ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)  # ajout du rayon direct
                 if ray.list_of_points:
-                    list_of_rays.append(ray)
+                    #list_of_rays.append(ray)
+                    a = 1
                 self.direct_wave_calculated = True
             for j in range(len(list_of_walls)):
                 if not m:
                     pass
-                elif j == m[len(m) - 1]:
+                elif j == m[len(m) - 1] or j == 1:
                     continue
                 l = copy.deepcopy(m)
                 l.append(j)
@@ -287,7 +295,10 @@ class Room:
         x = x1 + np.add.outer(x21, x31)
         y = y1 + np.add.outer(y21, y31)
         z = z1 + np.add.outer(z21, z31)
-        ax.plot_surface(x, y, z, color='b', alpha=0.25)
+        if -1 not in wall.level:
+            ax.plot_surface(x, y, z, color='b', alpha=0.25)
+        else:
+            ax.plot_surface(x, y, z, color='g', alpha=0.5)
 
     def calculate(self, list_of_rays, transmitter, receiver):
         average_power = 0

@@ -47,7 +47,7 @@ class Room:
                 self.power_to_bit_rate(receiver, receiver.captured_mean_power)
                 f2.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
                     receiver.captured_bit_rate) + "\n")
-            if receiver.position[0] == 6.2 and receiver.position[1] == 8.8:
+            if receiver.position[0] == 8 and receiver.position[1] == 11:
                 print("puissance = " + str(receiver.captured_mean_power))
 
 
