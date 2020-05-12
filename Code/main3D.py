@@ -47,4 +47,4 @@ room1.list_of_transmitters.append(Transmitter((6,4,1), 1))
 
 
 
-room1.power_distribution(3,12.3,12.3)
+room1.ray_and_power_distribution(3, 12.3, 12.3)
