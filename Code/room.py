@@ -32,9 +32,9 @@ class Room:
                 
                 self.ray_tracing([], 2, transmitter, receiver, self.list_of_walls, list_of_rays)
                 if "m" in str_graphical_display :
-                    receiver.captured_mean_power += self.calculate_mean(list_of_rays, transmitter)
+                    receiver.captured_mean_power += self.calculate_mean_power(list_of_rays, transmitter)
                 if "l" in str_graphical_display:
-                    receiver.captured_local_power += self.calculate_local(list_of_rays, transmitter)
+                    receiver.captured_local_power += self.calculate_local_power(list_of_rays, transmitter)
                 if ("r" in str_graphical_display) and (receiver.position == receiver_position) and (transmitter == self.list_of_transmitters[0]):
                     self.ray_graphical_display(receiver, transmitter, list_of_rays)
 
@@ -171,12 +171,6 @@ class Room:
     def image(self, original_point, line):
     #renvoie l'image de original_point par symétrie orthogonale par rapport à la droite line
 
-        """x0 = np.array(line.point)
-        x = np.array(original_point)
-        v = np.array(line.direction_vector)
-        w = x - x0
-        projection_of_w_on_v = (np.dot(v, w)/(np.linalg.norm(v))**2)*v
-        image_point = x0 - w + 2*projection_of_w_on_v"""
 
         x1 = original_point[0]
         y1 = original_point[1]
@@ -268,7 +262,7 @@ class Room:
         return 0
 
 
-    def calculate_local(self, list_of_rays, transmitter):
+    def calculate_local_power(self, list_of_rays, transmitter):
         power = 0
         for ray in list_of_rays:
             attenuation = 1
@@ -288,12 +282,12 @@ class Room:
         receiver.captured_local_power = (abs(receiver.captured_local_power))**2
         return 0
 
-    def calculate_mean(self, list_of_rays, transmitter):
+    def calculate_mean_power(self, list_of_rays, transmitter):
         mean_power = 0
         for ray in list_of_rays:
             attenuation = 1
             for coeff_ref in ray.reflection_coefficient:
-               attenuation = attenuation * abs(coeff_ref)
+                attenuation = attenuation * abs(coeff_ref)
             for coeff_trans in ray.transmission_coefficient:
                 attenuation = attenuation * abs(coeff_trans)
             if ray.distance == 0:

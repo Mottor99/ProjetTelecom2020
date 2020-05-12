@@ -9,6 +9,7 @@ class Ray:
     omega = 2 * math.pi * Transmitter.frequency
     epsilon0 = 8.854*10**-12
     mu0 = 4*math.pi*10**-7
+    beta_air = omega * math.sqrt(mu0 * epsilon0)
 
     def __init__(self, list_of_points):
         self.list_of_points = list_of_points
@@ -18,7 +19,7 @@ class Ray:
         self.phi_emission = 0
         self.theta_reception = 0
         self.phi_reception = 0
-        self.beta_air = self.omega * math.sqrt(self.mu0 * self.epsilon0)
+
 
     def reflection_perpendicular_coefficient_calculation(self, wall, ray_line):
         theta_i = wall.plane.incident_angle_calculation(ray_line)
@@ -38,6 +39,7 @@ class Ray:
 
         #print("gamma wall normal")
         #print(gamma_wall)
+        #print("gamma_wall:" + str(abs(gamma_wall)))
 
         return gamma_wall
 
@@ -57,12 +59,14 @@ class Ray:
 
         #print("tau wall normal")
         #print(tau_wall)
-
+        #print("point1:"+str(wall.point2))
+        #print("tau_wall:" + str(abs(tau_wall)))
 
         return tau_wall
 
     def reflection_parallel_coefficient_calculation(self, wall, ray_line):
         theta_i = wall.plane.incident_angle_calculation(ray_line)
+        #print("theta_i:" + str(theta_i))
         theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         epsilon_tilde_1 = self.epsilon0
         Z_1 = math.sqrt(self.mu0/epsilon_tilde_1)
@@ -79,11 +83,13 @@ class Ray:
         print("gamma_wall parallel")
         print(gamma_wall)
         """
+        #print("gamma_wall:" + str(abs(gamma_wall)))
         return gamma_wall
 
 
     def transmission_parallel_coefficient_calculation(self, wall, ray_line):
         theta_i = wall.plane.incident_angle_calculation(ray_line)
+        #print("theta_i:" + str(theta_i))
         theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         epsilon_tilde_1 = self.epsilon0
         Z_1 = math.sqrt(self.mu0 / epsilon_tilde_1)
@@ -98,6 +104,7 @@ class Ray:
         print("tau wall parallel")
         print(tau_wall)
         """
+        #print("tau_wall:" + str(abs(tau_wall)))
         return tau_wall
 
     def transmission_total_coefficient_calculation(self, wall, ray_line):

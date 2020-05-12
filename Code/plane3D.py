@@ -17,7 +17,7 @@ class Plane:
             lam = lam/a
             intersection = intersected_line.point + np.dot(lam, intersected_line.direction_vector)
         else:
-            intersection = (-5,-5,-5)
+            intersection = (-10,-10,-5)
         return intersection
 
     def incident_angle_calculation(self, ray_line):

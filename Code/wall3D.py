@@ -50,8 +50,8 @@ class Wall:
     def point_not_in_wall(self, point):
         point_not_in_wall = True
         a = np.dot(point, self.plane.direction_vector1)
-        if (a > self.extremity21 and a < self.extremity22) or (a < self.extremity21 and a > self.extremity22):
+        if (a >= self.extremity21 and a <= self.extremity22) or (a <= self.extremity21 and a >= self.extremity22):
             b = np.dot(point, self.plane.direction_vector2)
-            if (b > self.extremity31 and b < self.extremity33) or (b < self.extremity31 and b > self.extremity33):
+            if (b >= self.extremity31 and b <= self.extremity33) or (b <= self.extremity31 and b >= self.extremity33):
                 point_not_in_wall = False
         return point_not_in_wall
