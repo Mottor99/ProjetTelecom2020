@@ -287,7 +287,7 @@ class Room:
         x = x1 + np.add.outer(x21, x31)
         y = y1 + np.add.outer(y21, y31)
         z = z1 + np.add.outer(z21, z31)
-        #ax.plot_surface(x, y, z, color='b')
+        ax.plot_surface(x, y, z, color='b', alpha=0.25)
 
     def calculate(self, list_of_rays, transmitter, receiver):
         average_power = 0
