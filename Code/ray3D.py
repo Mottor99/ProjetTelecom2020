@@ -26,9 +26,9 @@ class Ray:
         #print("theta_i"+str(theta_i))
         theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         epsilon_tilde_1 = self.epsilon0
-        Z_1 = math.sqrt(self.mu0 / epsilon_tilde_1)
-        Z_2 = wall.intrinsic_impedance
-        gamma_perp = (Z_2 * cos(theta_i) - Z_1 * cos(theta_t)) / (Z_2 * cos(theta_i) + Z_1 * cos(theta_t))
+        Z_0 = math.sqrt(self.mu0 / epsilon_tilde_1)
+        Z_m = wall.intrinsic_impedance
+        gamma_perp = (Z_m * cos(theta_i) - Z_0 * cos(theta_t)) / (Z_m * cos(theta_i) + Z_0 * cos(theta_t))
         s = wall.thickness / cos(theta_t)
         little_gamma_wall = wall.little_gamma
         gamma_wall = gamma_perp + (1 - gamma_perp ** 2) * (
@@ -48,9 +48,9 @@ class Ray:
         theta_i = wall.plane.incident_angle_calculation(ray_line)
         theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         epsilon_tilde_1 = self.epsilon0
-        Z_1 = math.sqrt(self.mu0 / epsilon_tilde_1)
-        Z_2 = wall.intrinsic_impedance
-        gamma_perp = (Z_2 * cos(theta_i) - Z_1 * cos(theta_t)) / (Z_2 * cos(theta_i) + Z_1 * cos(theta_t))
+        Z_0 = math.sqrt(self.mu0 / epsilon_tilde_1)
+        Z_m = wall.intrinsic_impedance
+        gamma_perp = (Z_m * cos(theta_i) - Z_0 * cos(theta_t)) / (Z_m * cos(theta_i) + Z_0 * cos(theta_t))
         s = wall.thickness / cos(theta_t)
         little_gamma_wall = wall.little_gamma
         tau_wall = (1 - gamma_perp ** 2) * cmath.exp(-little_gamma_wall * s) \
@@ -69,9 +69,9 @@ class Ray:
         #print("theta_i:" + str(theta_i))
         theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         epsilon_tilde_1 = self.epsilon0
-        Z_1 = math.sqrt(self.mu0/epsilon_tilde_1)
-        Z_2 = wall.intrinsic_impedance
-        gamma_parallel = (Z_2*cos(theta_t)-Z_1*cos(theta_i))/(Z_2*cos(theta_t)+Z_1*cos(theta_i))
+        Z_0 = math.sqrt(self.mu0/epsilon_tilde_1)
+        Z_m = wall.intrinsic_impedance
+        gamma_parallel = (Z_m*cos(theta_t)-Z_0*cos(theta_i))/(Z_m*cos(theta_t)+Z_0*cos(theta_i))
         s = wall.thickness/cos(theta_t)
         little_gamma_wall = wall.little_gamma
         gamma_wall = gamma_parallel + (1 - gamma_parallel ** 2) * (
@@ -92,9 +92,9 @@ class Ray:
         #print("theta_i:" + str(theta_i))
         theta_t = wall.plane.transmitted_angle_calculation(wall, theta_i)
         epsilon_tilde_1 = self.epsilon0
-        Z_1 = math.sqrt(self.mu0 / epsilon_tilde_1)
-        Z_2 = wall.intrinsic_impedance
-        gamma_parallel = (Z_2*cos(theta_t)-Z_1*cos(theta_i))/(Z_2*cos(theta_t)+Z_1*cos(theta_i))
+        Z_0 = math.sqrt(self.mu0 / epsilon_tilde_1)
+        Z_m = wall.intrinsic_impedance
+        gamma_parallel = (Z_m*cos(theta_t)-Z_0*cos(theta_i))/(Z_m*cos(theta_t)+Z_0*cos(theta_i))
         s = wall.thickness / cos(theta_t)
         little_gamma_wall = wall.little_gamma
         tau_wall = (1 - gamma_parallel ** 2) * cmath.exp(-little_gamma_wall * s) \

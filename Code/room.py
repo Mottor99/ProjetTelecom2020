@@ -40,11 +40,13 @@ class Room:
 
             if "l" in str_graphical_display:
                 self.end_calculate_local(receiver)
-                self.power_to_bit_rate(receiver, receiver.captured_local_power)
+                #print("puissance locale = "+ str(receiver.captured_local_power))
+                receiver.captured_bit_rate = self.power_to_bit_rate(receiver.captured_local_power)
                 f1.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
                     receiver.captured_bit_rate) + "\n")
             if "m" in str_graphical_display:
-                self.power_to_bit_rate(receiver, receiver.captured_mean_power)
+                #print("puissance moyenne = " + str(receiver.captured_mean_power))
+                receiver.captured_bit_rate = self.power_to_bit_rate(receiver.captured_mean_power)
                 f2.write(str(receiver.position[0]) + " " + str(receiver.position[1]) + " " + str(
                     receiver.captured_bit_rate) + "\n")
             if receiver.position[0] == 6.2 and receiver.position[1] == 8.8:
@@ -145,6 +147,8 @@ class Room:
                 #print("rayon_non_admissible")
                 break
 
+            if intersection_point == ray_point:
+                break
 
             if self.between(intersection_point, ray_point, list_of_images[len(list_of_images) - 1 - j]):
                 #si le point d'intersection du mur n'appartient pas au segment [image, récepteur]
@@ -237,7 +241,7 @@ class Room:
         return point3_is_between_point1_and_point2
 
     def ray_graphical_display(self, receiver, transmitter, list_of_rays):
-        plt.axis([-2, 12, -2, 12])
+        plt.axis([-2, 14, -2, 14])
 
         for ray in list_of_rays:
             self.plott(ray.list_of_points)
@@ -245,8 +249,8 @@ class Room:
             for i in range(len(wall.list_of_points)//2):
                 plt.plot([wall.list_of_points[2*i][0], wall.list_of_points[2*i+1][0]],\
                          [wall.list_of_points[2*i][1], wall.list_of_points[2*i+1][1]], "k")
-        plt.scatter(receiver.position[0], receiver.position[1], s=30, c="red")
-        plt.scatter(transmitter.position[0], transmitter.position[1], s=30, c="blue")
+        plt.scatter(receiver.position[0], receiver.position[1], s=40, c="red")
+        plt.scatter(transmitter.position[0], transmitter.position[1], s=40, c="blue")
         plt.show()
 
         return 0
@@ -266,16 +270,21 @@ class Room:
         power = 0
         for ray in list_of_rays:
             attenuation = 1
-            for coeff_ref in ray.reflection_coefficient_calc:
+            for coeff_ref in ray.reflection_coefficient:
                 attenuation = attenuation * coeff_ref
-            for coeff_trans in ray.transmission_coefficient_calc:
+            for coeff_trans in ray.transmission_coefficient:
                 attenuation = attenuation * coeff_trans
             if ray.distance == 0:
                 continue
-            E = attenuation * math.sqrt(60 * transmitter.gain * transmitter.power) * cmath.exp(-1j*ray.beta_air*ray.distance) / ray.distance
+            """print("attenuation = "  + str(attenuation))
+            print("beta_air = + " + str(ray.beta_air))
+            print("ray_dist = " + str(ray.distance))
+            print("exp = " + str(cmath.exp(-1j*ray.beta_air*ray.distance)))"""
+            E = attenuation * math.sqrt(60 * transmitter.gain * transmitter.power) * cmath.exp(-1j*ray.beta_air*ray.distance) /ray.distance
+            #print("E = " + str(E))
             hE = transmitter.he * E
             power += hE
-        power /= 2*math.sqrt(2)*math.sqrt(transmitter.resistance)
+        power /= math.sqrt(8)*math.sqrt(transmitter.resistance)
         return power
 
     def end_calculate_local(self, receiver):
@@ -287,12 +296,15 @@ class Room:
         for ray in list_of_rays:
             attenuation = 1
             for coeff_ref in ray.reflection_coefficient:
+                #print("absolute_coeff_ref = "+ str(abs(coeff_ref)))
                 attenuation = attenuation * abs(coeff_ref)
             for coeff_trans in ray.transmission_coefficient:
                 attenuation = attenuation * abs(coeff_trans)
             if ray.distance == 0:
                 continue
+            #print("attenuation = "+str(attenuation))
             E = attenuation * math.sqrt(60 * transmitter.gain * transmitter.power) / ray.distance
+            #print("E = " + str(E))
             hE = transmitter.he * E
             mean_power = mean_power + hE**2
 
@@ -300,18 +312,18 @@ class Room:
         return mean_power
 
 
-    def power_to_bit_rate(self, receiver, power):
+    def power_to_bit_rate(self, power):
         if (power == 0):
-            receiver.captured_bit_rate = 0
+            captured_bit_rate = 0
         else:
             sensibility = 10 * math.log10(power/10**-3)
             if sensibility < -82:
-                receiver.captured_bit_rate = 0
+                captured_bit_rate = 0
             elif sensibility > -51:
-                receiver.captured_bit_rate = 433
+                captured_bit_rate = 433
             else:
-                receiver.captured_bit_rate = 12.23*sensibility + 1056
-        return 0
+                captured_bit_rate = 12.23*sensibility + 1056
+        return captured_bit_rate
 
     def power_graphical_display(self, str):
 
