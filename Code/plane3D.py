@@ -7,10 +7,13 @@ class Plane:
         self.direction_vector1 = ((point1[0] - point2[0]), (point1[1] - point2[1]), (point1[2] - point2[2]))
         self.direction_vector2 = ((point1[0] - point3[0]), (point1[1] - point3[1]), (point1[2] - point3[2]))
         self.normal_vector = np.cross(self.direction_vector1,self.direction_vector2)
-        self.normal_vector = self.normal_vector/np.linalg.norm(self.normal_vector)
-        self.d = np.dot(self.normal_vector, self.point)
+        self.normal_vector = self.normal_vector/np.linalg.norm(self.normal_vector)#on normalise
+        self.d = np.dot(self.normal_vector, self.point)#d de l'équation ax+by+bz = d
 
     def intersection(self, intersected_line):
+        """
+        trouve l'intersection entre le plan et une droite
+        """
         a = np.dot(self.normal_vector, intersected_line.direction_vector)
         if a != 0:
             lam = self.d - np.dot(self.normal_vector, intersected_line.point)
@@ -21,6 +24,9 @@ class Plane:
         return intersection
 
     def incident_angle_calculation(self, ray_line):
+        """
+        calcule l'angle entre une droite et le vecteur perpendiculaire au plan
+        """
         cos_theta_i = np.dot(self.normal_vector, ray_line.direction_vector)
         if cos_theta_i < 0:
             cos_theta_i = -cos_theta_i
@@ -30,8 +36,9 @@ class Plane:
         return theta_i
 
     def transmitted_angle_calculation(self, wall, theta_i):
+        """
+        calcule l'angle transmis
+        """
         sin_theta_t = math.sqrt(1 / wall.epsilon_rel) * math.sin(theta_i)
         theta_t = math.asin(sin_theta_t)
-        return theta_t
-
         return theta_t

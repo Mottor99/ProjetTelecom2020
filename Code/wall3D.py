@@ -26,6 +26,9 @@ class Wall:
         elif (material == "cloison"):
             self.conductivity = 0.04
             self.epsilon_rel = 2.25
+        elif(material == "sol"):
+            self.conductivity = 0.001
+            self.epsilon_rel = 9
         self.epsilon = self.epsilon_rel * 8.854 * 10 ** (-12)
         self.thickness = thickness
         self.plane = Plane(point1, point2, point3)
@@ -43,15 +46,32 @@ class Wall:
         self.point2 = point2
         self.point3 = point3
         self.extremity33 = np.dot(point3, self.plane.direction_vector2)
+        #d de l'équation ax+by+cz= d où (a,b,c) est le vecteur qui joint le point1 au point3,normalisé
+        #et (x,y,z) est le point3
         self.extremity31 = np.dot(point1, self.plane.direction_vector2)
+        #d de l'équation ax+by+cz= d où (a,b,c) est le vecteur qui joint le point1 au point3,normalisé
+        #et (x,y,z) est le point1
         self.extremity21 = np.dot(point1, self.plane.direction_vector1)
+        # d de l'équation ax+by+cz= d où (a,b,c) est le vecteur qui joint le point1 au point2,normalisé
+        # et (x,y,z) est le point1
         self.extremity22 = np.dot(point2, self.plane.direction_vector1)
+        # d de l'équation ax+by+cz= d où (a,b,c) est le vecteur qui joint le point1 au point2,normalisé
+        # et (x,y,z) est le point2
 
     def point_not_in_wall(self, point):
+        """
+        vérifie que le point appartient au mur en sachant déjà que le point appartient au plan dans
+        lequel le mur est contenu.
+        :return: True si le point ne se trouve pas sur le mur
+        """
         point_not_in_wall = True
         a = np.dot(point, self.plane.direction_vector1)
         if (a >= self.extremity21 and a <= self.extremity22) or (a <= self.extremity21 and a >= self.extremity22):
+            #on vérifie que point est dans un plan perpendiculaire au vecteur qui lie le point1 et le point2
+            #tel que ce plan est entre le point1 et le point2
             b = np.dot(point, self.plane.direction_vector2)
             if (b >= self.extremity31 and b <= self.extremity33) or (b <= self.extremity31 and b >= self.extremity33):
+                # on vérifie que point est dans un plan perpendiculaire au vecteur qui lie le point1 et le point3
+                # tel que ce plan est entre le point1 et le point3
                 point_not_in_wall = False
         return point_not_in_wall
