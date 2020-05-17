@@ -1,13 +1,13 @@
-class Receiver:
+import math
+from transmitter import Transmitter
 
-    position = 0.0
-    resistance = 0.0
+
+class Receiver:
 
     def __init__(self, position, type):
         self.position = position
         self.captured_mean_power = 0
         self.captured_local_power = 0
         self.captured_bit_rate = 0
-
-    def h(self, x, y):
-        return 1
+        if type == "lambda-demi":
+            self.he = Transmitter.wavelength/math.pi #le signe n'importe pas car on en prendra le carré

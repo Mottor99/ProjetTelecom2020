@@ -243,7 +243,7 @@ class Room:
         ax = fig.gca(projection='3d')
         ax.set_xlabel('x')
         ax.set_ylabel('y')
-        ax.set_zlabel('z');
+        ax.set_zlabel('z')
 
         for ray in list_of_rays:
             self.plott(ray.list_of_points, ax)
