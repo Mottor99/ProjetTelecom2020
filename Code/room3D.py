@@ -200,6 +200,9 @@ class Room:
         return ray
 
     def coef_order(self, ray, sub_list_of_walls):
+        """
+        Calcule toutes les interactions d'un rayon dans l'ordre où il les subit
+        """
         for i in range(len(ray.list_of_points) - 1):
             reflection_walls = []
             #Les murs sur lesquels le segment de rayon est réfléchi ne peuvent pas être compté comme des murs où il y a une transmission
@@ -226,7 +229,9 @@ class Room:
         return 0
 
     def image(self, origin_point, plane):
-        #trouve l'image d'un point par symetrie orthogonale autour d'un plan
+        """
+        trouve l'image d'un point par symetrie orthogonale autour d'un plan
+        """
         lam = plane.d - np.dot(plane.normal_vector, origin_point)
         image_point = origin_point + np.dot(2 * lam, plane.normal_vector)
         return image_point
@@ -237,6 +242,9 @@ class Room:
         return euclidian_distance
 
     def verif_transmission(self, point1, point2, ray, reflection_walls):
+        """
+        calcule toutes les transmission d'un segment de rayon contenu entre le point1 et le point2
+        """
         inter_walls = []
         order = []
         n_walls = 0
