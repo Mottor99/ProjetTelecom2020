@@ -1,25 +1,23 @@
 import math
-class Receiver:
+from transmitter3D import Transmitter
 
-    position = 0.0
-    resistance = 0.0
+
+class Receiver:
 
     def __init__(self, position, type, level):
         self.position = position
         self.resistance = 73
         self.captured_power = 0
-        self.level = level #étage sur lequel se trouve le récepteur
+        self.level = level  # étage sur lequel se trouve le récepteur
 
-    def h(self, theta, phi, f):
+    def h(self, theta, phi):
         """
-        :param f: fréquence de l'onde reçue
-        :return: hauteur équivalente
+        hauteur équivalente
         """
-        c = 3 * 10 ** 8
-        lamb = c / f
+
         if theta != 0 and theta != math.pi:
             a = math.cos(math.pi / 2 * math.cos(theta))
             a = a / (math.sin(theta) * math.sin(theta))
         else:
             a = 0
-        return (0, 0, -1 * lamb / math.pi * a)
+        return 0, 0, -1 * Transmitter.wavelength / math.pi * a

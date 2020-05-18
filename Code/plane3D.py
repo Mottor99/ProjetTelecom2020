@@ -1,18 +1,19 @@
 import numpy as np
 import math
 
+
 class Plane:
     def __init__(self, point1, point2, point3):
         self.point = point1
         self.direction_vector1 = ((point1[0] - point2[0]), (point1[1] - point2[1]), (point1[2] - point2[2]))
         self.direction_vector2 = ((point1[0] - point3[0]), (point1[1] - point3[1]), (point1[2] - point3[2]))
         self.normal_vector = np.cross(self.direction_vector1,self.direction_vector2)
-        self.normal_vector = self.normal_vector/np.linalg.norm(self.normal_vector)#on normalise
-        self.d = np.dot(self.normal_vector, self.point)#d de l'équation ax+by+bz = d
+        self.normal_vector = self.normal_vector/np.linalg.norm(self.normal_vector)  # on normalise
+        self.d = np.dot(self.normal_vector, self.point)  # d de l'équation ax+by+bz = d
 
     def intersection(self, intersected_line):
         """
-        trouve l'intersection entre le plan et une droite
+        trouve l'intersection entre le plan (self) et la droite intersected_line
         """
         a = np.dot(self.normal_vector, intersected_line.direction_vector)
         if a != 0:

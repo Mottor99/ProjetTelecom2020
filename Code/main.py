@@ -6,8 +6,8 @@ from receiver import Receiver
 
 def list_of_receivers_creation(room, len_x, len_y):
     """
-     ajout des récepteurs dans toute la pièce. Sur l'axe horizontal un récepteur tous les (1/len_x) mètre,
-           sur l'axe vertical un récepteur tous les (1/len_y) mètre
+     ajout des recepteurs dans toute la piece. Sur l'axe horizontal un recepteur tous les (1/len_x) metre,
+           sur l'axe vertical un recepteur tous les (1/len_y) metre
     """
 
     x_min = x_max = y_min = y_max = 0
@@ -41,7 +41,7 @@ murext_materiau = "cloison"
 murint_materiau = "brique"
 
 #
-# création des murs de la pièce
+# creation des murs de la piece
 #
 
 murext1 = Wall(0.3, [(-1,-1),(-1,4),(-1,7), (-1,12)], murext_materiau)
@@ -68,20 +68,20 @@ list_walls = [murext1, murext2, murext3, murext4, murext5,
             murint5, murint6, murint7]
 
 #
-# création de la pièce
+# creation de la pièce
 #
 room1 = Room()
 
 room1.list_of_walls = list_walls
 
 #
-# ajout d'un émetteur dans la pièce
+# ajout d'un emetteur dans la pièce
 #
 transmitter = Transmitter((5, 0), "lambda-demi")
 room1.list_of_transmitters.append(transmitter)
 
 #
-# ajout de récepteurs couvrant toute la pièce
+# ajout de recepteurs couvrant toute la piece
 # utiles au calcul de la puissance
 #
 list_of_receivers_creation(room1, 3, 3)

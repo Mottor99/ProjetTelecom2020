@@ -3,7 +3,6 @@ from wall3D import Wall
 from transmitter3D import Transmitter
 import math
 
-room1 = Room()
 
 mmur1 = Wall(0.3, (-1,-1,0), (17,-1,0), (-1,-1,4.40), "cloison",[0,1])
 mmur2 = Wall(0.3, (-1,9,0), (10.5,9,0), (-1,9,2.20), "cloison",[0])
@@ -55,10 +54,19 @@ pplafond1 = Wall(0.2, (-1,-1,2.20), (17,-1,2.20), (-1,9,2.20), "brique",[-3])
 pplafond12 = Wall(0.3, (5,9,2.20), (5,15,2.20), (11,9,2.20), "cloison",[-3])
 pplafond2 = Wall(0.3, (-1,-1,4.40), (17,-1,4.40), (-1,9,4.40), "cloison",[-3])
 
-m = [mmur101,mmur102,mmur103,mmur104,mmur105,mmur106,mmur107,mmur108,mmur109,mmur1010,mmur1011,mmur1012,mmur1013,mmur1014,mmur1015,mmur1016,mmur1017,mmur1018,mmur1019,mmur1020,mmur1021,mmur1022,mmur1,mmur2,mmur3,mmur4,mmur5,mmur6,mmur7,mmur8,mmur9,mmur10,mmur11,mmur12,mmur13,mmur14,mmur15,mmur16,mmur17,mmur18,mmur19,mmur20,ssol,pplafond1,pplafond12,pplafond2]
+m = [mmur101,mmur102,mmur103,mmur104,mmur105,
+     mmur106,mmur107,mmur108,mmur109,mmur1010,
+     mmur1011,mmur1012,mmur1013,mmur1014,mmur1015,
+     mmur1016,mmur1017,mmur1018,mmur1019,mmur1020,
+     mmur1021,mmur1022,mmur1,mmur2,mmur3,mmur4,mmur5,
+     mmur6,mmur7,mmur8,mmur9,mmur10,mmur11,mmur12,mmur13,
+     mmur14,mmur15,mmur16,mmur17,mmur18,mmur19,mmur20,
+     ssol,pplafond1,pplafond12,pplafond2]
+
+room1 = Room()
 
 room1.list_of_walls = m
-room1.list_of_transmitters.append(Transmitter((math.pi/6-1,math.pi-1,1), "lambda-demi"))
+room1.list_of_transmitters.append(Transmitter((math.pi/6-1, math.pi-1, 1), "lambda-demi"))
 
 
-room1.ray_and_power_distribution(2, 16, 18,1)
+room1.ray_and_power_distribution(2, 16, 18, 1)

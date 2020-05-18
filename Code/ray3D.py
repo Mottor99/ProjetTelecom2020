@@ -4,12 +4,13 @@ from math import cos, sin
 from transmitter3D import Transmitter
 import numpy as np
 
+
 class Ray:
 
     omega = 2 * math.pi * Transmitter.frequency
     epsilon0 = 8.854*10**-12
     mu0 = 4*math.pi*10**-7
-    beta_air = omega * math.sqrt(mu0 * epsilon0)
+    beta_air = 2*math.pi/Transmitter.wavelength
 
     def __init__(self, list_of_points):
         self.list_of_points = list_of_points

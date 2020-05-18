@@ -2,27 +2,21 @@ from line import Line
 import math
 from math import sqrt
 from transmitter import Transmitter
-import cmath
+
 
 class Wall:
 
     omega = 2 * math.pi * Transmitter.frequency
     mu0 = 4*math.pi*10**-7
-    conductivity = 0.0
-    epsilon_rel = 0.0
-    epsilon = 0.0
-    line = 0.0
-    thickness = 0.0
-    intrinsic_impedance = 0.0
 
     def __init__(self, thickness, list_of_points, material):
-        if (material == "brique"):
+        if material == "brique":
             self.conductivity = 0.02
             self.epsilon_rel = 4.6
-        elif (material == "béton"):
+        elif material == "béton":
             self.conductivity = 0.014
             self.epsilon_rel = 5.0
-        elif (material == "cloison"):
+        elif material == "cloison":
             self.conductivity = 0.04
             self.epsilon_rel = 2.25
         self.epsilon = self.epsilon_rel * 8.854 * 10 ** (-12)
@@ -41,31 +35,23 @@ class Wall:
         self.list_of_points = list_of_points
 
     def point_not_in_wall(self, point):
+        """
+        vérifie que le point appartient au mur en sachant déjà que le point appartient à la droite qui
+        contient le mur.
+        :return: True si le point ne se trouve pas sur le mur
+        """
         x1 = point[0]
         y1 = point[1]
         v_x = self.line.direction_vector[0]
         point_not_in_wall = True
         if v_x == 0:
             for k in range(len(self.list_of_points) // 2):
-                if y1 >= self.list_of_points[2 * k][1] and y1 < self.list_of_points[2 * k + 1][1]:
+                if self.list_of_points[2 * k][1] <= y1 < self.list_of_points[2 * k + 1][1]:
                     point_not_in_wall = False
                     break
         else:
             for k in range(len(self.list_of_points) // 2):
-                if x1 >= self.list_of_points[2 * k][0] and x1 < self.list_of_points[2 * k + 1][0]:
+                if self.list_of_points[2 * k][0] <= x1 < self.list_of_points[2 * k + 1][0]:
                     point_not_in_wall = False
                     break
         return point_not_in_wall
-
-    """def between(self, point1, point2, point3):
-        point3_is_between_point1_and_point2 = False
-        if point2[0] == point3[0]:
-            if (point1[1] >= point2[1] and point1[1] <= point3[1]) or (
-                    point1[1] <= point2[1] and point1[1] >= point3[1]):
-                point3_is_between_point1_and_point2 = True
-        else:
-            if (point1[0] >= point2[0] and point1[0] <= point3[0]) or (
-                    point1[0] <= point2[0] and point1[0] >= point3[0]):
-                point3_is_between_point1_and_point2 = True
-                
-        return point3_is_between_point1_and_point2"""

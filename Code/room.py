@@ -18,8 +18,8 @@ class Room:
     def ray_and_power_distribution(self, receiver_position, max_number_reflection, str_graphical_display):
         """
          Arguments : - receiver_position : position du récepteur pour l'affichage des rayons.
-                    - max_number_reflection : nombre maximal de réflexions permises.
-                    - str_graphical_display : contient "r" si on veut un affichage graphique des rayons,
+                     - max_number_reflection : nombre maximal de réflexions permises.
+                     - str_graphical_display : contient "r" si on veut un affichage graphique des rayons,
                                              "m" si on veut un affichage graphique de la puissance moyenne et
                                              "l" si on veut un affichage graphique de la puissance locale.
         """
@@ -64,8 +64,8 @@ class Room:
 
     def ray_tracing(self, m, max_number_reflection, transmitter, receiver, list_of_walls, list_of_rays):
         """
-        fonction récursive de ray tracing, à chaque appel de la fonction, max_number_reflecion est décrémenté d'une unité
-        :param m: liste
+        fonction récursive de ray tracing, à chaque appel de la fonction, max_number_reflection est décrémenté d'une unité
+        :param m: liste qui permet la sauvegarde d'une liste d'une itération à l'autre
         :param max_number_reflection: nombre maximal de réflexions permises.
         :param list_of_walls: ensemble des murs de la pièce.
         :param list_of_rays: liste qui contiendra l'ensemble des rayons.
@@ -93,10 +93,11 @@ class Room:
 
                 sub_list_of_walls = []
                 for k in copy_m:
-                    sub_list_of_walls.append(list_of_walls[k])  # liste unique par itération
-                ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)
+                    sub_list_of_walls.append(list_of_walls[k])  # liste de murs unique par itération
+                ray = self.ray_creation(sub_list_of_walls, transmitter, receiver)  # création du rayon
                 if len(ray.list_of_points) != 0:
                     list_of_rays.append(ray)
+                # appel récursif
                 self.ray_tracing(copy_m, max_number_reflection, transmitter, receiver, list_of_walls, list_of_rays)
 
         elif max_number_reflection == 1:
@@ -201,12 +202,15 @@ class Room:
         return 0
 
     def verif_transmission(self, ray, list_of_walls, sub_list_of_walls):
+        """
+        remplit la liste des coefficients de transmission de ray associée à ses transmissions
+        """
         T = len(sub_list_of_walls)
         for i in range(len(ray.list_of_points) - 1):
             portion_ray = Line(ray.list_of_points[i], ray.list_of_points[i + 1])
-            reflection_walls = [] #Pour chaque segment de rayon on crée une liste contenant les murs
-            #sur lesquels il est réfléchi à ces extrémités, le segment de rayon ne pourra pas avoir de
-            #transmission sur ces murs
+            reflection_walls = []  # Pour chaque segment de rayon on crée une liste contenant les murs
+            # sur lesquels il est réfléchi à ces extrémités, le segment de rayon ne pourra pas avoir de
+            # transmission sur ces murs
             if i == 0:
                 if sub_list_of_walls:
                     reflection_walls.append(sub_list_of_walls[T - 1])
@@ -217,41 +221,42 @@ class Room:
                 reflection_walls.append(sub_list_of_walls[T - i - 1])
             for j in list_of_walls:
                 if j in reflection_walls:
-                    #ne peut pas avoir de transmission sur un mur à l'extrémité du segment ou il est reflechi
+                    # ne peut pas avoir de transmission sur un mur à l'extrémité du segment où il est reflechi
                     continue
-                intersection = portion_ray.intersection(j.line)#intersection de la droite du segment de
-                #rayon avec le mur
+                intersection = portion_ray.intersection(j.line)  # intersection de la droite du segment de
+                                                                 # rayon avec la droite du mur
                 if not j.point_not_in_wall(intersection):
                     if intersection == ray.list_of_points[i] or intersection == ray.list_of_points[i + 1]:
                         ray.list_of_points = []
-                        #ceci se produit si le rayon est reflechi dans un coin
-                        #ce rayon ne sera donc pas comptabilisé et détruit
+                        # ceci se produit si le rayon est réfléchi dans un coin
+                        # ce rayon ne sera donc pas comptabilisé
                         return 0
                     if self.between(intersection, ray.list_of_points[i], ray.list_of_points[i + 1]):
-                        #si il y a bien une intersection avec un mur, on calcule le coeffcient de transmission
+                        # s'il y a bien une intersection avec un mur, on calcule le coefficient de transmission
                         self.transmission_coefficient_calc(j, ray, portion_ray)
 
         return 0
 
     def between(self, point1, point2, point3):
         """
-        vérifie que point3 appartient au segment [point1, point2]
+        vérifie que point1 appartient au segment [point2, point3], en sachant qu'il appartient déjà à leur droite
         :return: True si c'est le cas
         """
-        point3_is_between_point1_and_point2 = False
+        point1_is_between_point2_and_point3 = False
         if point2[0] == point3[0]:
             if (point2[1] <= point1[1] <= point3[1]) or (point2[1] >= point1[1] >= point3[1]):
-                point3_is_between_point1_and_point2 = True
+                point1_is_between_point2_and_point3 = True
         else:
             if (point2[0] <= point1[0] <= point3[0]) or (point2[0] >= point1[0] >= point3[0]):
-                point3_is_between_point1_and_point2 = True
+                point1_is_between_point2_and_point3 = True
 
-        return point3_is_between_point1_and_point2
+        return point1_is_between_point2_and_point3
 
     def ray_graphical_display(self, receiver, transmitter, list_of_rays):
         """
         affichage graphique de l'ensemble des rayons calculés précédemment reliant transmitter à receiver
         """
+
         plt.axis([-2, 14, -2, 14])
 
         for ray in list_of_rays:
@@ -301,7 +306,7 @@ class Room:
 
     def end_calculate_local(self, receiver):
         """
-        finit le calcul de la puissance locale
+        finalise le calcul de la puissance locale
         """
         receiver.captured_local_power = (abs(receiver.captured_local_power)) ** 2
         return 0

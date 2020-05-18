@@ -12,8 +12,10 @@ class Transmitter:
         self.position = position
         if type == "lambda-demi":
             self.resistance = 73
-            self.gain = 3/2
+            self.gain = 1.63
             self.power = 0.1
+        else:
+            pass
 
 
 
